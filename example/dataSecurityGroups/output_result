@@ -1,0 +1,597 @@
+[
+	{
+		"create_time": "2018-09-18 11:44:41",
+		"security_group_entry_set": [
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "in",
+				"icmp_code": 0,
+				"icmp_type": 8,
+				"protocol": "icmp",
+				"security_group_entry_id": "d5388dc3-79ca-4162-9cbe-77ac7bb46b6c"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "out",
+				"protocol": "ip",
+				"security_group_entry_id": "3385563c-c595-4c5a-b17e-c19d0f80f233"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "426dfa8d-919d-4942-8c65-8d3ebb726930"
+			}
+		],
+		"security_group_id": "34861621-7108-4a49-b508-a0b6177ae073",
+		"security_group_name": "默认安全组只放行出VPC流量",
+		"security_group_type": "default",
+		"vpc_id": "26231a41-4c6b-4a10-94ed-27088d5679df"
+	},
+	{
+		"create_time": "2018-08-16 11:57:06",
+		"security_group_entry_set": [
+			{
+				"cidr_block": "172.31.16.62/32",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "44654898-9f05-4381-82a5-8a450d7c7f14"
+			},
+			{
+				"cidr_block": "120.92.20.163/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "e13a7420-c239-4cc1-bc79-84f6708cfaf2"
+			},
+			{
+				"cidr_block": "172.16.9.254/32",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "4f8f48e7-d37d-4579-9d77-4a0bd7447e5d"
+			},
+			{
+				"cidr_block": "61.183.69.254/32",
+				"direction": "in",
+				"port_range_from": 1234,
+				"port_range_to": 1234,
+				"protocol": "tcp",
+				"security_group_entry_id": "96ec40c9-4b04-4962-8622-a1c1e37384c5"
+			},
+			{
+				"cidr_block": "114.251.146.133/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "eb4f8ea5-8494-402c-a068-f556de5d3f40"
+			},
+			{
+				"cidr_block": "172.31.32.0/24",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "f99e1aff-0a49-46a8-a155-b47094e90c23"
+			},
+			{
+				"cidr_block": "120.92.12.249/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "c7328fee-81c9-4090-a494-3cf73400a708"
+			},
+			{
+				"cidr_block": "114.112.66.98/32",
+				"description": "Ansible管理机器",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "1f53b131-7f06-4d6d-902a-b90ce30c80c5"
+			},
+			{
+				"cidr_block": "61.183.69.254/32",
+				"direction": "in",
+				"port_range_from": 15672,
+				"port_range_to": 15672,
+				"protocol": "tcp",
+				"security_group_entry_id": "2f95eb7d-1b9a-45f3-8fa1-2cbd0ee73b48"
+			},
+			{
+				"cidr_block": "27.17.49.174/32",
+				"direction": "in",
+				"port_range_from": 50000,
+				"port_range_to": 50300,
+				"protocol": "tcp",
+				"security_group_entry_id": "9c6a887e-d99d-4fcb-b799-3798da5f897c"
+			},
+			{
+				"cidr_block": "114.255.44.150/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "de432ce6-2431-4747-b8ba-21e5f7fc04f7"
+			},
+			{
+				"cidr_block": "172.31.48.0/20",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "fd45f85e-5fb1-4029-a29e-6f4fc2a656dc"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "out",
+				"protocol": "ip",
+				"security_group_entry_id": "5c9708bb-f854-4a7a-87f1-52f441aeae0b"
+			},
+			{
+				"cidr_block": "120.92.118.51/32",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "8c1c96b6-ab02-4dc0-94e5-f0496d2f5466"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"description": "ftp",
+				"direction": "in",
+				"port_range_from": 21,
+				"port_range_to": 21,
+				"protocol": "tcp",
+				"security_group_entry_id": "12f8959a-cfaa-4288-b001-1c6f1345e710"
+			},
+			{
+				"cidr_block": "120.92.77.236/32",
+				"direction": "in",
+				"port_range_from": 9000,
+				"port_range_to": 9001,
+				"protocol": "tcp",
+				"security_group_entry_id": "9f89d071-74c2-45be-b6cd-d8806b587721"
+			},
+			{
+				"cidr_block": "172.31.32.0/24",
+				"direction": "in",
+				"port_range_from": 9000,
+				"port_range_to": 9002,
+				"protocol": "tcp",
+				"security_group_entry_id": "0881270c-c97f-448a-b5dc-60ada4c3575c"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 8000,
+				"port_range_to": 8000,
+				"protocol": "tcp",
+				"security_group_entry_id": "b794037a-beea-4789-afb4-0b6ef1b39668"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 9200,
+				"port_range_to": 9200,
+				"protocol": "tcp",
+				"security_group_entry_id": "8125d9bd-a84f-4500-a2a1-e112846307f8"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "a2edb0c6-e8b5-469c-9a2e-74424b9813fb"
+			},
+			{
+				"cidr_block": "172.16.60.40/32",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "0437fa3f-cd02-4aa2-a797-a2c3d0eadb5f"
+			},
+			{
+				"cidr_block": "172.31.0.0/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "a58b0ac5-f3ab-4699-8610-e514f40166f0"
+			},
+			{
+				"cidr_block": "27.17.49.174/32",
+				"direction": "in",
+				"port_range_from": 21,
+				"port_range_to": 21,
+				"protocol": "tcp",
+				"security_group_entry_id": "4e7828e3-bd6d-4a78-8498-caf6bf8932d2"
+			},
+			{
+				"cidr_block": "61.183.69.254/32",
+				"direction": "in",
+				"port_range_from": 10086,
+				"port_range_to": 10086,
+				"protocol": "tcp",
+				"security_group_entry_id": "6604723e-007f-490f-a070-06d7fb0b6a52"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 5601,
+				"port_range_to": 5601,
+				"protocol": "tcp",
+				"security_group_entry_id": "070bd43b-be72-4f3b-96de-f618858db1a1"
+			},
+			{
+				"cidr_block": "120.92.19.58/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "c36f3bdf-506b-422b-ae80-55cfad58557b"
+			},
+			{
+				"cidr_block": "172.31.16.9/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "c296db71-6a57-4674-88fe-ce75a8d3f899"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 15672,
+				"port_range_to": 15672,
+				"protocol": "tcp",
+				"security_group_entry_id": "b455fdd2-d8b3-493c-8c2b-b82617f3b6c6"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 9000,
+				"port_range_to": 9002,
+				"protocol": "tcp",
+				"security_group_entry_id": "9328a8ee-e61c-4962-9432-3417a795f37f"
+			},
+			{
+				"cidr_block": "114.112.66.210/32",
+				"description": "relay机",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "0525b366-60cc-49d9-8ddf-9c3eb42f85c0"
+			},
+			{
+				"cidr_block": "61.183.69.254/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "03e12593-0cae-40b8-a769-0eba5ad5644c"
+			},
+			{
+				"cidr_block": "172.31.16.9/32",
+				"direction": "in",
+				"port_range_from": 27017,
+				"port_range_to": 27017,
+				"protocol": "tcp",
+				"security_group_entry_id": "7ac40a90-9428-4682-ab63-9f40dd4b9b49"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "5212d541-e8c8-43e8-adcc-be2a8cff01b7"
+			},
+			{
+				"cidr_block": "120.92.77.236/32",
+				"direction": "in",
+				"port_range_from": 9000,
+				"port_range_to": 9002,
+				"protocol": "tcp",
+				"security_group_entry_id": "c235ae50-85b5-4623-81f8-71cd3ee6a47a"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 27017,
+				"port_range_to": 27017,
+				"protocol": "tcp",
+				"security_group_entry_id": "b6a70bca-4a17-4d41-8261-7ca2b08cce59"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 64210,
+				"port_range_to": 64210,
+				"protocol": "tcp",
+				"security_group_entry_id": "d0aa1264-b1e3-49c7-9a5a-0497100f4ef4"
+			},
+			{
+				"cidr_block": "172.16.7.36/32",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "c2b5e9c0-ab0f-4303-b82f-71bfaabd242c"
+			},
+			{
+				"cidr_block": "120.92.85.15/32",
+				"direction": "in",
+				"port_range_from": 9000,
+				"port_range_to": 9002,
+				"protocol": "tcp",
+				"security_group_entry_id": "ad4eac58-4d45-4c6a-bfcb-3e77f88d6f2c"
+			},
+			{
+				"cidr_block": "114.255.44.151/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "7aaea850-5d93-4f58-8364-6fc5ad806b4d"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"description": "ftp",
+				"direction": "in",
+				"port_range_from": 50000,
+				"port_range_to": 50300,
+				"protocol": "tcp",
+				"security_group_entry_id": "8834951c-e7fc-4a62-b720-b57890c218ea"
+			},
+			{
+				"cidr_block": "120.92.77.236/32",
+				"direction": "in",
+				"port_range_from": 15672,
+				"port_range_to": 15672,
+				"protocol": "tcp",
+				"security_group_entry_id": "c7e49596-17a8-435f-a508-b958abae1a03"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"description": "公司网络调试",
+				"direction": "in",
+				"port_range_from": 8080,
+				"port_range_to": 8080,
+				"protocol": "tcp",
+				"security_group_entry_id": "c2d8f929-a27b-4fb7-9ea0-5c9c49df7101"
+			},
+			{
+				"cidr_block": "114.112.66.254/32",
+				"description": "zbx刷新",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "6e697b17-d672-47d2-b203-07d47af5d330"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 9300,
+				"port_range_to": 9300,
+				"protocol": "tcp",
+				"security_group_entry_id": "84629f8c-383b-4017-9d2c-79eccfe4c65e"
+			},
+			{
+				"cidr_block": "172.16.9.210/32",
+				"direction": "in",
+				"port_range_from": 22,
+				"port_range_to": 22,
+				"protocol": "tcp",
+				"security_group_entry_id": "0b67b881-0318-4b44-be26-7273aaa0a071"
+			},
+			{
+				"cidr_block": "27.17.49.174/32",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "38d65ce3-3746-45a6-bf11-a9c477aaf181"
+			},
+			{
+				"cidr_block": "120.92.85.15/32",
+				"direction": "in",
+				"port_range_from": 5672,
+				"port_range_to": 5672,
+				"protocol": "tcp",
+				"security_group_entry_id": "ca362e4e-882d-4867-b829-512bf147f70b"
+			},
+			{
+				"cidr_block": "120.92.85.15/32",
+				"direction": "in",
+				"port_range_from": 15672,
+				"port_range_to": 15672,
+				"protocol": "tcp",
+				"security_group_entry_id": "0a7b14ff-13dc-4009-a606-e6ff6340cd98"
+			},
+			{
+				"cidr_block": "113.106.106.3/32",
+				"direction": "in",
+				"port_range_from": 8081,
+				"port_range_to": 8081,
+				"protocol": "tcp",
+				"security_group_entry_id": "676d80bd-8f98-4a24-9580-611ad1cbd5c1"
+			}
+		],
+		"security_group_id": "1da9fc34-92a3-4669-9142-6b48cb8d395d",
+		"security_group_name": "test-ydx",
+		"security_group_type": "other",
+		"vpc_id": "42d6d49e-d0fa-473a-a234-bd0f31bf9174"
+	},
+	{
+		"create_time": "2018-07-18 17:58:10",
+		"security_group_entry_set": [
+			{
+				"cidr_block": "0.0.0.0/0",
+				"description": "https",
+				"direction": "in",
+				"port_range_from": 443,
+				"port_range_to": 443,
+				"protocol": "tcp",
+				"security_group_entry_id": "da275754-9734-4bd2-ac01-8373856bb260"
+			},
+			{
+				"cidr_block": "172.31.252.0/22",
+				"description": "健康检查",
+				"direction": "in",
+				"protocol": "ip",
+				"security_group_entry_id": "c4e04d77-1e42-443d-93d1-f44dd327c675"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "out",
+				"protocol": "ip",
+				"security_group_entry_id": "8b0c430d-2852-41c4-ba76-7808a2cb787b"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"description": "http",
+				"direction": "in",
+				"port_range_from": 80,
+				"port_range_to": 80,
+				"protocol": "tcp",
+				"security_group_entry_id": "84b208da-20a4-4b14-b799-f9d8e53defe8"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"description": "ping",
+				"direction": "in",
+				"icmp_code": 0,
+				"icmp_type": 8,
+				"protocol": "icmp",
+				"security_group_entry_id": "27bd4380-80ae-4965-9ecc-1dbdaea5a6d0"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"description": "windows远程登录",
+				"direction": "in",
+				"port_range_from": 3389,
+				"port_range_to": 3389,
+				"protocol": "tcp",
+				"security_group_entry_id": "8a8510ed-d211-4a7d-8437-5bc2fa400398"
+			}
+		],
+		"security_group_id": "6cf936e9-4d56-4d11-8078-291531cb0263",
+		"security_group_name": "666666",
+		"security_group_type": "other",
+		"vpc_id": "33ebb43a-3509-462b-8b37-910c47a6d5c0"
+	},
+	{
+		"create_time": "2018-07-17 17:24:11",
+		"security_group_entry_set": [
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "out",
+				"protocol": "ip",
+				"security_group_entry_id": "1be4c021-4181-4e6c-8bba-d8b05160a003"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "in",
+				"icmp_code": -1,
+				"icmp_type": -1,
+				"protocol": "icmp",
+				"security_group_entry_id": "cef98871-f988-47b0-838f-54240c09106e"
+			}
+		],
+		"security_group_id": "538b42c0-3258-47a8-aa34-6706c7bf3de4",
+		"security_group_name": "Ksc_SG",
+		"security_group_type": "other",
+		"vpc_id": "33ebb43a-3509-462b-8b37-910c47a6d5c0"
+	},
+	{
+		"create_time": "2018-04-12 14:40:03",
+		"security_group_entry_set": [
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "in",
+				"protocol": "ip",
+				"security_group_entry_id": "709b7d20-d15a-45f8-b446-37d31bb7eafe"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "out",
+				"protocol": "ip",
+				"security_group_entry_id": "3155b3f4-837e-48c4-be4c-fb0f03801834"
+			}
+		],
+		"security_group_id": "62e2dd4e-099f-4779-a702-d328a386978b",
+		"security_group_name": "默认安全组只放行出VPC流量",
+		"security_group_type": "default",
+		"vpc_id": "33ebb43a-3509-462b-8b37-910c47a6d5c0"
+	},
+	{
+		"create_time": "2018-04-11 00:11:10",
+		"security_group_entry_set": [
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "out",
+				"protocol": "ip",
+				"security_group_entry_id": "3b455a36-b785-4d45-beb4-d62d03fd1b7a"
+			}
+		],
+		"security_group_id": "d15278da-e45f-4f5e-8974-83c0a0145c43",
+		"security_group_name": "默认安全组只放行出VPC流量",
+		"security_group_type": "default",
+		"vpc_id": "74d0a45b-472d-49fc-84ad-221e21ee23aa"
+	},
+	{
+		"create_time": "2018-03-21 16:15:53",
+		"security_group_entry_set": [
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "in",
+				"protocol": "ip",
+				"security_group_entry_id": "5638b8ff-f725-402e-a3e2-268d46a22109"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "out",
+				"protocol": "ip",
+				"security_group_entry_id": "b02015c1-04af-4d73-beb4-d07d1507be35"
+			}
+		],
+		"security_group_id": "86bd9f7d-3157-4236-b547-ed5466fea54e",
+		"security_group_name": "默认安全组只放行出VPC流量",
+		"security_group_type": "default",
+		"vpc_id": "cf08e947-6577-44eb-80bc-2902d54818c3"
+	},
+	{
+		"create_time": "2018-02-12 16:49:21",
+		"security_group_entry_set": [
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "in",
+				"protocol": "ip",
+				"security_group_entry_id": "58fd2708-68b0-4436-9d96-16323cd4fdcc"
+			},
+			{
+				"cidr_block": "0.0.0.0/0",
+				"direction": "out",
+				"protocol": "ip",
+				"security_group_entry_id": "c0082053-900c-41c4-bd52-42df3f9e9764"
+			}
+		],
+		"security_group_id": "ed5d50f9-e052-4387-a4d2-d98e9ba704b1",
+		"security_group_name": "默认安全组只放行出VPC流量",
+		"security_group_type": "default",
+		"vpc_id": "42d6d49e-d0fa-473a-a234-bd0f31bf9174"
+	}
+]
