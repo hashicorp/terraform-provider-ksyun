@@ -58,10 +58,10 @@ func Provider() terraform.ResourceProvider {
 			"ksyun_krds_security_groups": dataSourceKsyunKrdsSecurityGroup(),
 			"ksyun_certificates":         dataSourceKsyunCertificates(),
 			"ksyun_ssh_keys":             dataSourceKsyunSSHKeys(),
-			//	"ksyun_redis_instances":               dataSourceRedisInstances(),
+			"ksyun_redis_instances":      dataSourceRedisInstances(),
 			//	"ksyun_epcs":                          dataSourceKsyunEpcs(),
-			"ksyun_volumes": dataSourceKsyunVolumes(),
-			//	"ksyun_mongodbs":                      dataSourceKsyunMongodbs(),
+			"ksyun_volumes":  dataSourceKsyunVolumes(),
+			"ksyun_mongodbs": dataSourceKsyunMongodbs(),
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"ksyun_eip":                       resourceKsyunEip(),
@@ -84,17 +84,15 @@ func Provider() terraform.ResourceProvider {
 			"ksyun_krds_security_group": resourceKsyunKrdsSecurityGroup(),
 			"ksyun_certificate":         resourceKsyunCertificate(),
 			"ksyun_ssh_key":             resourceKsyunSSHKey(),
-			/*	"ksyun_redis_instance":            resourceRedisInstance(),
-				"ksyun_redis_instance_node":       resourceRedisInstanceNode(),
-				"ksyun_redis_sec_rule":            resourceRedisSecurityRule(),*/
-			/*	"ksyun_epc":                       resourceKsyunEpc(),
-				"ksyun_mongodb_instance":          resourceKsyunMongodbInstance(),
-				"ksyun_mongodb_shard_instance":    resourceKsyunMongodbShardInstance(),
-				"ksyun_mongodb_security_rule":     resourceKsyunMongodbSecurityRule(),
-
-			*/
-			"ksyun_volume":        resourceKsyunVolume(),
-			"ksyun_volume_attach": resourceKsyunVolumeAttach(),
+			"ksyun_redis_instance":      resourceRedisInstance(),
+			"ksyun_redis_instance_node": resourceRedisInstanceNode(),
+			"ksyun_redis_sec_rule":      resourceRedisSecurityRule(),
+			/*	"ksyun_epc":                       resourceKsyunEpc(),*/
+			"ksyun_mongodb_instance":       resourceKsyunMongodbInstance(),
+			"ksyun_mongodb_shard_instance": resourceKsyunMongodbShardInstance(),
+			"ksyun_mongodb_security_rule":  resourceKsyunMongodbSecurityRule(),
+			"ksyun_volume":                 resourceKsyunVolume(),
+			"ksyun_volume_attach":          resourceKsyunVolumeAttach(),
 		},
 		ConfigureFunc: providerConfigure,
 	}
