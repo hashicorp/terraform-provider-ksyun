@@ -13,9 +13,9 @@ func TestAccKsyunLbListenerServersDataSource_basic(t *testing.T) {
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataListenerServersConfig,
+				Config: testAccDataLbListenerServersConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckIDExists("data.ksyun_listener_servers.foo"),
+					testAccCheckIDExists("data.ksyun_lb_listener_servers.foo"),
 				),
 			},
 		},
@@ -27,6 +27,6 @@ data "ksyun_lb_listener_servers" "foo" {
   output_file="output_result"
   ids=[]
   listener_id=[]
-  real_server_ip=["10.72.20.126","172.31.16.20"]
+  real_server_ip=[]
 }
 `

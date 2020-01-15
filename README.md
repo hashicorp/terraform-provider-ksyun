@@ -97,6 +97,7 @@ _各产品线开发人员负责补充，云产品用户参考。_
       配置resource: "ksyun_eip":resourceKsyunEip()
 ##### 4、data_source_ksyun_eips.go dataSource具体实现（根据具体过滤条件拉取eip列表）
 ##### 5、resource_ksyun_eip.go resource具体实现（单个eip的增删改查）
+
 ### 开发注意事项
 ##### 1、所有的入参和出参必须在schema.Resource中定义，否则terraform无法识别。
 ##### 2、terraform的出参和入参都是schema.Schema类型，其底层调用的sdk的出参和入参是map[string]interface{}类型，两者需进行转换。
@@ -106,8 +107,16 @@ _各产品线开发人员负责补充，云产品用户参考。_
 ##### 6、网络和主机的接口属性较多，开发采用了函数封装，初次开发，可先参考腾讯的开发指南，更有易读性，了解terraform的开发过程后可直接调用封装好的函数，减少代码冗余。
       腾讯云开发指南：（https://cloud.tencent.com/developer/article/1067230）
       *Note:* 腾讯的sdk入参和出参是class（struct）类型，而我们的sdk是map类型。
-##### 7、每次提交都需要对代码进行交叉编译(mac、linux和windows),不然用户没法使用。
+##### 7、每次提交都需要对代码进行交叉编译(mac、linux和windows),编译好的可执行文件需传到公司官网，请将编译文件传给庞雄伟(雄伟同学负责我们terraform的官网文档)，不然用户没法使用。
 ##### 8、每次编译前都需要重新拉取terraform-provider-ksyun和ksc-sdk-go,保证terraform-provider-ksyun和ksc-sdk-go都是最新版，不然会导致其他服务不可用。
+##### 9、所有的*test.go文件里的参数必须是线上可以直接运行的，所有用到的资源必须是新建的。必须保证test是可以跑通的，test见上面英文版test介绍。不然terraform 官网没法验证。
+### 提交注意事项
+##### 1、不要上传ak、sk等敏感信息
+##### 2、new pull request 之前请确保自己fork的是master的最新版本(在kscSDK(master)项目下点击new pull request 到自己的项目)，不然覆盖其他产品线的提交，后果自负。
+##### 3、new pull request 之后，请发邮件或在群里说一下，不然没人知道。
+##### 4、new pull request fork请forkmaster，merge请提到trunk分支。
+##### 5、terraform 要求代码是go fmt之后的，mac和linux下开发直接在项目根目录下执行make dev，windows需要针对你修改的每一个文件执行gofmt -w -s $(GOFMT_FILES)。
+
 
 ## terraform-provider-ksyun使用
 

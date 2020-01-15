@@ -257,6 +257,7 @@ func resourceKsyunVolumeDelete(d *schema.ResourceData, meta interface{}) error {
 	conn := meta.(*KsyunClient).ebsconn
 	deleteReq := make(map[string]interface{})
 	deleteReq["VolumeId"] = d.Id()
+	deleteReq["ForceDelete"] = "true"
 	action := "DeleteVolume"
 	logger.Debug(logger.ReqFormat, action, deleteReq)
 	resp, err := conn.DeleteVolume(&deleteReq)

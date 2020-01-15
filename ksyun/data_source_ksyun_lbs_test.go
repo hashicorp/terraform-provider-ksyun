@@ -13,7 +13,7 @@ func TestAccKsyunLbsDataSource_basic(t *testing.T) {
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSlbsConfig,
+				Config: testAccDataLbsConfig,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckIDExists("data.ksyun_lbs.foo"),
 				),

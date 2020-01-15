@@ -64,29 +64,6 @@ endif
 
 .PHONY: build sweep test testacc vet fmt fmtcheck errcheck vendor-status test-compile website website-test
 
-all: mac windows linux
-
-dev: clean fmt
-	@chmod +x scripts/devinit.sh
-	@bash ./scripts/devinit.sh
-
 clean:
 	rm -rf bin/*
 
-mac:
-	GOOS=darwin GOARCH=amd64 go build -o bin/terraform-provider-ksyun
-	chmod +x bin/terraform-provider-ksyun
-	cd bin/ && tar czvf ./terraform-provider-ksyun_darwin-amd64.tgz ./terraform-provider-ksyun
-	rm -rf ./bin/terraform-provider-ksyun
-
-windows:
-	GOOS=windows GOARCH=amd64 go build -o bin/terraform-provider-ksyun.exe
-	chmod +x bin/terraform-provider-ksyun.exe
-	cd bin/ && tar czvf ./terraform-provider-ksyun_windows-amd64.tgz ./terraform-provider-ksyun.exe
-	rm -rf ./bin/terraform-provider-ksyun.exe
-
-linux:
-	GOOS=linux GOARCH=amd64 go build -o bin/terraform-provider-ksyun
-	chmod +x bin/terraform-provider-ksyun
-	cd bin/ && tar czvf ./terraform-provider-ksyun_linux-amd64.tgz ./terraform-provider-ksyun
-	rm -rf ./bin/terraform-provider-ksyun

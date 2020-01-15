@@ -58,6 +58,17 @@ func testAccCheckVolumeDestory(s *terraform.State) error {
 				continue
 			}
 			l := resp.([]interface{})
+			volume, ok2 := l[0].(map[string]interface{})
+			if !ok2 {
+				continue
+			}
+			status, ok3 := volume["VolumeStatus"]
+			if !ok3 {
+				continue
+			}
+			if status == "recycling" || status == "deleting" {
+				continue
+			}
 			if len(l) == 0 {
 				continue
 			} else {
@@ -69,12 +80,12 @@ func testAccCheckVolumeDestory(s *terraform.State) error {
 }
 
 const testAccVolumeConfig = `
-resource "ksyun_volume" "default" {
-  volume_name="test"
+resource "ksyun_volume" "foo" {
+  volume_name="ksyun_volume_tf_test"
   volume_type="SSD3.0"
-  size=15
+  size=10
   charge_type="Daily"
-  availability_zone="cn-shanghai-3a"
-  volume_desc="test"
+  availability_zone="cn-beijing-6a"
+  volume_desc="ksyun_volume_tf_test"
 }
 `

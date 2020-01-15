@@ -8,7 +8,7 @@ import (
 
 func dataSourceKsyunLbs() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceKsyunSlbsRead,
+		Read: dataSourceKsyunLbsRead,
 		Schema: map[string]*schema.Schema{
 			"ids": {
 				Type:     schema.TypeSet,

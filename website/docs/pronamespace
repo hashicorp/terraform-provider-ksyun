@@ -26,5 +26,4 @@ security_group:            vpc,
 security_group_entry:      vpc,
 subnet:                    vpc,
 vpc:                       vpc,
-ssh_key:                   sks,
-ks3:                       ks3
+ssh_key:                   sks

@@ -7,7 +7,7 @@ import (
 
 func dataSourceKsyunLbListenerServers() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceKsyunServersRead,
+		Read: dataSourceKsyunLbServersRead,
 		Schema: map[string]*schema.Schema{
 			"ids": {
 				Type:     schema.TypeSet,
