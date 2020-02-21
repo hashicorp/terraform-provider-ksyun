@@ -24,7 +24,7 @@ fmtcheck:
 
 lint:
 	@echo "==> Checking source code against linters..."
-	golangci-lint run ./...
+	golangci-lint run ./$(PKG_NAME)
 	
 test: fmtcheck
 	go test -i $(TEST) || exit 1
