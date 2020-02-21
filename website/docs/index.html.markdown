@@ -8,7 +8,7 @@ description: |-
 
 # Ksyun Provider
 
-~> **NOTE:** This guide requires an avaliable Ksyun account or sub-account with project to create resources.
+~> **NOTE:** This guide requires an available Ksyun account or sub-account with project to create resources.
 
 The Ksyun provider is used to interact with the
 resources supported by Ksyun. The provider needs to be configured
