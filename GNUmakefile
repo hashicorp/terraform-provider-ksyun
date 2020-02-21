@@ -1,44 +1,38 @@
-SWEEP?=cn-bj2,cn-sh2
-TEST?=./...
+TEST?=$$(go list ./... |grep -v 'vendor')
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
-PKG_NAME=ksyun
 WEBSITE_REPO=github.com/hashicorp/terraform-website
+PKG_NAME=ksyun
 
 default: build
+
+tools:
+	GO111MODULE=off go get -u github.com/client9/misspell/cmd/misspell
+	GO111MODULE=off go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 
 build: fmtcheck
 	go install
 
-sweep:
-	@echo "WARNING: This will destroy infrastructure. Use only in development accounts."
-	go test $(TEST) -v -sweep=$(SWEEP) $(SWEEPARGS)
-
-test: fmtcheck
-	go test $(TEST) -timeout=30s -parallel=32
-
-testacc: fmtcheck
-	TF_ACC=1 go test -cover $(TEST) -v $(TESTARGS) -timeout 120m -parallel=32
-
-vet:
-	@echo "go vet ."
-	@go vet $$(go list ./... | grep -v vendor/) ; if [ $$? -eq 1 ]; then \
-		echo ""; \
-		echo "Vet found suspicious constructs. Please check the reported constructs"; \
-		echo "and fix them if necessary before submitting the code for review."; \
-		exit 1; \
-	fi
+errcheck:
+	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"
 
 fmt:
-	gofmt -w -s $(GOFMT_FILES)
+	@echo "==> Fixing source code with gofmt..."
+	gofmt -w $(GOFMT_FILES)
 
 fmtcheck:
 	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh'"
 
-errcheck:
-	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"
+lint:
+	@echo "==> Checking source code against linters..."
+	golangci-lint run ./...
+	
+test: fmtcheck
+	go test -i $(TEST) || exit 1
+	echo $(TEST) | \
+		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4
 
-vendor-status:
-	@dep status
+testacc: fmtcheck
+	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m
 
 test-compile:
 	@if [ "$(TEST)" = "./..." ]; then \
@@ -55,6 +49,10 @@ ifeq (,$(wildcard $(GOPATH)/src/$(WEBSITE_REPO)))
 endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
 
+website-lint:
+	@echo "==> Checking website against linters..."
+	@misspell -error -source=text website/
+
 website-test:
 ifeq (,$(wildcard $(GOPATH)/src/$(WEBSITE_REPO)))
 	echo "$(WEBSITE_REPO) not found in your GOPATH (necessary for layouts and assets), get-ting..."
@@ -62,31 +60,4 @@ ifeq (,$(wildcard $(GOPATH)/src/$(WEBSITE_REPO)))
 endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider-test PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
 
-.PHONY: build sweep test testacc vet fmt fmtcheck errcheck vendor-status test-compile website website-test
-
-all: mac windows linux
-
-dev: clean fmt
-	@chmod +x scripts/devinit.sh
-	@bash ./scripts/devinit.sh
-
-clean:
-	rm -rf bin/*
-
-mac:
-	GOOS=darwin GOARCH=amd64 go build -o bin/terraform-provider-ksyun
-	chmod +x bin/terraform-provider-ksyun
-	cd bin/ && tar czvf ./terraform-provider-ksyun_darwin-amd64.tgz ./terraform-provider-ksyun
-	rm -rf ./bin/terraform-provider-ksyun
-
-windows:
-	GOOS=windows GOARCH=amd64 go build -o bin/terraform-provider-ksyun.exe
-	chmod +x bin/terraform-provider-ksyun.exe
-	cd bin/ && tar czvf ./terraform-provider-ksyun_windows-amd64.tgz ./terraform-provider-ksyun.exe
-	rm -rf ./bin/terraform-provider-ksyun.exe
-
-linux:
-	GOOS=linux GOARCH=amd64 go build -o bin/terraform-provider-ksyun
-	chmod +x bin/terraform-provider-ksyun
-	cd bin/ && tar czvf ./terraform-provider-ksyun_linux-amd64.tgz ./terraform-provider-ksyun
-	rm -rf ./bin/terraform-provider-ksyun
+.PHONY: build test testacc vet fmt fmtcheck errcheck lint tools test-compile website website-lint website-test
