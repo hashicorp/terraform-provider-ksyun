@@ -89,7 +89,7 @@ func resourceRedisInstanceNodeCreate(d *schema.ResourceData, meta interface{}) e
 		return fmt.Errorf("error on add instance node: %s", err)
 	}
 	if resp != nil {
-		d.Set("instance_id", (*resp)["Data"].(map[string]interface{})["NodeId"].(string))
+		_ = d.Set("instance_id", (*resp)["Data"].(map[string]interface{})["NodeId"].(string))
 	}
 	d.SetId(d.Get("instance_id").(string))
 	logger.Debug(logger.RespFormat, action, createNodeReq, *resp)
@@ -107,7 +107,7 @@ func resourceRedisInstanceNodeCreate(d *schema.ResourceData, meta interface{}) e
 		MinTimeout: 1 * time.Minute,
 	}
 	_, err = stateConf.WaitForState()
-	resourceRedisInstanceNodeRead(d, meta)
+	_ = resourceRedisInstanceNodeRead(d, meta)
 	if err != nil {
 		return fmt.Errorf("error on add Instance node: %s", err)
 	}
