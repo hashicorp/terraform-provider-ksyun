@@ -72,7 +72,7 @@ func GetSubStructDByRep(datas interface{}, exclude map[string]bool) map[string]i
 //mre: the params not set to terraform .
 func SetDByRespV1(d *schema.ResourceData, m interface{}, exclud map[string]bool) map[string]interface{} {
 	ma, ok := m.(map[string]interface{})
-	mre := make(map[string]interface{}, 0)
+	mre := make(map[string]interface{})
 	if !ok {
 		return mre
 	}
@@ -85,7 +85,11 @@ func SetDByRespV1(d *schema.ResourceData, m interface{}, exclud map[string]bool)
 			}
 			continue
 		}
-		d.Set(Hump2Downline(k), v)
+		err := d.Set(Hump2Downline(k), v)
+		if err != nil {
+			log.Println("SetDByRespV1 failed:", err.Error())
+			//return mre
+		}
 	}
 	return mre
 }
@@ -96,7 +100,7 @@ func SetDByRespV1(d *schema.ResourceData, m interface{}, exclud map[string]bool)
 //exclude ：representing the key which the type is not basic type (terraform can't identity the type which is not basic type).
 //mre: the params not set to terraform .
 func SetDByResp(d *schema.ResourceData, m interface{}, includ, exclude map[string]bool) map[string]interface{} {
-	mre := make(map[string]interface{}, 0)
+	mre := make(map[string]interface{})
 	ma, ok := m.(map[string]interface{})
 	if !ok {
 		return mre
@@ -111,7 +115,10 @@ func SetDByResp(d *schema.ResourceData, m interface{}, includ, exclude map[strin
 			continue
 		}
 
-		d.Set(Hump2Downline(k), v)
+		err := d.Set(Hump2Downline(k), v)
+		if err != nil {
+			log.Println(err.Error())
+		}
 	}
 	return mre
 }
@@ -276,13 +283,14 @@ func ConvertFilterStructStructPrefix(v interface{}, req *map[string]interface{},
 func dataSourceKscSave(d *schema.ResourceData, dataKey string, ids []string, datas []map[string]interface{}) error {
 
 	d.SetId(hashStringArray(ids))
-	d.Set("total_count", len(datas))
-
+	if err := d.Set("total_count", len(datas)); err != nil {
+		return fmt.Errorf("error set datas %v :%v", datas, err)
+	}
 	if err := d.Set(dataKey, datas); err != nil {
 		return fmt.Errorf("error set datas %v :%v", datas, err)
 	}
 	if outputFile, ok := d.GetOk("output_file"); ok && outputFile.(string) != "" {
-		writeToFile(outputFile.(string), datas)
+		return writeToFile(outputFile.(string), datas)
 	}
 
 	return nil
@@ -290,13 +298,15 @@ func dataSourceKscSave(d *schema.ResourceData, dataKey string, ids []string, dat
 func dataSourceKscSaveSlice(d *schema.ResourceData, dataKey string, ids []string, datas []string) error {
 
 	d.SetId(hashStringArray(ids))
-	d.Set("total_count", len(datas))
+	if err := d.Set("total_count", len(datas)); err != nil {
+		return fmt.Errorf("error set datas %v :%v", datas, err)
+	}
 
 	if err := d.Set(dataKey, datas); err != nil {
 		return fmt.Errorf("error set datas %v :%v", datas, err)
 	}
 	if outputFile, ok := d.GetOk("output_file"); ok && outputFile.(string) != "" {
-		writeToFile(outputFile.(string), datas)
+		return writeToFile(outputFile.(string), datas)
 	}
 
 	return nil
@@ -309,7 +319,9 @@ func dataSourceDbSave(d *schema.ResourceData, dataKey string, ids []string, data
 		d.SetId(strings.Join(ids, ","))
 	}
 
-	d.Set("total_count", len(datas))
+	if err := d.Set("total_count", len(datas)); err != nil {
+		return fmt.Errorf("error set datas %v :%v", datas, err)
+	}
 	log.Printf("reset  dataKey: %v datas: %v", dataKey, datas)
 
 	if err := d.Set(dataKey, datas); err != nil {
@@ -318,11 +330,10 @@ func dataSourceDbSave(d *schema.ResourceData, dataKey string, ids []string, data
 	}
 	if outputFile, ok := d.GetOk("output_file"); ok && outputFile.(string) != "" {
 		logger.DebugInfo(" output file name : %+v", outputFile.(string)+"_"+d.Id())
-		writeToFile(outputFile.(string)+"_"+d.Id(), datas)
+		return writeToFile(outputFile.(string)+"_"+d.Id(), datas)
 	} else {
 		return fmt.Errorf(" output file error,  %+v", outputFile)
 	}
-	return nil
 }
 
 func dataDbSave(d *schema.ResourceData, dataKey string, ids []string, datas []map[string]interface{}) error {
@@ -332,7 +343,9 @@ func dataDbSave(d *schema.ResourceData, dataKey string, ids []string, datas []ma
 		d.SetId(strings.Join(ids, ","))
 	}
 
-	d.Set("total_count", len(datas))
+	if err := d.Set("total_count", len(datas)); err != nil {
+		return err
+	}
 	log.Printf("reset  dataKey: %v datas: %v", dataKey, datas)
 
 	if err := d.Set(dataKey, datas); err != nil {
@@ -341,12 +354,10 @@ func dataDbSave(d *schema.ResourceData, dataKey string, ids []string, datas []ma
 	}
 	if outputFile, ok := d.GetOk("output_file"); ok && outputFile.(string) != "" {
 		logger.DebugInfo(" ------------ %+v", outputFile)
-
-		writeToFile(outputFile.(string)+"_"+"data", datas)
+		return writeToFile(outputFile.(string)+"_"+"data", datas)
 	} else {
 		return fmt.Errorf(" !!! %+v", outputFile)
 	}
-	return nil
 }
 
 func FuckHump2Downline(s string) string {

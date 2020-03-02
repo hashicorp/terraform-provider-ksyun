@@ -26,6 +26,7 @@ func (err *ProviderError) Message() string {
 	return err.message
 }
 
+/*
 func newNotFoundError(str string) error {
 	return &ProviderError{
 		errorCode: NotFound,
@@ -45,6 +46,8 @@ func isNotFoundError(err error) bool {
 
 	return false
 }
+
+*/
 func notFoundError(err error) bool {
 	errMessage := strings.ToLower(err.Error())
 	if strings.Contains(errMessage, "notfound") ||

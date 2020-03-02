@@ -123,7 +123,9 @@ func resourceKsyunEipCreate(d *schema.ResourceData, m interface{}) error {
 	if !ok {
 		return fmt.Errorf("createEip Error : no id found")
 	}
-	d.Set("allocation_id", idres)
+	if err := d.Set("allocation_id", idres); err != nil {
+		return err
+	}
 	d.SetId(idres)
 	return resourceKsyunEipRead(d, m)
 }
@@ -196,7 +198,7 @@ func resourceKsyunEipDelete(d *schema.ResourceData, meta interface{}) error {
 	return resource.Retry(5*time.Minute, func() *resource.RetryError {
 		action := "ReleaseAddress"
 		logger.Debug(logger.ReqFormat, action, deleteEip)
-		resp, err1 := conn.ReleaseAddress(&deleteEip)
+		_, err1 := conn.ReleaseAddress(&deleteEip)
 		logger.Debug(logger.AllFormat, action, deleteEip, err1)
 		if err1 == nil || (err1 != nil && notFoundError(err1)) {
 			return nil

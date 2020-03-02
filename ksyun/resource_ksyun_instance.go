@@ -367,7 +367,9 @@ func resourceKsyunInstanceCreate(d *schema.ResourceData, meta interface{}) error
 	if (!keepImage) && (!keyset) {
 		createReq["InstancePassword"] = d.Get("instance_password")
 	} else {
-		d.Set("instance_password", "")
+		if err := d.Set("instance_password", ""); err != nil {
+			return err
+		}
 	}
 	securityGroupIds, ok := d.GetOk("security_group_id")
 	if !ok {
@@ -417,7 +419,9 @@ func resourceKsyunInstanceCreate(d *schema.ResourceData, meta interface{}) error
 		MinTimeout: 2 * time.Second,
 	}
 	_, err = stateConf.WaitForState()
-	resourceKsyunInstanceRead(d, meta)
+	if err := resourceKsyunInstanceRead(d, meta); err != nil {
+		return err
+	}
 	if err != nil {
 		return fmt.Errorf("error on waiting for instance %q complete creating, %s", d.Id(), err)
 	}
@@ -438,7 +442,7 @@ func resourceKsyunInstanceRead(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("error on reading Instance %q, %s", d.Id(), err)
 	}
 	logger.Debug(logger.AllFormat, action, readReq, *resp, err)
-	itemset, ok := (*resp)["InstancesSet"]
+	itemset := (*resp)["InstancesSet"]
 	items, ok := itemset.([]interface{})
 	if !ok || len(items) == 0 {
 		d.SetId("")
@@ -454,31 +458,47 @@ func resourceKsyunInstanceRead(d *schema.ResourceData, meta interface{}) error {
 	}
 	excludes := SetDByResp(d, items[0], instanceKeys, excludesKeys)
 	// if excludes["KeySet"] != nil {
-	d.Set("key_id", excludes["KeySet"])
+	if err := d.Set("key_id", excludes["KeySet"]); err != nil {
+		return err
+	}
 	//log.Println("key_id:%v", excludes["KeySet"])
 	// }
 	if excludes["InstanceConfigure"] != nil {
 		itemSet := GetSubDByRep(excludes["InstanceConfigure"], instanceConfigureKeys, map[string]bool{})
 		if len(itemSet) > 0 {
 			if instanceConfigure, ok := itemSet[0].(map[string]interface{}); ok {
-				d.Set("data_disk_gb", instanceConfigure["data_disk_gb"])
+				if err := d.Set("data_disk_gb", instanceConfigure["data_disk_gb"]); err != nil {
+					return err
+				}
 			}
 		}
-		d.Set(Hump2Downline("InstanceConfigure"), itemSet)
+		if err := d.Set(Hump2Downline("InstanceConfigure"), itemSet); err != nil {
+			return err
+		}
 	} else {
-		d.Set(Hump2Downline("InstanceConfigure"), nil)
+		if err := d.Set(Hump2Downline("InstanceConfigure"), nil); err != nil {
+			return err
+		}
 	}
 	if excludes["InstanceState"] != nil {
 		itemSet := GetSubDByRep(excludes["InstanceState"], instanceStateKeys, map[string]bool{})
-		d.Set(Hump2Downline("InstanceState"), itemSet)
+		if err := d.Set(Hump2Downline("InstanceState"), itemSet); err != nil {
+			return err
+		}
 	} else {
-		d.Set(Hump2Downline("InstanceState"), nil)
+		if err := d.Set(Hump2Downline("InstanceState"), nil); err != nil {
+			return err
+		}
 	}
 	if excludes["Monitoring"] != nil {
 		itemSet := GetSubDByRep(excludes["Monitoring"], monitoringKeys, map[string]bool{})
-		d.Set(Hump2Downline("Monitoring"), itemSet)
+		if err := d.Set(Hump2Downline("Monitoring"), itemSet); err != nil {
+			return err
+		}
 	} else {
-		d.Set(Hump2Downline("Monitoring"), nil)
+		if err := d.Set(Hump2Downline("Monitoring"), nil); err != nil {
+			return err
+		}
 	}
 	if excludes["NetworkInterfaceSet"] != nil {
 		networkSet := excludes["NetworkInterfaceSet"]
@@ -507,7 +527,9 @@ func resourceKsyunInstanceRead(d *schema.ResourceData, meta interface{}) error {
 		SetDByResp(d, networkInterfaceItem, kecNetworkInterfaceKeys, excludeKeys)
 		if gs, ok := networkInterfaceItem["GroupSet"]; ok {
 			itemSetSub := GetSubSliceDByRep(gs.([]interface{}), groupSetKeys)
-			d.Set("group_set", itemSetSub)
+			if err := d.Set("group_set", itemSetSub); err != nil {
+				return err
+			}
 		}
 		//SecurityGroupSet instance interface only support one ,so should get from network interface.
 
@@ -532,7 +554,7 @@ func resourceKsyunInstanceRead(d *schema.ResourceData, meta interface{}) error {
 			return fmt.Errorf("error on reading Instance %q, %s", d.Id(), err)
 		}
 		logger.Debug(logger.AllFormat, action, readReq, *resp, err)
-		itemset, ok := (*resp)["NetworkInterfaceSet"]
+		itemset := (*resp)["NetworkInterfaceSet"]
 		items, ok := itemset.([]interface{})
 		if !ok || len(items) == 0 {
 			return fmt.Errorf("no data on reading Instance (%q) networkInterfaceSet(%q)", d.Id(), netId)
@@ -554,17 +576,25 @@ func resourceKsyunInstanceRead(d *schema.ResourceData, meta interface{}) error {
 						}
 					}
 				}
-				d.Set("security_group_id", itemSetSlice)
+				if err := d.Set("security_group_id", itemSetSlice); err != nil {
+					return err
+				}
 			}
 		}
 	} else {
-		d.Set(Hump2Downline("NetworkInterfaceSet"), nil)
+		if err := d.Set(Hump2Downline("NetworkInterfaceSet"), nil); err != nil {
+			return err
+		}
 	}
 	if excludes["SystemDisk"] != nil {
 		itemSet := GetSubDByRep(excludes["SystemDisk"], systemDiskKeys, map[string]bool{})
-		d.Set(Hump2Downline("SystemDisk"), itemSet)
+		if err := d.Set(Hump2Downline("SystemDisk"), itemSet); err != nil {
+			return err
+		}
 	} else {
-		d.Set(Hump2Downline("SystemDisk"), nil)
+		if err := d.Set(Hump2Downline("SystemDisk"), nil); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -636,7 +666,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 			return fmt.Errorf("error on reading Instance %q, %s", d.Id(), err)
 		}
 
-		itemset, ok := (*resp)["InstancesSet"]
+		itemset := (*resp)["InstancesSet"]
 		items, ok := itemset.([]interface{})
 		if !ok || len(items) == 0 {
 			return fmt.Errorf("error on reading Instance %q, %s", d.Id(), err)
@@ -842,7 +872,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		}
 	}
 	if needStart {
-		updateReq1 := make(map[string]interface{}, 0)
+		updateReq1 := make(map[string]interface{})
 		updateReq1["InstanceId.1"] = d.Id()
 		action := "StartInstances"
 		logger.Debug(logger.ReqFormat, action, updateReq1)
@@ -1027,7 +1057,7 @@ func resourceKsyunInstanceDelete(d *schema.ResourceData, meta interface{}) error
 		if !ok {
 			return nil
 		}
-		items, ok := itemset.([]interface{})
+		items, _ := itemset.([]interface{})
 		if len(items) == 0 && fmt.Sprintf("%v", forceDelete) != "true" {
 			return nil
 		}
@@ -1097,7 +1127,7 @@ func resourceKsyunInstanceDelete(d *schema.ResourceData, meta interface{}) error
 			if !ok {
 				return nil
 			}
-			items, ok = itemset.([]interface{})
+			items, _ = itemset.([]interface{})
 			if len(items) == 0 {
 				return nil
 			}
@@ -1139,7 +1169,7 @@ func instanceStateRefreshFunc(client *kec.Kec, instanceId string, target []strin
 			return nil, "", err
 		}
 		logger.Debug(logger.AllFormat, action, req, *resp, err)
-		itemset, ok := (*resp)["InstancesSet"]
+		itemset := (*resp)["InstancesSet"]
 		items, ok := itemset.([]interface{})
 		if !ok || len(items) == 0 {
 			return nil, "", fmt.Errorf("no instance set get")
@@ -1176,7 +1206,7 @@ func instanceStateRefreshForReinstallFunc(client *kec.Kec, instanceId string, ta
 		if err != nil {
 			return nil, "", err
 		}
-		itemset, ok := (*resp)["InstancesSet"]
+		itemset := (*resp)["InstancesSet"]
 		items, ok := itemset.([]interface{})
 		if !ok || len(items) == 0 {
 			return nil, "", fmt.Errorf("no instance set get")
@@ -1219,7 +1249,7 @@ func instanceStateRefreshForCreateFunc(client *kec.Kec, instanceId string, targe
 			return nil, "", err
 		}
 		logger.Debug(logger.RespFormat, action, req, *resp)
-		itemset, ok := (*resp)["InstancesSet"]
+		itemset := (*resp)["InstancesSet"]
 		items, ok := itemset.([]interface{})
 		if !ok || len(items) == 0 {
 			return nil, "", fmt.Errorf("no instance set get")
@@ -1254,7 +1284,7 @@ func instanceStateRefreshForCreateFunc(client *kec.Kec, instanceId string, targe
 }
 
 func instanceDetachKey(instanceId string, keyIds []interface{}, conn *kec.Kec) error {
-	req := make(map[string]interface{}, 0)
+	req := make(map[string]interface{})
 	req["InstanceId.1"] = fmt.Sprintf("%v", instanceId)
 	for k, v := range keyIds {
 		req[fmt.Sprintf("KeyId.%v", k+1)] = fmt.Sprintf("%v", v)
@@ -1289,7 +1319,7 @@ func instanceDetachKey(instanceId string, keyIds []interface{}, conn *kec.Kec) e
 	return nil
 }
 func instanceAttachKey(instanceId string, keyIds []interface{}, conn *kec.Kec) error {
-	req := make(map[string]interface{}, 0)
+	req := make(map[string]interface{})
 	req["InstanceId.1"] = fmt.Sprintf("%v", instanceId)
 	for k, v := range keyIds {
 		req[fmt.Sprintf("KeyId.%v", k+1)] = fmt.Sprintf("%v", v)

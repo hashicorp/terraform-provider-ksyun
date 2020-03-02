@@ -104,7 +104,9 @@ func resourceKsyunLoadBalancerAclCreate(d *schema.ResourceData, m interface{}) e
 	if !ok {
 		return fmt.Errorf("create LoadBalancerAcl : no LoadBalancerAcl id found")
 	}
-	d.Set("load_balancer_acl_id", id)
+	if err := d.Set("load_balancer_acl_id", id); err != nil {
+		return err
+	}
 	d.SetId(ids)
 	return resourceKsyunLoadBalancerAclRead(d, m)
 }
@@ -132,9 +134,13 @@ func resourceKsyunLoadBalancerAclRead(d *schema.ResourceData, m interface{}) err
 	lbes, ok := subPara["LoadBalancerAclEntrySet"].([]interface{})
 	if ok {
 		subRes := GetSubSliceDByRep(lbes, lbAclEntryKeys)
-		d.Set("load_balancer_acl_entry_set", subRes)
+		if err := d.Set("load_balancer_acl_entry_set", subRes); err != nil {
+			return err
+		}
 	} else {
-		d.Set("load_balancer_acl_entry_set", make([]map[string]interface{}, 0))
+		if err := d.Set("load_balancer_acl_entry_set", make([]map[string]interface{}, 0)); err != nil {
+			return err
+		}
 	}
 	return nil
 }

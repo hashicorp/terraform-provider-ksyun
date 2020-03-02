@@ -97,7 +97,7 @@ func resourceKsyunEipAssociationRead(d *schema.ResourceData, m interface{}) erro
 		d.SetId("")
 		return nil
 	}
-	items, ok := itemset.([]interface{})
+	items := itemset.([]interface{})
 	if len(items) == 0 {
 		d.SetId("")
 		return nil

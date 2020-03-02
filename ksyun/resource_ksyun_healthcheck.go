@@ -131,7 +131,9 @@ func resourceKsyunHealthCheckCreate(d *schema.ResourceData, m interface{}) error
 	if !ok {
 		return fmt.Errorf("create HealthCheck : no HealthCheckId found")
 	}
-	d.Set("health_check_id", idres)
+	if err := d.Set("health_check_id", idres); err != nil {
+		return err
+	}
 	d.SetId(idres)
 	return resourceKsyunHealthCheckRead(d, m)
 }

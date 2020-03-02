@@ -81,7 +81,9 @@ func resourceKsyunCertificateCreate(d *schema.ResourceData, m interface{}) error
 	if !ok {
 		return fmt.Errorf("createCertificate Error : no id found")
 	}
-	d.Set("certificate_id", idres)
+	if err := d.Set("certificate_id", idres); err != nil {
+		return err
+	}
 	d.SetId(idres)
 	return resourceKsyunCertificateRead(d, m)
 }
@@ -151,7 +153,7 @@ func resourceKsyunCertificateDelete(d *schema.ResourceData, meta interface{}) er
 		action := "DeleteCertificate"
 		logger.Debug(logger.ReqFormat, action, deleteCertificate)
 		resp, err1 := conn.DeleteCertificate(&deleteCertificate)
-		logger.Debug(logger.AllFormat, action, deleteCertificate, err1)
+		logger.Debug(logger.AllFormat, action, deleteCertificate, resp, err1)
 		if err1 == nil || (err1 != nil && notFoundError(err1)) {
 			return nil
 		}

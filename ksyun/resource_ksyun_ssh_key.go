@@ -77,7 +77,9 @@ func resourceKsyunSSHKeyCreate(d *schema.ResourceData, m interface{}) error {
 		if !ok {
 			return fmt.Errorf("createSSHKey Error  : no PrivateKey found")
 		}
-		d.Set("private_key", privateKey)
+		if err:=d.Set("private_key", privateKey);err!=nil{
+			return err
+		}
 	}
 	sSHKey, ok := (*resp)["Key"]
 	if !ok {
@@ -95,7 +97,9 @@ func resourceKsyunSSHKeyCreate(d *schema.ResourceData, m interface{}) error {
 	if !ok {
 		return fmt.Errorf("createSSHKey Error : no id found")
 	}
-	d.Set("key_id", idres)
+	if err:=d.Set("key_id", idres);err!=nil{
+		return err
+	}
 	d.SetId(idres)
 	return resourceKsyunSSHKeyRead(d, m)
 }
@@ -114,7 +118,9 @@ func resourceKsyunSSHKeyRead(d *schema.ResourceData, m interface{}) error {
 	}
 	privateKey, ok := (*resp)["PrivateKey"]
 	if ok {
-		d.Set("private_key", privateKey)
+		if err:=d.Set("private_key", privateKey);err!=nil{
+			return err
+		}
 	}
 	itemset, ok := (*resp)["KeySet"]
 	if !ok {
@@ -169,7 +175,7 @@ func resourceKsyunSSHKeyDelete(d *schema.ResourceData, meta interface{}) error {
 		action := "DeleteKey"
 		logger.Debug(logger.ReqFormat, action, deleteSSHKey)
 		resp, err1 := conn.DeleteKey(&deleteSSHKey)
-		logger.Debug(logger.AllFormat, action, deleteSSHKey, err1)
+		logger.Debug(logger.AllFormat, action, deleteSSHKey, resp, err1)
 		if err1 == nil || (err1 != nil && notFoundError(err1)) {
 			return nil
 		}

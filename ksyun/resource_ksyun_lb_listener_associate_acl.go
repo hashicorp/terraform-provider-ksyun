@@ -81,7 +81,7 @@ func resourceKsyunListenerLBAclRead(d *schema.ResourceData, m interface{}) error
 		return fmt.Errorf("Error DescribeListeners : %s", err)
 	}
 	logger.Debug(logger.RespFormat, action, req, *resp)
-	itemset, ok := (*resp)["ListenerSet"]
+	itemset := (*resp)["ListenerSet"]
 	items, ok := itemset.([]interface{})
 	if !ok || len(items) == 0 {
 		d.SetId("")

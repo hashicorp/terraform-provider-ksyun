@@ -17,7 +17,7 @@ errcheck:
 
 fmt:
 	@echo "==> Fixing source code with gofmt..."
-	gofmt -w $(GOFMT_FILES)
+	gofmt -w -s $(GOFMT_FILES)
 
 fmtcheck:
 	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh'"

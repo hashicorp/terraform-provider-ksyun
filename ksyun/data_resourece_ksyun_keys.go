@@ -99,6 +99,8 @@ var vpcNetworkInterfaceKeys = map[string]bool{
 	"DNS1":                 true,
 	"DNS2":                 true,
 }
+
+/*
 var subnetAvailableAddresseKeys = map[string]bool{
 	"AvailableIpAddress": true,
 }
@@ -106,6 +108,8 @@ var subnetAllocatedIpAddressesKeys = map[string]bool{
 	"AvailableIpAddress": true,
 }
 
+
+*/
 var vpcKeys = map[string]bool{
 	"CidrBlock":  true,
 	"CreateTime": true,
@@ -300,6 +304,8 @@ var redisInstanceKeys = map[string]bool{
 	"rules":            true,
 	"parameters":       true,
 }
+
+/*
 var epcInstanceKeys = map[string]bool{
 	"CreateTime":                   true,
 	"HostName":                     true,
@@ -375,6 +381,8 @@ var epcSecurityGroupKeys = map[string]bool{
 	"SecurityGroupId": true,
 }
 
+
+*/
 var volumeKeys = map[string]bool{
 	"VolumeId":         true,
 	"VolumeName":       true,

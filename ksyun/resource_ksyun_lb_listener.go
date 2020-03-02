@@ -1,9 +1,7 @@
 package ksyun
 
 import (
-	"bytes"
 	"fmt"
-	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/terraform-providers/terraform-provider-ksyun/logger"
@@ -227,7 +225,9 @@ func resourceKsyunListenerCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("Error CreateListeners : no ListenerId found")
 	}
 	d.SetId(idres)
-	d.Set("listener_id", idres)
+	if err:=d.Set("listener_id", idres);err!=nil{
+		return err
+	}
 	return resourceKsyunListenerRead(d, m)
 }
 
@@ -242,7 +242,7 @@ func resourceKsyunListenerRead(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("Error DescribeListeners : %s", err)
 	}
 	logger.Debug(logger.RespFormat, action, req, *resp)
-	itemset, ok := (*resp)["ListenerSet"]
+	itemset := (*resp)["ListenerSet"]
 	items, ok := itemset.([]interface{})
 	if !ok || len(items) == 0 {
 		d.SetId("")
@@ -255,14 +255,20 @@ func resourceKsyunListenerRead(d *schema.ResourceData, m interface{}) error {
 	)
 
 	subSession := GetSubStructDByRep(excludes["Session"], map[string]bool{})
-	d.Set("session", []interface{}{subSession})
+	if err:=d.Set("session", []interface{}{subSession});err!=nil{
+		return err
+	}
 	server, ok := excludes["RealServer"].([]interface{})
 	if ok {
 		subRes := GetSubSliceDByRep(server, serverKeys)
-		d.Set("real_server", subRes)
+		if err:=d.Set("real_server", subRes);err!=nil{
+			return err
+		}
 	}
 	subHealth := GetSubStructDByRep(excludes["HealthCheck"], map[string]bool{})
-	d.Set("health_check", []interface{}{subHealth})
+	if err:=d.Set("health_check", []interface{}{subHealth});err!=nil{
+		return err
+	}
 	return nil
 }
 
@@ -366,28 +372,4 @@ func resourceKsyunListenerDelete(d *schema.ResourceData, m interface{}) error {
 		}
 		return resource.RetryableError(fmt.Errorf(" the specified Listener %q has not been deleted due to unknown error", d.Id()))
 	})
-}
-func resourceKscListenerSessionHash(v interface{}) int {
-	var buf bytes.Buffer
-	m := v.(map[string]interface{})
-	/*
-		if m["session_persistence_period"].(int) != 0 {
-			buf.WriteString(fmt.Sprintf("%d-", m["session_persistence_period"].(int)))
-		}
-		if m["session_state"].(string) != "" {
-			buf.WriteString(fmt.Sprintf("%s-", m["session_state"].(string)))
-		}
-		if m["cookie_type"].(string) != "" {
-			buf.WriteString(fmt.Sprintf("%s-", m["cookie_type"].(string)))
-		}
-		if m["cookie_name"].(string) != "" {
-			buf.WriteString(fmt.Sprintf("%s-", m["cookie_name"].(string)))
-		}
-
-	*/
-	buf.WriteString(fmt.Sprintf("%v-", m["session_persistence_period"]))
-	buf.WriteString(fmt.Sprintf("%v-", m["session_state"]))
-	buf.WriteString(fmt.Sprintf("%v-", m["cookie_type"]))
-	buf.WriteString(fmt.Sprintf("%v-", m["cookie_name"]))
-	return hashcode.String(buf.String())
 }

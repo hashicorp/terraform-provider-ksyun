@@ -83,7 +83,7 @@ func testAccCheckSecurityGroupEntryExists(n string, val *map[string]interface{})
 		if len(ptr) == 0 {
 			return errors.New("no SecurityGroupSet get")
 		}
-		securityGroup, ok := ptr[0].(map[string]interface{})
+		securityGroup := ptr[0].(map[string]interface{})
 		l := securityGroup["SecurityGroupEntrySet"].([]interface{})
 		if len(l) == 0 {
 			return errors.New("no SecurityGroupEntrySet get")
@@ -133,7 +133,7 @@ func testAccCheckSecurityGroupEntryDestroy(s *terraform.State) error {
 		if len(ptr) == 0 {
 			return nil
 		}
-		securityGroup, ok := ptr[0].(map[string]interface{})
+		securityGroup := ptr[0].(map[string]interface{})
 		l := securityGroup["SecurityGroupEntrySet"].([]interface{})
 		if len(l) == 0 {
 			return nil

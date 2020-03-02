@@ -124,7 +124,7 @@ func resourceKsyunSecurityGroupRead(d *schema.ResourceData, meta interface{}) er
 		return fmt.Errorf("error on reading SecurityGroup %q, %s", d.Id(), err)
 	}
 
-	itemset, ok := (*resp)["SecurityGroupSet"]
+	itemset := (*resp)["SecurityGroupSet"]
 	items, ok := itemset.([]interface{})
 	if !ok || len(items) == 0 {
 		d.SetId("")
@@ -138,7 +138,9 @@ func resourceKsyunSecurityGroupRead(d *schema.ResourceData, meta interface{}) er
 		return nil
 	}
 	securityGroupEntrySet := GetSubSliceDByRep(excludes["SecurityGroupEntrySet"].([]interface{}), vpcSecurityGroupEntrySetKeys)
-	d.Set("security_group_entry_set", securityGroupEntrySet)
+	if err:=d.Set("security_group_entry_set", securityGroupEntrySet);err!=nil{
+		return err
+	}
 	return nil
 }
 

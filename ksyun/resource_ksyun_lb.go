@@ -105,7 +105,9 @@ func resourceKsyunLbCreate(d *schema.ResourceData, m interface{}) error {
 	if !ok {
 		return fmt.Errorf("Error CreateLoadBalancer : no LoadBalancerId found")
 	}
-	d.Set("load_balancer_id", idres)
+	if err := d.Set("load_balancer_id", idres); err != nil {
+		return err
+	}
 	d.SetId(idres)
 
 	return resourceKsyunLbRead(d, m)
@@ -151,16 +153,36 @@ func resourceKsyunLbRead(d *schema.ResourceData, m interface{}) error {
 		return nil
 	}
 	lb0 := result.LoadBalancerDescriptions[0]
-	d.Set("load_balancer_id", lb0.LoadBalancerId)
-	d.Set("load_balancer_name", lb0.LoadBalancerName)
-	d.Set("is_waf", lb0.IsWaf)
-	d.Set("type", lb0.Type)
-	d.Set("vpc_id", lb0.VpcId)
-	d.Set("load_balancer_state", lb0.LoadBalancerState)
-	d.Set("create_time", lb0.CreateTime)
-	d.Set("project_id", lb0.ProjectId)
-	d.Set("state", lb0.State)
-	d.Set("ip_version", lb0.IpVersion)
+	if err := d.Set("load_balancer_id", lb0.LoadBalancerId); err != nil {
+		return err
+	}
+	if err := d.Set("load_balancer_name", lb0.LoadBalancerName); err != nil {
+		return err
+	}
+	if err := d.Set("is_waf", lb0.IsWaf); err != nil {
+		return err
+	}
+	if err := d.Set("type", lb0.Type); err != nil {
+		return err
+	}
+	if err := d.Set("vpc_id", lb0.VpcId); err != nil {
+		return err
+	}
+	if err := d.Set("load_balancer_state", lb0.LoadBalancerState); err != nil {
+		return err
+	}
+	if err := d.Set("create_time", lb0.CreateTime); err != nil {
+		return err
+	}
+	if err := d.Set("project_id", lb0.ProjectId); err != nil {
+		return err
+	}
+	if err := d.Set("state", lb0.State); err != nil {
+		return err
+	}
+	if err := d.Set("ip_version", lb0.IpVersion); err != nil {
+		return err
+	}
 	return nil
 }
 

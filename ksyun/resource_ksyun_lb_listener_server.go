@@ -88,7 +88,9 @@ func resourceKsyunInstancesWithListenerCreate(d *schema.ResourceData, m interfac
 	if !ok {
 		return fmt.Errorf("create InstancesWithListener : no HealthCheckId found")
 	}
-	d.Set("register_id", idres)
+	if err:=d.Set("register_id", idres);err!=nil{
+		return err
+	}
 	d.SetId(idres)
 	return resourceKsyunInstancesWithListenerRead(d, m)
 }
