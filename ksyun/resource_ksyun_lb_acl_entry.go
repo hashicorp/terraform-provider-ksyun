@@ -88,7 +88,7 @@ func resourceKsyunLoadBalancerAclEntryRead(d *schema.ResourceData, m interface{}
 		}
 		if aclEntryItem["LoadBalancerAclEntryId"] == ids[1] {
 			for key, value := range aclEntryItem {
-				if err:=d.Set(Hump2Downline(key), value);err!=nil{
+				if err := d.Set(Hump2Downline(key), value); err != nil {
 					return err
 				}
 				return nil
@@ -136,7 +136,7 @@ func resourceKsyunLoadBalancerAclEntryCreate(d *schema.ResourceData, m interface
 	if !ok {
 		return fmt.Errorf("create LoadBalancerAclEntry : no LoadBalancerAclEntry id found")
 	}
-	if err:=d.Set("load_balancer_acl_entry_id", id);err!=nil{
+	if err := d.Set("load_balancer_acl_entry_id", id); err != nil {
 		return err
 	}
 	ids, ok := id.(string)

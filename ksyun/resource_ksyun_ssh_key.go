@@ -77,7 +77,7 @@ func resourceKsyunSSHKeyCreate(d *schema.ResourceData, m interface{}) error {
 		if !ok {
 			return fmt.Errorf("createSSHKey Error  : no PrivateKey found")
 		}
-		if err:=d.Set("private_key", privateKey);err!=nil{
+		if err := d.Set("private_key", privateKey); err != nil {
 			return err
 		}
 	}
@@ -97,7 +97,7 @@ func resourceKsyunSSHKeyCreate(d *schema.ResourceData, m interface{}) error {
 	if !ok {
 		return fmt.Errorf("createSSHKey Error : no id found")
 	}
-	if err:=d.Set("key_id", idres);err!=nil{
+	if err := d.Set("key_id", idres); err != nil {
 		return err
 	}
 	d.SetId(idres)
@@ -118,7 +118,7 @@ func resourceKsyunSSHKeyRead(d *schema.ResourceData, m interface{}) error {
 	}
 	privateKey, ok := (*resp)["PrivateKey"]
 	if ok {
-		if err:=d.Set("private_key", privateKey);err!=nil{
+		if err := d.Set("private_key", privateKey); err != nil {
 			return err
 		}
 	}

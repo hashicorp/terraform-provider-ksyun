@@ -225,7 +225,7 @@ func resourceKsyunListenerCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("Error CreateListeners : no ListenerId found")
 	}
 	d.SetId(idres)
-	if err:=d.Set("listener_id", idres);err!=nil{
+	if err := d.Set("listener_id", idres); err != nil {
 		return err
 	}
 	return resourceKsyunListenerRead(d, m)
@@ -255,18 +255,18 @@ func resourceKsyunListenerRead(d *schema.ResourceData, m interface{}) error {
 	)
 
 	subSession := GetSubStructDByRep(excludes["Session"], map[string]bool{})
-	if err:=d.Set("session", []interface{}{subSession});err!=nil{
+	if err := d.Set("session", []interface{}{subSession}); err != nil {
 		return err
 	}
 	server, ok := excludes["RealServer"].([]interface{})
 	if ok {
 		subRes := GetSubSliceDByRep(server, serverKeys)
-		if err:=d.Set("real_server", subRes);err!=nil{
+		if err := d.Set("real_server", subRes); err != nil {
 			return err
 		}
 	}
 	subHealth := GetSubStructDByRep(excludes["HealthCheck"], map[string]bool{})
-	if err:=d.Set("health_check", []interface{}{subHealth});err!=nil{
+	if err := d.Set("health_check", []interface{}{subHealth}); err != nil {
 		return err
 	}
 	return nil

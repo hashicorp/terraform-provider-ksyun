@@ -68,7 +68,7 @@ func writeToFile(filePath string, data interface{}) error {
 	}
 	os.Remove(absPath)
 	var bs []byte
-	switch data:=data.(type) {
+	switch data := data.(type) {
 	case string:
 		bs = []byte(data)
 	default:

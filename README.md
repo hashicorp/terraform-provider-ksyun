@@ -121,7 +121,7 @@ _各产品线开发人员负责补充，云产品用户参考。_
        ###### c、make lint（会执行golangci-lint run,需对报错代码进行修改(修改原则凡是出现的代码，必须有意义)。以下几种报错若看不懂可直接百度。）
               1、deadcode、unused:没有用到的代码，需要删除或注释掉。
               2、errcheck:函数func返回类型为error类型，需要对返回值进行处理。
-              3、ineffassign：无效赋值(没用到的返回值改为_)。
+              3、ineffassign：无效赋值(忽略没用到的返回值)。
               4、staticcheck：返回值需要进行处理。
               5、gosimple：代码需要进行简化处理。
               6、govet：可能的bug或者可疑的构造。

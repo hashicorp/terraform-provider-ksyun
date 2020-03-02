@@ -111,7 +111,7 @@ func resourceKsyunSecurityGroupEntryCreate(d *schema.ResourceData, meta interfac
 	if !ok {
 		return fmt.Errorf("AuthorizeSecurityGroupEntry Error : no id found")
 	}
-	if err:=d.Set("security_group_entry_id", idres);err!=nil{
+	if err := d.Set("security_group_entry_id", idres); err != nil {
 		return err
 	}
 	d.SetId(idres)
@@ -148,7 +148,7 @@ func resourceKsyunSecurityGroupEntryRead(d *schema.ResourceData, meta interface{
 		if item["security_group_entry_id"] == d.Id() {
 			for sgk, sgv := range item {
 				if vpcSecurityGroupEntrySetKeys[sgk] {
-					if err:=d.Set(Downline2Hump(sgk), sgv);err!=nil{
+					if err := d.Set(Downline2Hump(sgk), sgv); err != nil {
 						return err
 					}
 				}
