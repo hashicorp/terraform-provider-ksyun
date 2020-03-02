@@ -1,4 +1,4 @@
-module terraform-provider-ksyun
+module github.com/terraform-providers/terraform-provider-ksyun
 
 go 1.12
 
