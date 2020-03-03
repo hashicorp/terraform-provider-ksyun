@@ -356,7 +356,7 @@ func dataSourceRedisInstancesRead(d *schema.ResourceData, meta interface{}) erro
 		}
 		logger.Debug(logger.ReqFormat, readOnlyAction, readOnlyReq)
 		if resp, err = readOnlyConn.DescribeCacheReadonlyNode(&readOnlyReq); err != nil {
-			fmt.Errorf("error on reading instance node %q, %s", d.Id(), err)
+			fmt.Printf("error on reading instance node %q, %s", d.Id(), err)
 			continue
 		}
 		logger.Debug(logger.RespFormat, readOnlyAction, readOnlyReq, *resp)

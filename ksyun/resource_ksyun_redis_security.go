@@ -63,8 +63,7 @@ func resourceRedisSecurityRuleCreate(d *schema.ResourceData, meta interface{}) e
 	}
 	logger.Debug(logger.RespFormat, action, createReq, *resp)
 	d.SetId(createReq["CacheId"].(string))
-	resourceRedisSecurityRuleRead(d, meta)
-	return nil
+	return resourceRedisSecurityRuleRead(d, meta)
 }
 
 func resourceRedisSecurityRuleDelete(d *schema.ResourceData, meta interface{}) error {
@@ -220,8 +219,7 @@ func resourceRedisSecurityRuleUpdate(d *schema.ResourceData, meta interface{}) e
 			}
 		}
 	}
-	resourceRedisSecurityRuleRead(d, meta)
-	return nil
+	return resourceRedisSecurityRuleRead(d, meta)
 }
 
 func resourceRedisSecurityRuleRead(d *schema.ResourceData, meta interface{}) error {
