@@ -116,7 +116,7 @@ _各产品线开发人员负责补充，云产品用户参考。_
 ##### 3、new pull request 之后，请发邮件或在群里说一下，不然没人知道。
 ##### 4、new pull request fork请forkmaster，merge请提到trunk分支。
 ##### 5、terraform 对代码的格式和风格有严格要求，以下几点需要运行make file 文件（mac和linux可直接执行，windows自行百度）。
-       ###### a、make dev（terraform 要求代码是go fmt之后的，mac和linux下开发直接在项目根目录下执行make dev，windows需要针对你修改的每一个文件执行gofmt -w -s $(GOFMT_FILES)）。
+       ###### a、make fmt（terraform 要求代码是go fmt之后的，mac和linux下开发直接在项目根目录下执行make dev，windows需要针对你修改的每一个文件执行gofmt -w -s $(GOFMT_FILES)）。
        ###### b、make tools (下载两个工具包，若下载不下来，可通过码云极速下载。)
        ###### c、make lint（会执行golangci-lint run,需对报错代码进行修改(修改原则凡是出现的代码，必须有意义)。以下几种报错若看不懂可直接百度。）
               1、deadcode、unused:没有用到的代码，需要删除或注释掉。
