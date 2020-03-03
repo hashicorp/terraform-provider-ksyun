@@ -534,7 +534,7 @@ func resourceKsyunSqlServerRead(d *schema.ResourceData, meta interface{}) error 
 	}
 
 	logger.DebugInfo(" converted ---- %+v ", sqlserverMap)
-	dataSourceDbSave(d, "sqlservers", sqlserverIds, sqlserverMap)
+	_ = dataSourceDbSave(d, "sqlservers", sqlserverIds, sqlserverMap)
 
 	return nil
 }

@@ -196,7 +196,7 @@ func dataSourceKsyunKrdsSecurityGroupRead(d *schema.ResourceData, meta interface
 	}
 	//d.Set("security_group_id",krdsIds[0])
 	logger.DebugInfo(" converted ---- %+v ", krdsMapList)
-	dataDbSave(d, "security_groups", krdsIds, krdsMapList)
+	_ = dataDbSave(d, "security_groups", krdsIds, krdsMapList)
 
 	return nil
 }

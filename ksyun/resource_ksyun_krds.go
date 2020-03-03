@@ -12,27 +12,6 @@ import (
 	"time"
 )
 
-var krdsApiField = []string{
-	"DBInstanceIdentifier",
-	"DBInstanceClass",
-	"DBInstanceName",
-	"DBInstanceType", // 临时实例升级高可用
-	"Engine",
-	"EngineVersion", //只能升
-	"MasterUserName",
-	"MasterUserPassword",
-	"VpcId",
-	"SubnetId",
-	"BillType",
-	"Duration", //问秀藏
-	"SecurityGroupId",
-	"DBParameterGroupId",
-	"PreferredBackupTime",
-	"AvailabilityZone.1",
-	"AvailabilityZone.2",
-	"ProjectId",
-	"Port",
-}
 var krdsTfField = []string{
 	"db_instance_identifier",
 	"db_instance_class",
@@ -663,7 +642,7 @@ func resourceKsyunMysqlRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	logger.DebugInfo(" converted ---- %+v ", krdsMapList)
-	dataSourceDbSave(d, "krds", krdsIds, krdsMapList)
+	_ = dataSourceDbSave(d, "krds", krdsIds, krdsMapList)
 
 	return nil
 }
@@ -769,7 +748,7 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	if execModifyDBInstanceType {
-		checkStatus(d, conn)
+		_ = checkStatus(d, conn)
 
 		oldType, newType := d.GetChange("db_instance_type")
 		if "TRDS" == oldType && "HRDS" == newType {
@@ -792,7 +771,7 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 		}
 	}
 	if execModifyDBInstanceAvailabilityZone {
-		checkStatus(d, conn)
+		_ = checkStatus(d, conn)
 
 		req := map[string]interface{}{
 			"DBInstanceIdentifier": d.Id(),
@@ -814,7 +793,7 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 		}
 	}
 	if execUpgradeDBInstanceEngineVersion {
-		checkStatus(d, conn)
+		_ = checkStatus(d, conn)
 
 		req := map[string]interface{}{
 			"DBInstanceIdentifier": d.Id(),
@@ -832,7 +811,7 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	if execModifyDBInstanceSpec {
-		checkStatus(d, conn)
+		_ = checkStatus(d, conn)
 
 		req := map[string]interface{}{
 			"DBInstanceIdentifier": d.Id(),
@@ -850,7 +829,7 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 	}
 	d.Partial(false)
 
-	checkStatus(d, conn)
+	_ = checkStatus(d, conn)
 	return resourceKsyunMysqlRead(d, meta)
 }
 

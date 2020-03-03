@@ -449,7 +449,7 @@ func dataSourceKsyunKrdsRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	logger.DebugInfo(" converted ---- %+v ", krdsMapList)
-	dataDbSave(d, "krds", krdsIds, krdsMapList)
+	_ = dataDbSave(d, "krds", krdsIds, krdsMapList)
 
 	return nil
 }

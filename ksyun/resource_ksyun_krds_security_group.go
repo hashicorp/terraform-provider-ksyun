@@ -317,7 +317,7 @@ func getResourceByOutputFile(filename string) ([]interface{}, error) {
 		return nil, fmt.Errorf("Read file error! filename: %v", filename)
 	}
 	v := make([]interface{}, 1)
-	json.Unmarshal(bytefile, &v)
+	_ = json.Unmarshal(bytefile, &v)
 	return v[0].(map[string]interface{})["security_group_rules"].([]interface{}), nil
 }
 
@@ -385,7 +385,7 @@ func resourceKsyunKrdsSecurityGroupRead(d *schema.ResourceData, meta interface{}
 	}
 	//d.Set("security_group_id",krdsIds[0])
 	logger.DebugInfo(" converted ---- %+v ", krdsMapList)
-	dataSourceDbSave(d, "security_groups", krdsIds, krdsMapList)
+	_ = dataSourceDbSave(d, "security_groups", krdsIds, krdsMapList)
 
 	return nil
 }

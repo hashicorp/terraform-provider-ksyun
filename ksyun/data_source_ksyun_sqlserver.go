@@ -446,7 +446,7 @@ func dataSourceKsyunSqlServerRead(d *schema.ResourceData, meta interface{}) erro
 	}
 
 	logger.DebugInfo(" converted ---- %+v ", krdsMapList)
-	dataDbSave(d, "sqlservers", krdsIds, krdsMapList)
+	_ = dataDbSave(d, "sqlservers", krdsIds, krdsMapList)
 
 	return nil
 }
