@@ -429,7 +429,7 @@ func resourceKsyunKrdsRrCreate(d *schema.ResourceData, meta interface{}) error {
 		}
 	}
 
-	checkBackupComplete(d, meta)
+	_ = checkBackupComplete(d, meta)
 
 	action := "CreateDBInstanceReadReplica"
 	logger.Debug(logger.RespFormat, action, createReq)
