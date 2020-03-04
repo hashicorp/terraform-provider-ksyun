@@ -154,7 +154,7 @@ resource "ksyun_security_group" "default" {
 }
 resource "ksyun_instance" "foo" {
   image_id="${data.ksyun_images.centos-7_5.images.0.image_id}"
-  instance_type="N3.2B"
+  instance_type="S4.1A"
   system_disk{
     disk_type="SSD3.0"
     disk_size=30
@@ -212,7 +212,7 @@ resource "ksyun_security_group" "default" {
 }
 resource "ksyun_instance" "foo" {
   image_id="${data.ksyun_images.centos-7_5.images.0.image_id}"
-  instance_type="N3.2B"
+  instance_type="S4.1A"
   system_disk{
     disk_type="SSD3.0"
     disk_size=30

@@ -66,6 +66,10 @@ func resourceKsyunLb() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_waf": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 		},
 	}
 }

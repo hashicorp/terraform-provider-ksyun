@@ -5,7 +5,7 @@ provider "ksyun" {
 
 resource "ksyun_instance" "default" {
   image_id="6e37ed46-61a2-4f0a-9f4a-dcdd0817917c"
-  instance_type="N3.2B"
+  instance_type="S4.1A"
   system_disk{
     disk_type="SSD3.0"
     disk_size=30
