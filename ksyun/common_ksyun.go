@@ -87,7 +87,7 @@ func SetDByRespV1(d *schema.ResourceData, m interface{}, exclud map[string]bool)
 		}
 		err := d.Set(Hump2Downline(k), v)
 		if err != nil {
-			log.Println("SetDByRespV1 failed:", err.Error())
+			log.Println("ERROR: SetDByRespV1 failed:", err.Error())
 			//return mre
 		}
 	}
@@ -117,7 +117,7 @@ func SetDByResp(d *schema.ResourceData, m interface{}, includ, exclude map[strin
 
 		err := d.Set(Hump2Downline(k), v)
 		if err != nil {
-			log.Println(err.Error())
+			log.Println("ERROR: "+err.Error())
 		}
 	}
 	return mre

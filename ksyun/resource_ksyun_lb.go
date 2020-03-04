@@ -70,6 +70,14 @@ func resourceKsyunLb() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"project_id": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"ip_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 		},
 	}
 }
@@ -157,36 +165,7 @@ func resourceKsyunLbRead(d *schema.ResourceData, m interface{}) error {
 		return nil
 	}
 	lb0 := result.LoadBalancerDescriptions[0]
-	if err := d.Set("load_balancer_id", lb0.LoadBalancerId); err != nil {
-		return err
-	}
-	if err := d.Set("load_balancer_name", lb0.LoadBalancerName); err != nil {
-		return err
-	}
-	if err := d.Set("is_waf", lb0.IsWaf); err != nil {
-		return err
-	}
-	if err := d.Set("type", lb0.Type); err != nil {
-		return err
-	}
-	if err := d.Set("vpc_id", lb0.VpcId); err != nil {
-		return err
-	}
-	if err := d.Set("load_balancer_state", lb0.LoadBalancerState); err != nil {
-		return err
-	}
-	if err := d.Set("create_time", lb0.CreateTime); err != nil {
-		return err
-	}
-	if err := d.Set("project_id", lb0.ProjectId); err != nil {
-		return err
-	}
-	if err := d.Set("state", lb0.State); err != nil {
-		return err
-	}
-	if err := d.Set("ip_version", lb0.IpVersion); err != nil {
-		return err
-	}
+	SetDByResp(d, lb0, slbKeys, map[string]bool{})
 	return nil
 }
 
