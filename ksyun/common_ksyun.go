@@ -88,7 +88,7 @@ func SetDByRespV1(d *schema.ResourceData, m interface{}, exclud map[string]bool)
 		err := d.Set(Hump2Downline(k), v)
 		if err != nil {
 			log.Println("ERROR: SetDByRespV1 failed:", err.Error())
-			panic("ERROR: SetDByRespV1 failed:"+err.Error())
+			panic("ERROR: SetDByRespV1 failed:" + err.Error())
 			//return mre
 		}
 	}
