@@ -66,7 +66,7 @@ func GetSubStructDByRep(datas interface{}, exclude map[string]bool) map[string]i
 	return subStruct
 }
 
-//set sdk response (map[string]interface{}) to the terr`aform ([]map[string]interface).
+//set sdk response (map[string]interface{}) to the terraform ([]map[string]interface).
 //params data limit ： [k,v]:the type of k must be string ,the type of v must be basic type.
 //exclude ：representing the key which the type is not basic type (terraform can't identity the type which is not basic type).
 //mre: the params not set to terraform .
@@ -88,6 +88,7 @@ func SetDByRespV1(d *schema.ResourceData, m interface{}, exclud map[string]bool)
 		err := d.Set(Hump2Downline(k), v)
 		if err != nil {
 			log.Println("ERROR: SetDByRespV1 failed:", err.Error())
+			panic("ERROR: SetDByRespV1 failed:"+err.Error())
 			//return mre
 		}
 	}
@@ -117,6 +118,7 @@ func SetDByResp(d *schema.ResourceData, m interface{}, includ, exclude map[strin
 
 		err := d.Set(Hump2Downline(k), v)
 		if err != nil {
+			panic("ERROR: " + err.Error())
 			log.Println("ERROR: " + err.Error())
 		}
 	}

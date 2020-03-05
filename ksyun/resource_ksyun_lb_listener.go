@@ -109,6 +109,10 @@ func resourceKsyunListener() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"host_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 				Computed: true,

@@ -106,6 +106,10 @@ func resourceKsyunSubnet() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"availble_i_p_number": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
