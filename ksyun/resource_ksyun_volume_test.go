@@ -27,6 +27,30 @@ func TestAccKsyunVolume_basic(t *testing.T) {
 	})
 }
 
+func TestAccKsyunVolume_update(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() {
+			testAccPreCheck(t)
+		},
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckVolumeDestory,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccVolumeConfig,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckVolumeExists("ksyun_volume.foo"),
+				),
+			},
+			{
+				Config: testAccVolumeUpdateConfig,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckVolumeExists("ksyun_volume.foo"),
+				),
+			},
+		},
+	})
+}
+
 func testAccCheckVolumeExists(n string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
@@ -84,6 +108,17 @@ resource "ksyun_volume" "foo" {
   volume_name="ksyun_volume_tf_test"
   volume_type="SSD3.0"
   size=10
+  charge_type="Daily"
+  availability_zone="cn-beijing-6a"
+  volume_desc="ksyun_volume_tf_test"
+}
+`
+
+const testAccVolumeUpdateConfig = `
+resource "ksyun_volume" "foo" {
+  volume_name="ksyun_volume_tf_test"
+  volume_type="SSD3.0"
+  size=20
   charge_type="Daily"
   availability_zone="cn-beijing-6a"
   volume_desc="ksyun_volume_tf_test"
