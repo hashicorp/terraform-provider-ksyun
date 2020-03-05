@@ -16,7 +16,7 @@ func TestAccKsyunKrdsSecrityGroup_basic(t *testing.T) {
 			testAccPreCheck(t)
 		},
 
-		IDRefreshName: "ksyun_krds_security_group.krds_sec_group_233",
+		IDRefreshName: "ksyun_krds_security_group.krds_sec_group_234",
 		Providers:     testAccProviders,
 		CheckDestroy:  testAccCheckKrdsSecrityGroupDestroy,
 
@@ -25,7 +25,7 @@ func TestAccKsyunKrdsSecrityGroup_basic(t *testing.T) {
 				Config: testAccKrdsSecrityGroupConfig,
 
 				Check: resource.ComposeTestCheckFunc(
-					testCheckKrdsSecrityGroupExists("ksyun_krds_security_group.krds_sec_group_233", &val),
+					testCheckKrdsSecrityGroupExists("ksyun_krds_security_group.krds_sec_group_234", &val),
 				),
 			},
 		},
@@ -79,10 +79,10 @@ func testAccCheckKrdsSecrityGroupDestroy(s *terraform.State) error {
 const testAccKrdsSecrityGroupConfig = `
 
 
-resource "ksyun_krds_security_group" "krds_sec_group_233" {
+resource "ksyun_krds_security_group" "krds_sec_group_234" {
   output_file = "output_file"
-  security_group_name = "terraform_security_group_233"
-  security_group_description = "terraform-security-group-233"
+  security_group_name = "terraform_security_group_234"
+  security_group_description = "terraform-security-group-234"
   security_group_rule{
     security_group_rule_protocol = "182.133.0.0/16"
     security_group_rule_name = "asdf"

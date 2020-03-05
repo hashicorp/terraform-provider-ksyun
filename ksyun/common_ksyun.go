@@ -118,8 +118,8 @@ func SetDByResp(d *schema.ResourceData, m interface{}, includ, exclude map[strin
 
 		err := d.Set(Hump2Downline(k), v)
 		if err != nil {
+			log.Println(err.Error())
 			panic("ERROR: " + err.Error())
-			log.Println("ERROR: " + err.Error())
 		}
 	}
 	return mre
@@ -321,9 +321,9 @@ func dataSourceDbSave(d *schema.ResourceData, dataKey string, ids []string, data
 		d.SetId(strings.Join(ids, ","))
 	}
 
-	if err := d.Set("total_count", len(datas)); err != nil {
-		return fmt.Errorf("error set datas %v :%v", datas, err)
-	}
+	//if err := d.Set("total_count", len(datas)); err != nil {
+	//	return fmt.Errorf("error set datas %v :%v", datas, err)
+	//}
 	log.Printf("reset  dataKey: %v datas: %v", dataKey, datas)
 
 	if err := d.Set(dataKey, datas); err != nil {
