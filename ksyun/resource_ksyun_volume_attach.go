@@ -35,6 +35,42 @@ func resourceKsyunVolumeAttach() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"volume_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"volume_desc": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"create_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"volume_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"volume_category": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"availability_zone": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"size": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"volume_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"project_id": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 		},
 	}
 }
