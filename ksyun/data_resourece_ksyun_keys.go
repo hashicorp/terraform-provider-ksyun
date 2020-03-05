@@ -115,7 +115,7 @@ var vpcKeys = map[string]bool{
 	"CreateTime": true,
 	"IsDefault":  true,
 	"VpcName":    true,
-	"VpcId":      true,
+	//"VpcId":      true,
 }
 
 var groupIdentifierKeys = map[string]bool{

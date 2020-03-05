@@ -127,7 +127,7 @@ func resourceKsyunInstance() *schema.Resource {
 				Computed: true,
 			},
 			"sriov_net_support": {
-				Type:     schema.TypeBool,
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -231,6 +231,14 @@ func resourceKsyunInstance() *schema.Resource {
 				},
 			},
 
+			"creation_date": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"instance_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"network_interface_id": {
 				Type:     schema.TypeString,
 				Computed: true,

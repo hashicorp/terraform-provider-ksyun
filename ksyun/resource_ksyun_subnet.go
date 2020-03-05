@@ -83,6 +83,29 @@ func resourceKsyunSubnet() *schema.Resource {
 				Optional:     true,
 				ValidateFunc: validateIpAddress,
 			},
+			"network_acl_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
+			"nat_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
+			"availability_zone_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
+			"create_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"subnet_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }

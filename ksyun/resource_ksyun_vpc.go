@@ -37,6 +37,10 @@ func resourceKsyunVPC() *schema.Resource {
 				Default:  false,
 				Optional: true,
 			},
+			"create_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }

@@ -39,6 +39,49 @@ func resourceKsyunEipAssociation() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
+			"ip_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"internet_gateway_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"project_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"line_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"band_width": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
+			"public_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
+			"create_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"band_width_share_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_band_width_share": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }

@@ -117,7 +117,7 @@ func SetDByResp(d *schema.ResourceData, m interface{}, includ, exclude map[strin
 
 		err := d.Set(Hump2Downline(k), v)
 		if err != nil {
-			log.Println("ERROR: "+err.Error())
+			log.Println("ERROR: " + err.Error())
 		}
 	}
 	return mre
