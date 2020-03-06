@@ -149,7 +149,7 @@ func resourceKsyunCertificateDelete(d *schema.ResourceData, meta interface{}) er
 	deleteCertificate := make(map[string]interface{})
 	deleteCertificate["CertificateId"] = d.Id()
 
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "DeleteCertificate"
 		logger.Debug(logger.ReqFormat, action, deleteCertificate)
 		resp, err1 := conn.DeleteCertificate(&deleteCertificate)

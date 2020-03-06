@@ -1028,7 +1028,7 @@ func resourceKsyunInstanceDelete(d *schema.ResourceData, meta interface{}) error
 	//delete
 	deleteReq := make(map[string]interface{})
 	deleteReq["InstanceId.1"] = d.Id()
-	return resource.Retry(15*time.Minute, func() *resource.RetryError {
+	return resource.Retry(30*time.Minute, func() *resource.RetryError {
 		readReq := make(map[string]interface{})
 		readReq["InstanceId.1"] = d.Id()
 		action := "DescribeInstances"

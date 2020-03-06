@@ -165,7 +165,7 @@ func resourceKsyunLoadBalancerAclEntryDelete(d *schema.ResourceData, m interface
 		}
 		return nil
 	*/
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "DeleteLoadBalancerAclEntry"
 		logger.Debug(logger.ReqFormat, action, req)
 		resp, err1 := slbconn.DeleteLoadBalancerAclEntry(&req)

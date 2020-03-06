@@ -171,7 +171,7 @@ func resourceKsyunSSHKeyDelete(d *schema.ResourceData, meta interface{}) error {
 	deleteSSHKey := make(map[string]interface{})
 	deleteSSHKey["KeyId"] = d.Id()
 
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "DeleteKey"
 		logger.Debug(logger.ReqFormat, action, deleteSSHKey)
 		resp, err1 := conn.DeleteKey(&deleteSSHKey)

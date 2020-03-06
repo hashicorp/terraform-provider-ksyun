@@ -155,7 +155,7 @@ func resourceKsyunEipAssociationDelete(d *schema.ResourceData, m interface{}) er
 	p := strings.Split(d.Id(), ":")
 	deleteReq["AllocationId"] = p[0]
 	action := "DisassociateAddress"
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		logger.Debug(logger.ReqFormat, action, deleteReq)
 		resp, err1 := eipConn.DisassociateAddress(&deleteReq)
 		logger.Debug(logger.AllFormat, action, deleteReq, *resp, err1)

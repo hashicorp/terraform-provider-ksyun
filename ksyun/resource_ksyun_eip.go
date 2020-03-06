@@ -195,7 +195,7 @@ func resourceKsyunEipDelete(d *schema.ResourceData, meta interface{}) error {
 	deleteEip := make(map[string]interface{})
 	deleteEip["AllocationId"] = d.Id()
 
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "ReleaseAddress"
 		logger.Debug(logger.ReqFormat, action, deleteEip)
 		_, err1 := conn.ReleaseAddress(&deleteEip)

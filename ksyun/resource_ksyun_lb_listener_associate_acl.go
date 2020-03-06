@@ -100,7 +100,7 @@ func resourceKsyunListenerLBAclDelete(d *schema.ResourceData, m interface{}) err
 	p := strings.Split(d.Id(), ":")
 	req := make(map[string]interface{})
 	req["ListenerId"] = p[0]
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "DisassociateLoadBalancerAcl"
 		logger.Debug(logger.ReqFormat, action, req)
 		resp, err1 := slbconn.DisassociateLoadBalancerAcl(&req)

@@ -200,7 +200,7 @@ func resourceKsyunLoadBalancerAclDelete(d *schema.ResourceData, m interface{}) e
 		}
 		return nil
 	*/
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "DeleteLoadBalancerAcl"
 		logger.Debug(logger.ReqFormat, action, req)
 		resp, err1 := slbconn.DeleteLoadBalancerAcl(&req)

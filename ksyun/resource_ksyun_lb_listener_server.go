@@ -173,7 +173,7 @@ func resourceKsyunInstancesWithListenerDelete(d *schema.ResourceData, m interfac
 		}
 		return nil
 	*/
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "DeregisterInstancesFromListener"
 		logger.Debug(logger.ReqFormat, action, req)
 		resp, err1 := slbconn.DeregisterInstancesFromListener(&req)

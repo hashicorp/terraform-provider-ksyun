@@ -224,7 +224,7 @@ func resourceKsyunLbDelete(d *schema.ResourceData, m interface{}) error {
 		}
 		return nil
 	*/
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "DeleteLoadBalancer"
 		logger.Debug(logger.ReqFormat, action, req)
 

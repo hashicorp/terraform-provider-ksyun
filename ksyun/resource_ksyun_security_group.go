@@ -175,7 +175,7 @@ func resourceKsyunSecurityGroupDelete(d *schema.ResourceData, meta interface{}) 
 	deleteSecurityGroup := make(map[string]interface{})
 	deleteSecurityGroup["SecurityGroupId"] = d.Id()
 	action := "DeleteSecurityGroup"
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		logger.Debug(logger.ReqFormat, action, deleteSecurityGroup)
 		resp, err := conn.DeleteSecurityGroup(&deleteSecurityGroup)
 		logger.Debug(logger.AllFormat, action, deleteSecurityGroup, *resp, err)

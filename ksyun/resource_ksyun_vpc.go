@@ -134,7 +134,7 @@ func resourceKsyunVPCDelete(d *schema.ResourceData, meta interface{}) error {
 	deleteVpc := make(map[string]interface{})
 	deleteVpc["VpcId"] = d.Id()
 	action := "DeleteVpc"
-	return resource.Retry(5*time.Minute, func() *resource.RetryError {
+	return resource.Retry(30*time.Minute, func() *resource.RetryError {
 		logger.Debug(logger.ReqFormat, action, deleteVpc)
 		resp, err1 := conn.DeleteVpc(&deleteVpc)
 		logger.Debug(logger.AllFormat, action, deleteVpc, *resp, err1)
