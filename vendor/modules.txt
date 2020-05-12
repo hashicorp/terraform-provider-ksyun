@@ -6,6 +6,8 @@ cloud.google.com/go/internal/optional
 cloud.google.com/go/internal/trace
 cloud.google.com/go/internal/version
 cloud.google.com/go/compute/metadata
+# github.com/BurntSushi/toml v0.3.1
+github.com/BurntSushi/toml
 # github.com/KscSDK/ksc-sdk-go v0.0.0-20191223121455-ee0c179e0b40
 github.com/KscSDK/ksc-sdk-go/ksc
 github.com/KscSDK/ksc-sdk-go/ksc/utils
@@ -25,6 +27,8 @@ github.com/KscSDK/ksc-sdk-go/service/vpc
 github.com/KscSDK/ksc-sdk-go/ksc/kscquery
 github.com/KscSDK/ksc-sdk-go/ksc/kscjson
 github.com/KscSDK/ksc-sdk-go/ksc/kscbody
+# github.com/OpenPeeDeeP/depguard v1.0.1
+github.com/OpenPeeDeeP/depguard
 # github.com/agext/levenshtein v1.2.2
 github.com/agext/levenshtein
 # github.com/apparentlymart/go-cidr v1.0.1
@@ -34,7 +38,6 @@ github.com/apparentlymart/go-textseg/textseg
 # github.com/armon/go-radix v1.0.0
 github.com/armon/go-radix
 # github.com/aws/aws-sdk-go v1.28.0
-github.com/aws/aws-sdk-go/service/s3
 github.com/aws/aws-sdk-go/aws
 github.com/aws/aws-sdk-go/aws/credentials
 github.com/aws/aws-sdk-go/aws/session
@@ -42,19 +45,9 @@ github.com/aws/aws-sdk-go/aws/client
 github.com/aws/aws-sdk-go/aws/client/metadata
 github.com/aws/aws-sdk-go/aws/request
 github.com/aws/aws-sdk-go/aws/signer/v4
-github.com/aws/aws-sdk-go/aws/arn
 github.com/aws/aws-sdk-go/aws/awserr
-github.com/aws/aws-sdk-go/aws/awsutil
 github.com/aws/aws-sdk-go/aws/endpoints
-github.com/aws/aws-sdk-go/internal/s3err
 github.com/aws/aws-sdk-go/internal/sdkio
-github.com/aws/aws-sdk-go/private/protocol
-github.com/aws/aws-sdk-go/private/protocol/eventstream
-github.com/aws/aws-sdk-go/private/protocol/eventstream/eventstreamapi
-github.com/aws/aws-sdk-go/private/protocol/rest
-github.com/aws/aws-sdk-go/private/protocol/restxml
-github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil
-github.com/aws/aws-sdk-go/service/s3/internal/arn
 github.com/aws/aws-sdk-go/internal/ini
 github.com/aws/aws-sdk-go/internal/shareddefaults
 github.com/aws/aws-sdk-go/aws/corehandlers
@@ -64,16 +57,27 @@ github.com/aws/aws-sdk-go/aws/csm
 github.com/aws/aws-sdk-go/aws/defaults
 github.com/aws/aws-sdk-go/private/protocol/query/queryutil
 github.com/aws/aws-sdk-go/internal/sdkrand
+github.com/aws/aws-sdk-go/aws/awsutil
 github.com/aws/aws-sdk-go/internal/strings
-github.com/aws/aws-sdk-go/internal/sdkmath
-github.com/aws/aws-sdk-go/private/protocol/query
+github.com/aws/aws-sdk-go/private/protocol/rest
 github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds
 github.com/aws/aws-sdk-go/aws/ec2metadata
+github.com/aws/aws-sdk-go/service/s3
 github.com/aws/aws-sdk-go/service/sts
 github.com/aws/aws-sdk-go/service/sts/stsiface
 github.com/aws/aws-sdk-go/aws/credentials/endpointcreds
+github.com/aws/aws-sdk-go/private/protocol
 github.com/aws/aws-sdk-go/internal/sdkuri
+github.com/aws/aws-sdk-go/aws/arn
+github.com/aws/aws-sdk-go/internal/s3err
+github.com/aws/aws-sdk-go/private/protocol/eventstream
+github.com/aws/aws-sdk-go/private/protocol/eventstream/eventstreamapi
+github.com/aws/aws-sdk-go/private/protocol/restxml
+github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil
+github.com/aws/aws-sdk-go/service/s3/internal/arn
+github.com/aws/aws-sdk-go/private/protocol/query
 github.com/aws/aws-sdk-go/private/protocol/json/jsonutil
+github.com/aws/aws-sdk-go/internal/sdkmath
 # github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d
 github.com/bgentry/go-netrc/netrc
 # github.com/bgentry/speakeasy v0.1.0
@@ -82,10 +86,50 @@ github.com/bgentry/speakeasy
 github.com/blang/semver
 # github.com/bmatcuk/doublestar v1.1.5
 github.com/bmatcuk/doublestar
+# github.com/bombsimon/wsl/v2 v2.0.0
+github.com/bombsimon/wsl/v2
+# github.com/client9/misspell v0.3.4
+github.com/client9/misspell/cmd/misspell
+github.com/client9/misspell
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
 # github.com/fatih/color v1.7.0
 github.com/fatih/color
+# github.com/fsnotify/fsnotify v1.4.7
+github.com/fsnotify/fsnotify
+# github.com/go-critic/go-critic v0.4.1
+github.com/go-critic/go-critic/checkers
+github.com/go-critic/go-critic/checkers/internal/lintutil
+# github.com/go-lintpack/lintpack v0.5.2
+github.com/go-lintpack/lintpack
+github.com/go-lintpack/lintpack/astwalk
+# github.com/go-toolsmith/astcast v1.0.0
+github.com/go-toolsmith/astcast
+# github.com/go-toolsmith/astcopy v1.0.0
+github.com/go-toolsmith/astcopy
+# github.com/go-toolsmith/astequal v1.0.0
+github.com/go-toolsmith/astequal
+# github.com/go-toolsmith/astfmt v1.0.0
+github.com/go-toolsmith/astfmt
+# github.com/go-toolsmith/astp v1.0.0
+github.com/go-toolsmith/astp
+# github.com/go-toolsmith/strparse v1.0.0
+github.com/go-toolsmith/strparse
+# github.com/go-toolsmith/typep v1.0.0
+github.com/go-toolsmith/typep
+# github.com/gobwas/glob v0.2.3
+github.com/gobwas/glob
+github.com/gobwas/glob/compiler
+github.com/gobwas/glob/syntax
+github.com/gobwas/glob/match
+github.com/gobwas/glob/syntax/ast
+github.com/gobwas/glob/util/runes
+github.com/gobwas/glob/syntax/lexer
+github.com/gobwas/glob/util/strings
+# github.com/gofrs/flock v0.0.0-20190320160742-5135e617513b
+github.com/gofrs/flock
+# github.com/gogo/protobuf v1.2.1
+github.com/gogo/protobuf/proto
 # github.com/golang/protobuf v1.3.2
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/ptypes
@@ -93,6 +137,67 @@ github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 github.com/golang/protobuf/protoc-gen-go/descriptor
+# github.com/golangci/check v0.0.0-20180506172741-cfe4005ccda2
+github.com/golangci/check/cmd/structcheck
+github.com/golangci/check/cmd/varcheck
+# github.com/golangci/dupl v0.0.0-20180902072040-3e9179ac440a
+github.com/golangci/dupl
+github.com/golangci/dupl/job
+github.com/golangci/dupl/printer
+github.com/golangci/dupl/syntax
+github.com/golangci/dupl/suffixtree
+github.com/golangci/dupl/syntax/golang
+# github.com/golangci/errcheck v0.0.0-20181223084120-ef45e06d44b6
+github.com/golangci/errcheck/golangci
+github.com/golangci/errcheck/internal/errcheck
+# github.com/golangci/go-misc v0.0.0-20180628070357-927a3d87b613
+github.com/golangci/go-misc/deadcode
+# github.com/golangci/goconst v0.0.0-20180610141641-041c5f2b40f3
+github.com/golangci/goconst
+# github.com/golangci/gocyclo v0.0.0-20180528134321-2becd97e67ee
+github.com/golangci/gocyclo/pkg/gocyclo
+# github.com/golangci/gofmt v0.0.0-20190930125516-244bba706f1a
+github.com/golangci/gofmt/gofmt
+github.com/golangci/gofmt/goimports
+# github.com/golangci/golangci-lint v1.23.7
+github.com/golangci/golangci-lint/cmd/golangci-lint
+github.com/golangci/golangci-lint/pkg/commands
+github.com/golangci/golangci-lint/pkg/exitcodes
+github.com/golangci/golangci-lint/internal/cache
+github.com/golangci/golangci-lint/internal/pkgcache
+github.com/golangci/golangci-lint/pkg/config
+github.com/golangci/golangci-lint/pkg/fsutils
+github.com/golangci/golangci-lint/pkg/golinters/goanalysis/load
+github.com/golangci/golangci-lint/pkg/goutil
+github.com/golangci/golangci-lint/pkg/lint
+github.com/golangci/golangci-lint/pkg/lint/linter
+github.com/golangci/golangci-lint/pkg/lint/lintersdb
+github.com/golangci/golangci-lint/pkg/logutils
+github.com/golangci/golangci-lint/pkg/packages
+github.com/golangci/golangci-lint/pkg/printers
+github.com/golangci/golangci-lint/pkg/report
+github.com/golangci/golangci-lint/pkg/result
+github.com/golangci/golangci-lint/pkg/result/processors
+github.com/golangci/golangci-lint/pkg/timeutils
+github.com/golangci/golangci-lint/internal/renameio
+github.com/golangci/golangci-lint/internal/errorutil
+github.com/golangci/golangci-lint/pkg/golinters
+github.com/golangci/golangci-lint/pkg/golinters/goanalysis
+github.com/golangci/golangci-lint/internal/robustio
+# github.com/golangci/ineffassign v0.0.0-20190609212857-42439a7714cc
+github.com/golangci/ineffassign
+# github.com/golangci/lint-1 v0.0.0-20191013205115-297bf364a8e0
+github.com/golangci/lint-1
+# github.com/golangci/maligned v0.0.0-20180506175553-b1d89398deca
+github.com/golangci/maligned
+# github.com/golangci/misspell v0.0.0-20180809174111-950f5d19e770
+github.com/golangci/misspell
+# github.com/golangci/prealloc v0.0.0-20180630174525-215b22d4de21
+github.com/golangci/prealloc
+# github.com/golangci/revgrep v0.0.0-20180526074752-d9c87f5ffaf0
+github.com/golangci/revgrep
+# github.com/golangci/unconvert v0.0.0-20180507085042-28b1c447d1f4
+github.com/golangci/unconvert
 # github.com/google/go-cmp v0.3.1
 github.com/google/go-cmp/cmp
 github.com/google/go-cmp/cmp/internal/diff
@@ -103,6 +208,8 @@ github.com/google/go-cmp/cmp/internal/value
 github.com/google/uuid
 # github.com/googleapis/gax-go/v2 v2.0.5
 github.com/googleapis/gax-go/v2
+# github.com/gostaticanalysis/analysisutil v0.0.0-20190318220348-4088753ea4d3
+github.com/gostaticanalysis/analysisutil
 # github.com/hashicorp/errwrap v1.0.0
 github.com/hashicorp/errwrap
 # github.com/hashicorp/go-cleanhttp v0.5.1
@@ -125,9 +232,10 @@ github.com/hashicorp/go-uuid
 github.com/hashicorp/go-version
 # github.com/hashicorp/golang-lru v0.5.1
 github.com/hashicorp/golang-lru/simplelru
-# github.com/hashicorp/hcl v0.0.0-20170504190234-a4b07c25de5f
+# github.com/hashicorp/hcl v1.0.0
 github.com/hashicorp/hcl
 github.com/hashicorp/hcl/hcl/ast
+github.com/hashicorp/hcl/hcl/printer
 github.com/hashicorp/hcl/hcl/parser
 github.com/hashicorp/hcl/hcl/token
 github.com/hashicorp/hcl/json/parser
@@ -211,8 +319,19 @@ github.com/hashicorp/terraform-svchost
 github.com/hashicorp/terraform-svchost/auth
 # github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb
 github.com/hashicorp/yamux
+# github.com/inconshreveable/mousetrap v1.0.0
+github.com/inconshreveable/mousetrap
+# github.com/jingyugao/rowserrcheck v0.0.0-20191204022205-72ab7603b68a
+github.com/jingyugao/rowserrcheck/passes/rowserr
+# github.com/jirfag/go-printf-func-name v0.0.0-20191110105641-45db9963cdd3
+github.com/jirfag/go-printf-func-name/pkg/analyzer
 # github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af
 github.com/jmespath/go-jmespath
+# github.com/kisielk/gotool v1.0.0
+github.com/kisielk/gotool
+github.com/kisielk/gotool/internal/load
+# github.com/konsorten/go-windows-terminal-sequences v1.0.1
+github.com/konsorten/go-windows-terminal-sequences
 # github.com/ks3sdklib/aws-sdk-go v0.0.0-20191128113133-b330986da295
 github.com/ks3sdklib/aws-sdk-go/aws
 github.com/ks3sdklib/aws-sdk-go/aws/credentials
@@ -227,9 +346,13 @@ github.com/ks3sdklib/aws-sdk-go/internal/protocol/query
 github.com/ks3sdklib/aws-sdk-go/internal/protocol/rest
 github.com/ks3sdklib/aws-sdk-go/internal/protocol/xml/xmlutil
 github.com/ks3sdklib/aws-sdk-go/internal/protocol/query/queryutil
-# github.com/mattn/go-colorable v0.1.1
+# github.com/magiconair/properties v1.8.1
+github.com/magiconair/properties
+# github.com/matoous/godox v0.0.0-20190911065817-5d6d842e92eb
+github.com/matoous/godox
+# github.com/mattn/go-colorable v0.1.4
 github.com/mattn/go-colorable
-# github.com/mattn/go-isatty v0.0.5
+# github.com/mattn/go-isatty v0.0.8
 github.com/mattn/go-isatty
 # github.com/mitchellh/cli v1.0.0
 github.com/mitchellh/cli
@@ -249,23 +372,72 @@ github.com/mitchellh/hashstructure
 github.com/mitchellh/mapstructure
 # github.com/mitchellh/reflectwalk v1.0.0
 github.com/mitchellh/reflectwalk
+# github.com/nbutton23/zxcvbn-go v0.0.0-20180912185939-ae427f1e4c1d
+github.com/nbutton23/zxcvbn-go
+github.com/nbutton23/zxcvbn-go/match
+github.com/nbutton23/zxcvbn-go/matching
+github.com/nbutton23/zxcvbn-go/scoring
+github.com/nbutton23/zxcvbn-go/utils/math
+github.com/nbutton23/zxcvbn-go/adjacency
+github.com/nbutton23/zxcvbn-go/entropy
+github.com/nbutton23/zxcvbn-go/frequency
+github.com/nbutton23/zxcvbn-go/data
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
+# github.com/pelletier/go-toml v1.2.0
+github.com/pelletier/go-toml
 # github.com/pkg/errors v0.9.0
 github.com/pkg/errors
+# github.com/pmezard/go-difflib v1.0.0
+github.com/pmezard/go-difflib/difflib
 # github.com/posener/complete v1.2.1
 github.com/posener/complete
 github.com/posener/complete/cmd/install
 github.com/posener/complete/cmd
 github.com/posener/complete/match
+# github.com/securego/gosec v0.0.0-20200103095621-79fbf3af8d83
+github.com/securego/gosec
+github.com/securego/gosec/rules
+# github.com/sirupsen/logrus v1.4.2
+github.com/sirupsen/logrus
+# github.com/sourcegraph/go-diff v0.5.1
+github.com/sourcegraph/go-diff/diff
 # github.com/spf13/afero v1.2.1
 github.com/spf13/afero
 github.com/spf13/afero/mem
+# github.com/spf13/cast v1.3.0
+github.com/spf13/cast
+# github.com/spf13/cobra v0.0.5
+github.com/spf13/cobra
+# github.com/spf13/jwalterweatherman v1.0.0
+github.com/spf13/jwalterweatherman
+# github.com/spf13/pflag v1.0.5
+github.com/spf13/pflag
+# github.com/spf13/viper v1.6.1
+github.com/spf13/viper
+# github.com/stretchr/objx v0.2.0
+github.com/stretchr/objx
+# github.com/stretchr/testify v1.4.0
+github.com/stretchr/testify/mock
+github.com/stretchr/testify/assert
+# github.com/subosito/gotenv v1.2.0
+github.com/subosito/gotenv
+# github.com/timakin/bodyclose v0.0.0-20190930140734-f7f2e9bca95e
+github.com/timakin/bodyclose/passes/bodyclose
+# github.com/tommy-muehle/go-mnd v1.1.1
+github.com/tommy-muehle/go-mnd
+github.com/tommy-muehle/go-mnd/checks
 # github.com/ulikunitz/xz v0.5.5
 github.com/ulikunitz/xz
 github.com/ulikunitz/xz/internal/xlog
 github.com/ulikunitz/xz/lzma
 github.com/ulikunitz/xz/internal/hash
+# github.com/ultraware/funlen v0.0.2
+github.com/ultraware/funlen
+# github.com/ultraware/whitespace v0.0.4
+github.com/ultraware/whitespace
+# github.com/uudashr/gocognit v1.0.1
+github.com/uudashr/gocognit
 # github.com/vmihailenco/msgpack v4.0.1+incompatible
 github.com/vmihailenco/msgpack
 github.com/vmihailenco/msgpack/codes
@@ -297,7 +469,7 @@ go.opencensus.io/stats/internal
 go.opencensus.io/internal/tagencoding
 go.opencensus.io/metric/metricproducer
 go.opencensus.io/resource
-# golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
+# golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
 golang.org/x/crypto/openpgp
 golang.org/x/crypto/openpgp/armor
 golang.org/x/crypto/openpgp/errors
@@ -322,13 +494,71 @@ golang.org/x/oauth2/internal
 golang.org/x/oauth2/google
 golang.org/x/oauth2/jws
 golang.org/x/oauth2/jwt
-# golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa
+# golang.org/x/sys v0.0.0-20190922100055-0a153f010e69
 golang.org/x/sys/unix
 # golang.org/x/text v0.3.2
 golang.org/x/text/unicode/norm
 golang.org/x/text/transform
 golang.org/x/text/secure/bidirule
 golang.org/x/text/unicode/bidi
+golang.org/x/text/width
+# golang.org/x/tools v0.0.0-20200204192400-7124308813f3
+golang.org/x/tools/go/packages
+golang.org/x/tools/go/analysis
+golang.org/x/tools/go/gcexportdata
+golang.org/x/tools/go/internal/packagesdriver
+golang.org/x/tools/internal/packagesinternal
+golang.org/x/tools/go/ast/astutil
+golang.org/x/tools/go/analysis/passes/asmdecl
+golang.org/x/tools/go/analysis/passes/assign
+golang.org/x/tools/go/analysis/passes/atomic
+golang.org/x/tools/go/analysis/passes/atomicalign
+golang.org/x/tools/go/analysis/passes/bools
+golang.org/x/tools/go/analysis/passes/buildssa
+golang.org/x/tools/go/analysis/passes/buildtag
+golang.org/x/tools/go/analysis/passes/cgocall
+golang.org/x/tools/go/analysis/passes/composite
+golang.org/x/tools/go/analysis/passes/copylock
+golang.org/x/tools/go/analysis/passes/ctrlflow
+golang.org/x/tools/go/analysis/passes/deepequalerrors
+golang.org/x/tools/go/analysis/passes/errorsas
+golang.org/x/tools/go/analysis/passes/findcall
+golang.org/x/tools/go/analysis/passes/httpresponse
+golang.org/x/tools/go/analysis/passes/inspect
+golang.org/x/tools/go/analysis/passes/loopclosure
+golang.org/x/tools/go/analysis/passes/lostcancel
+golang.org/x/tools/go/analysis/passes/nilfunc
+golang.org/x/tools/go/analysis/passes/nilness
+golang.org/x/tools/go/analysis/passes/pkgfact
+golang.org/x/tools/go/analysis/passes/printf
+golang.org/x/tools/go/analysis/passes/shadow
+golang.org/x/tools/go/analysis/passes/shift
+golang.org/x/tools/go/analysis/passes/sortslice
+golang.org/x/tools/go/analysis/passes/stdmethods
+golang.org/x/tools/go/analysis/passes/structtag
+golang.org/x/tools/go/analysis/passes/testinggoroutine
+golang.org/x/tools/go/analysis/passes/tests
+golang.org/x/tools/go/analysis/passes/unmarshal
+golang.org/x/tools/go/analysis/passes/unreachable
+golang.org/x/tools/go/analysis/passes/unsafeptr
+golang.org/x/tools/go/analysis/passes/unusedresult
+golang.org/x/tools/go/loader
+golang.org/x/tools/imports
+golang.org/x/tools/go/types/objectpath
+golang.org/x/tools/go/internal/gcimporter
+golang.org/x/tools/go/ssa
+golang.org/x/tools/go/ast/inspector
+golang.org/x/tools/go/analysis/passes/internal/analysisutil
+golang.org/x/tools/go/cfg
+golang.org/x/tools/go/types/typeutil
+golang.org/x/tools/go/buildutil
+golang.org/x/tools/go/internal/cgo
+golang.org/x/tools/internal/imports
+golang.org/x/tools/go/ssa/ssautil
+golang.org/x/tools/internal/gopathwalk
+golang.org/x/tools/internal/module
+golang.org/x/tools/internal/semver
+golang.org/x/tools/internal/fastwalk
 # google.golang.org/api v0.9.0
 google.golang.org/api/iterator
 google.golang.org/api/googleapi
@@ -396,3 +626,40 @@ google.golang.org/grpc/credentials/internal
 google.golang.org/grpc/balancer/base
 google.golang.org/grpc/binarylog/grpc_binarylog_v1
 google.golang.org/grpc/internal/syscall
+# gopkg.in/ini.v1 v1.51.0
+gopkg.in/ini.v1
+# gopkg.in/yaml.v2 v2.2.7
+gopkg.in/yaml.v2
+# honnef.co/go/tools v0.0.1-2019.2.3
+honnef.co/go/tools/simple
+honnef.co/go/tools/staticcheck
+honnef.co/go/tools/stylecheck
+honnef.co/go/tools/unused
+honnef.co/go/tools/arg
+honnef.co/go/tools/facts
+honnef.co/go/tools/internal/passes/buildssa
+honnef.co/go/tools/internal/sharedcheck
+honnef.co/go/tools/lint
+honnef.co/go/tools/lint/lintdsl
+honnef.co/go/tools/lint/lintutil
+honnef.co/go/tools/deprecated
+honnef.co/go/tools/functions
+honnef.co/go/tools/printf
+honnef.co/go/tools/ssa
+honnef.co/go/tools/ssautil
+honnef.co/go/tools/staticcheck/vrp
+honnef.co/go/tools/config
+honnef.co/go/tools/go/types/typeutil
+honnef.co/go/tools/internal/cache
+honnef.co/go/tools/loader
+honnef.co/go/tools/lint/lintutil/format
+honnef.co/go/tools/version
+honnef.co/go/tools/internal/renameio
+# mvdan.cc/interfacer v0.0.0-20180901003855-c20040233aed
+mvdan.cc/interfacer/check
+# mvdan.cc/lint v0.0.0-20170908181259-adc824a0674b
+mvdan.cc/lint
+# mvdan.cc/unparam v0.0.0-20190720180237-d51796306d8f
+mvdan.cc/unparam/check
+# sourcegraph.com/sqs/pbtypes v0.0.0-20180604144634-d3ebe8f20ae4
+sourcegraph.com/sqs/pbtypes
