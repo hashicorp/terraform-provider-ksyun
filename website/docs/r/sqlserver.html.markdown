@@ -1,10 +1,18 @@
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_sqlserver"
+sidebar_current: "docs-ksyun-resource-sqlserver"
+description: |-
+  Provides an sqlserver instance resource.
+---
+
 # ksyun_sqlserver
+
 Provides an SqlServer instance resource. A DB instance is an isolated database environment in the cloud. A DB instance can contain multiple user-created databases.
 
 ## Example Usage
-»Create a RDS SqlServer instance
 
-```h
+```hcl
 provider "ksyun"{
   region = "cn-shanghai-3"
   access_key = ""
@@ -45,6 +53,7 @@ resource "ksyun_sqlserver" "sqlserver-1"{
   billtype = "DAY"
 }
 ```
+
 ## Argument Reference
 
 The following arguments are supported:
@@ -69,7 +78,9 @@ The following arguments are supported:
 * `parameters`- (Optional) database parameters
 * `port `-(Optional) port number
 
+
 ## Attributes Reference
+
 In addition to all arguments above, the following attributes are exported:
 
 * ` DBInstanceClass`- instance specification

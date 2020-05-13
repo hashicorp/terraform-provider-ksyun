@@ -1,12 +1,25 @@
-#ksyun_krds_security_groups 
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_krds_security_groups"
+sidebar_current: "docs-ksyun-datasource-krds-security-groups"
+description: |-
+  Provides a list of krds_security_groups resources in the current region.
+---
+
+# ksyun_krds_security_groups 
+
 Query security group information
+
 ## Example Usage
-```
+
+```hcl
+# Get  krds_security_groups
 data "ksyun_sqlservers" "search-sqlservers"{
   output_file = "output_file"
   security_group_id = 123
 }
 ```
+
 ## Argument Reference
 
 The following arguments are supported:
@@ -15,6 +28,7 @@ The following arguments are supported:
 * `security_group_id`- (Optional) Security group ID
 
 ## Attributes Reference
+
 In addition to all arguments above, the following attributes are exported:
 
 * `SecurityGroupId`- Security group ID

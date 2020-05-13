@@ -1,10 +1,18 @@
-# ksyun_krds_security_group
-Provide RDS security group function
-## Example Usage
-»Create a RDS Security GroupL instance
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_krds_security_group"
+sidebar_current: "docs-ksyun-resource-krds-security-group"
+description: |-
+  Provides an KRDS security group resource.
+---
 
-```h
-»Create a RDS Security Group instance
+# ksyun_krds_security_group
+
+Provide RDS security group function
+
+## Example Usage
+
+```hcl
 resource "ksyun_krds_security_group" "krds_sec_group_13" {
   output_file = "output_file"
   security_group_name = "terraform_security_group_13"
@@ -20,6 +28,7 @@ resource "ksyun_krds_security_group" "krds_sec_group_13" {
 
 }
 ```
+
 ## Argument Reference
 
 The following arguments are supported:
@@ -31,7 +40,9 @@ The following arguments are supported:
 * `security_group_rule_protocol`- (Required)  0.0.0.0/32 format
 * `security_group_rule_name`- (Required) no more than 256 bytes, only Chinese, uppercase and lowercase letters, numbers, minus signs and underscores are supported
 
+
 ## Attributes Reference
+
 In addition to all arguments above, the following attributes are exported:
 
 * `SecurityGroupId`- Security group ID

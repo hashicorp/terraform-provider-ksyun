@@ -1,10 +1,18 @@
-#ksyun_krds_rr
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_krds_rr"
+sidebar_current: "docs-ksyun-resource-krds-rr"
+description: |-
+  Provides an KRDS readonly instance resource.
+---
+
+# ksyun_krds_rr
+
 Provides an RDS Read Only instance resource. A DB read only instance is an isolated database environment in the cloud. 
  
 ## Example Usage
-»Create a RDS Read Only MySQL instance
 
-```h
+```hcl
 resource "ksyun_krds_rr" "my_rds_rr"{
   output_file = "output_file"
   db_instance_identifier= "******"
@@ -39,7 +47,9 @@ The following arguments are supported:
 * `project_id`- (Optional) subproject ID
 * `parameters`- (Optional) database parameters
 
+
 ## Attributes Reference
+
 In addition to all arguments above, the following attributes are exported:
 
 * ` DBInstanceClass`- instance specification

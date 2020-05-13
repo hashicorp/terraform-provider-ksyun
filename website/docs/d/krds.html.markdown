@@ -1,8 +1,19 @@
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_krds"
+sidebar_current: "docs-ksyun-datasource-krds"
+description: |-
+  Provides a list of krds resources in the current region.
+---
+
 # ksyun_krds
+
 Query HRDS and RDS-rr instance information
+
 ## Example Usage
 
-```h
+```hcl
+# Get  krds
 data "ksyun_krds" "search-krds"{
   output_file = "output_file"
   db_instance_identifier = "***"
@@ -14,6 +25,7 @@ data "ksyun_krds" "search-krds"{
   max_records = ""
 }
 ```
+
 ## Argument Reference
 
 The following arguments are supported:
@@ -29,6 +41,7 @@ The following arguments are supported:
 * `MaxRecords` -(Optional) the maximum number of entries in the result of each page. Value range: 1-100
 
 ## Attributes Reference
+
 In addition to all arguments above, the following attributes are exported:
 
 * ` DBInstanceClass`- instance specification
