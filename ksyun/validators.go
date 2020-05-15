@@ -2,7 +2,7 @@ package ksyun
 
 import (
 	"fmt"
-	"github.com/hashicorp/terraform/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 	"net"
 	"regexp"
 )

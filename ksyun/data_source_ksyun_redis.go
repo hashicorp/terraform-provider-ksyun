@@ -3,7 +3,7 @@ package ksyun
 import (
 	"fmt"
 	"github.com/KscSDK/ksc-sdk-go/service/kcsv1"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/terraform-providers/terraform-provider-ksyun/logger"
 	"strconv"
 )
