@@ -715,7 +715,7 @@ func validParam(d *schema.ResourceData) error {
 			if !ok {
 				return fmt.Errorf("expected type of %v to be int", key)
 			}
-			val, _ := strconv.ParseInt(v,10,64)
+			val, _ := strconv.ParseInt(v, 10, 64)
 			if val < result.Valid.Min || val > result.Valid.Max {
 				return fmt.Errorf("expected value of %s to be in range [%v-%v]", key, result.Valid.Min, result.Valid.Max)
 			}
