@@ -103,7 +103,7 @@ resource "ksyun_instance" "default" {
   private_ip_address=""
   instance_name="xuan-tf-combine"
   instance_name_suffix=""
-  sriov_net_support=false
+  sriov_net_support="false"
   project_id=0
   data_guard_id=""
   key_id=["${ksyun_ssh_key.default.id}"]
