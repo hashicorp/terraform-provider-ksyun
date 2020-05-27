@@ -28,7 +28,7 @@ resource "ksyun_instance" "default" {
   private_ip_address=""
   instance_name="xuan-tf"
   instance_name_suffix=""
-  sriov_net_support=false
+  sriov_net_support="false"
   project_id=0
   data_guard_id=""
   key_id=[]

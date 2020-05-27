@@ -1,4 +1,10 @@
-## 1.0.1 (Unreleased)
+## 1.0.1 (Jun 3, 2020)
+
+BUG FIXES:
+
+fix eip read crash when add network_interface_id.
+fix param type for instance example. 
+
 ## 1.0.0 (May 20, 2020)
 
 FEATURES:
