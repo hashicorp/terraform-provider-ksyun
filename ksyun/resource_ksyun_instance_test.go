@@ -171,7 +171,7 @@ resource "ksyun_instance" "foo" {
   private_ip_address=""
   instance_name="ksyun-kec-tf"
   instance_name_suffix=""
-  sriov_net_support=false
+  sriov_net_support="false"
   project_id=0
   data_guard_id=""
   key_id=[]
@@ -229,7 +229,7 @@ resource "ksyun_instance" "foo" {
   private_ip_address=""
   instance_name="ksyun-kec-tf-update"
   instance_name_suffix=""
-  sriov_net_support=false
+  sriov_net_support="false"
   project_id=0
   data_guard_id=""
   key_id=[]
