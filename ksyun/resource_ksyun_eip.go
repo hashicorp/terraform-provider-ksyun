@@ -81,6 +81,14 @@ func resourceKsyunEip() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"network_interface_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"internet_gateway_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"band_width_share_id": {
 				Type:     schema.TypeString,
 				Computed: true,
