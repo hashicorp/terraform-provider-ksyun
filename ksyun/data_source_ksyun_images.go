@@ -99,6 +99,22 @@ func dataSourceKsyunImages() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"cloud_init_support": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"ipv6_support": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_modify_type": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_cloud_market": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 					},
 				},
 			},
