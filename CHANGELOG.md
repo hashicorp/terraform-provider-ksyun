@@ -2,7 +2,7 @@
 
 BUG FIXES:
 
-fix eip read crash and instance_test.
+  fix eip read crash and instance_test ([#6](https://github.com/terraform-providers/terraform-provider-ksyun/issues/6))
 
 ## 1.0.0 (May 20, 2020)
 
