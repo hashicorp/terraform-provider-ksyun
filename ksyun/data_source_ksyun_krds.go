@@ -24,6 +24,10 @@ func dataSourceKsyunKrds() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"total_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"db_instance_identifier": {
 				Type:        schema.TypeString,
 				Required:    false,
@@ -351,10 +355,30 @@ func dataSourceKsyunKrds() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"point_in_time": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 								},
 							},
 						},
 						"service_end_time": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"eip": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"eip_port": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"rip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
