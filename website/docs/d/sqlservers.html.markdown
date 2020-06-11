@@ -71,5 +71,6 @@ In addition to all arguments above, the following attributes are exported:
 * `DiskUsed`-  hard disk usage
 * `ProjectId`-  Project ID
 * `ProjectName `- project name
-
+* `Eip`-  elastic IP address
+* `EipPort`-  elastic IP port
 
