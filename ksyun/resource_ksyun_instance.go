@@ -662,47 +662,10 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 	var needStart bool
 	//stop instance
 	if imageUpdate || d.HasChange("key_id") || d.HasChange("instance_password") || d.HasChange("host_name") {
-
-		//TODO judge init state of the instance
-		readReq := make(map[string]interface{})
-		readReq["InstanceId.1"] = d.Id()
-		action := "DescribeInstances"
-		logger.Debug(logger.ReqFormat, action, readReq)
-		resp, err := conn.DescribeInstances(&readReq)
-		logger.Debug(logger.AllFormat, action, readReq, *resp, err)
+		var err error
+		initState, err = instanceStop(d, meta)
 		if err != nil {
-			return fmt.Errorf("error on reading Instance %q, %s", d.Id(), err)
-		}
-
-		itemset := (*resp)["InstancesSet"]
-		items, ok := itemset.([]interface{})
-		if !ok || len(items) == 0 {
-			return fmt.Errorf("error on reading Instance %q, %s", d.Id(), err)
-		}
-		state := items[0].(map[string]interface{})["InstanceState"]
-		initState = state.(map[string]interface{})["Name"].(string)
-		if initState == "error" {
-			return fmt.Errorf("instance with error state can't be modify image")
-		}
-		if initState != "stopped" {
-			action = "StopInstances"
-			logger.Debug(logger.ReqFormat, action, readReq)
-			resp, err = conn.StopInstances(&readReq) //同步
-			logger.Debug(logger.AllFormat, action, readReq, *resp, err)
-			if err != nil {
-				return fmt.Errorf("error on stop  instance %s", err)
-			}
-			stateConf := &resource.StateChangeConf{
-				Pending:    []string{statusPending},
-				Target:     []string{"stopped"},
-				Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"stopped"}),
-				Timeout:    d.Timeout(schema.TimeoutUpdate),
-				Delay:      3 * time.Second,
-				MinTimeout: 2 * time.Second,
-			}
-			if _, err = stateConf.WaitForState(); err != nil {
-				return fmt.Errorf("error on waiting for starting instance when stopping %q, %s", d.Id(), err)
-			}
+			return err
 		}
 	}
 	if imageUpdate {
@@ -902,33 +865,37 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		}
 	}
 	//ModifyInstanceType //need reboot
-	/* typeUpdate := false
-	      updateInstanceTypes := []string{
-	         "instance_type",
-	         "data_disk_gb",
-	      }
-	      var typeUpdated []string
-	      for _, v := range updateInstanceTypes {
-	         if d.HasChange(v) && !d.IsNewResource() {
-	            updateReq[Downline2Hump(v)] = fmt.Sprintf("%v", d.Get(v))
-	            typeUpdate = true
-	            typeUpdated = append(typeUpdated, v)
-	         }
-	      }
-	      if typeUpdate {
-	         action := "ModifyInstanceType"
-	         logger.Debug(logger.ReqFormat, action, updateReq)
-	         resp, err := conn.ModifyInstanceType(&updateReq)
-	         if err != nil {
-	            return fmt.Errorf("error on updating  instance type, %s", err)
-	         }
-	         logger.Debug(logger.RespFormat, action, updateReq, *resp)
-	         for _, v := range typeUpdated {
-	            d.SetPartial(v)
-	         }
-	      }
+	typeUpdate := false
+	updateInstanceTypes := []string{
+		"instance_type",
+		"data_disk_gb",
+	}
+	var typeUpdated []string
+	for _, v := range updateInstanceTypes {
+		if d.HasChange(v) && !d.IsNewResource() {
+			updateReq[Downline2Hump(v)] = fmt.Sprintf("%v", d.Get(v))
+			typeUpdate = true
+			typeUpdated = append(typeUpdated, v)
+		}
+	}
+	if typeUpdate {
+		_, err := instanceStop(d, meta)
+		if err != nil {
+			return err
+		}
+		action := "ModifyInstanceType"
+		logger.Debug(logger.ReqFormat, action, updateReq)
+		resp, err := conn.ModifyInstanceType(&updateReq)
+		if err != nil {
+			return fmt.Errorf("error on updating  instance type, %s", err)
+		}
+		logger.Debug(logger.RespFormat, action, updateReq, *resp)
+		for _, v := range typeUpdated {
+			d.SetPartial(v)
+		}
+	}
 
-
+	/*
 	   //need shutdown later
 	   //StopInstances
 	     if d.HasChange("force_stop") && !d.IsNewResource() {
@@ -1360,4 +1327,48 @@ func instanceAttachKey(instanceId string, keyIds []interface{}, conn *kec.Kec) e
 		return fmt.Errorf("Error AttachKey:fail ")
 	}
 	return nil
+}
+func instanceStop(d *schema.ResourceData, meta interface{}) (string, error) {
+	conn := meta.(*KsyunClient).kecconn
+	readReq := make(map[string]interface{})
+	readReq["InstanceId.1"] = d.Id()
+	action := "DescribeInstances"
+	logger.Debug(logger.ReqFormat, action, readReq)
+	resp, err := conn.DescribeInstances(&readReq)
+	logger.Debug(logger.AllFormat, action, readReq, *resp, err)
+	if err != nil {
+		return "", fmt.Errorf("error on reading Instance %q, %s", d.Id(), err)
+	}
+
+	itemset := (*resp)["InstancesSet"]
+	items, ok := itemset.([]interface{})
+	if !ok || len(items) == 0 {
+		return "", fmt.Errorf("error on reading Instance %q, %s", d.Id(), err)
+	}
+	state := items[0].(map[string]interface{})["InstanceState"]
+	initState := state.(map[string]interface{})["Name"].(string)
+	if initState == "error" {
+		return initState, fmt.Errorf("instance with error state")
+	}
+	if initState != "stopped" {
+		action = "StopInstances"
+		logger.Debug(logger.ReqFormat, action, readReq)
+		resp, err = conn.StopInstances(&readReq) //同步
+		logger.Debug(logger.AllFormat, action, readReq, *resp, err)
+		if err != nil {
+			return initState, fmt.Errorf("error on stop  instance %s", err)
+		}
+		stateConf := &resource.StateChangeConf{
+			Pending:    []string{statusPending},
+			Target:     []string{"stopped"},
+			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"stopped"}),
+			Timeout:    d.Timeout(schema.TimeoutUpdate),
+			Delay:      3 * time.Second,
+			MinTimeout: 2 * time.Second,
+		}
+		if _, err = stateConf.WaitForState(); err != nil {
+			return initState, fmt.Errorf("error on waiting for starting instance when stopping %q, %s", d.Id(), err)
+		}
+	}
+	return initState, nil
 }
