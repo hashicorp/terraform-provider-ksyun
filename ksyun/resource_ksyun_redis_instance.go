@@ -216,7 +216,6 @@ func resourceRedisInstance() *schema.Resource {
 			"parameters": {
 				Type:     schema.TypeMap,
 				Optional: true,
-				Computed: true,
 			},
 		},
 	}
@@ -274,7 +273,12 @@ func resourceRedisInstanceParamCreate(d *schema.ResourceData, meta interface{}) 
 		az    string
 		err   error
 	)
-	if !d.Get("reset_all_parameters").(bool) {
+	v1, ok := d.GetOk("parameters")
+	if !ok || v1 == nil {
+		return nil
+	}
+
+	if v2, o := d.GetOk("reset_all_parameters"); o && !v2.(bool) {
 		conn := meta.(*KsyunClient).kcsv1conn
 		createReq := make(map[string]interface{})
 		if az, ok := d.GetOk("available_zone"); ok {
@@ -283,10 +287,7 @@ func resourceRedisInstanceParamCreate(d *schema.ResourceData, meta interface{}) 
 		createReq["CacheId"] = d.Get("cache_id")
 		createReq["Protocol"] = d.Get("protocol")
 		createReq["ResetAllParameters"] = fmt.Sprintf("%v", d.Get("reset_all_parameters"))
-		v1, ok := d.GetOk("parameters")
-		if !ok || v1 == nil {
-			return nil
-		}
+
 		if param, ok = v1.(map[string]interface{}); !ok {
 			return fmt.Errorf("expected type of parameter to not be map")
 		}
@@ -473,28 +474,31 @@ func resourceRedisInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		updateReq["AvailableZone"] = az
 	}
 
-	updateReq["ResetAllParameters"] = fmt.Sprintf("%v", d.Get("reset_all_parameters"))
-	if params, ok = d.GetOk("parameters"); !ok {
-		logger.Info("instance parameters do not exist")
-		return nil
-	}
-	param, ok1 := params.(map[string]interface{})
-	if !ok1 {
-		logger.Info("type of instance parameters must be map")
-		return nil
-	}
-	if len(param) == 0 {
-		logger.Info("instance parameters size : 0")
-		return nil
-	}
-	if err := validParam(d); err != nil {
-		return err
-	}
-	var i int
-	for k, v := range param {
-		i = i + 1
-		updateReq[fmt.Sprintf("%v%v", "Parameters.ParameterName.", i)] = fmt.Sprintf("%v", k)
-		updateReq[fmt.Sprintf("%v%v", "Parameters.ParameterValue.", i)] = fmt.Sprintf("%v", v)
+	reset := d.Get("reset_all_parameters")
+	updateReq["ResetAllParameters"] = fmt.Sprintf("%v", reset)
+	if !reset.(bool) {
+		if params, ok = d.GetOk("parameters"); !ok {
+			logger.Info("instance parameters do not exist")
+			return nil
+		}
+		param, ok1 := params.(map[string]interface{})
+		if !ok1 {
+			logger.Info("type of instance parameters must be map")
+			return nil
+		}
+		if len(param) == 0 {
+			logger.Info("instance parameters size : 0")
+			return nil
+		}
+		if err := validParam(d); err != nil {
+			return err
+		}
+		var i int
+		for k, v := range param {
+			i = i + 1
+			updateReq[fmt.Sprintf("%v%v", "Parameters.ParameterName.", i)] = fmt.Sprintf("%v", k)
+			updateReq[fmt.Sprintf("%v%v", "Parameters.ParameterValue.", i)] = fmt.Sprintf("%v", v)
+		}
 	}
 
 	action := "SetCacheParameters"
