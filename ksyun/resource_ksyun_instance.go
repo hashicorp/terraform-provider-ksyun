@@ -788,7 +788,8 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 			return fmt.Errorf("error on updating  instance password, %s", err)
 		}
 		logger.Debug(logger.RespFormat, action, updateReq3, *resp)
-		stateConf := &resource.StateChangeConf{
+		//主机updating_password状态变化过快，有可能检测不到，所以暂时去掉状态检测，直接sleep(10s)
+	/*	stateConf := &resource.StateChangeConf{
 			Pending:    []string{statusPending},
 			Target:     []string{"updating_password"},
 			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"updating_password"}),
@@ -798,8 +799,8 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		}
 		if _, err = stateConf.WaitForState(); err != nil {
 			return fmt.Errorf("error on waiting for starting instance when update password %q, %s", d.Id(), err)
-		}
-		stateConf = &resource.StateChangeConf{
+		}*/
+		stateConf := &resource.StateChangeConf{
 			Pending:    []string{statusPending},
 			Target:     []string{"stopped"},
 			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"stopped"}),
