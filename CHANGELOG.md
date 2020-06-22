@@ -3,12 +3,14 @@
 IMPROVEMENTS:
 
 - data images support cloudinit ([#8](https://github.com/terraform-providers/terraform-provider-ksyun/issues/8))
+- instance support update instance type ([#11](https://github.com/terraform-providers/terraform-provider-ksyun/issues/11))
 
 BUG FIXES:
 
 - fix eip read crash ([#6](https://github.com/terraform-providers/terraform-provider-ksyun/issues/6))
 - fix instance test ([#6](https://github.com/terraform-providers/terraform-provider-ksyun/issues/6))
-
+- fix redis param ([#10](https://github.com/terraform-providers/terraform-provider-ksyun/issues/10))
+- fix instance update instance password ([#11](https://github.com/terraform-providers/terraform-provider-ksyun/issues/11))
 ## 1.0.0 (May 20, 2020)
 
 FEATURES:
