@@ -874,6 +874,17 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 			return fmt.Errorf("error on updating  instance type, %s", err)
 		}
 		logger.Debug(logger.RespFormat, action, updateReq, *resp)
+		stateConf := &resource.StateChangeConf{
+			Pending:    []string{statusPending},
+			Target:     []string{"resize_success_local", "migrating_success_off_line"},
+			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"resize_success_local", "migrating_success_off_line"}),
+			Timeout:    *schema.DefaultTimeout(5 * time.Minute),
+			Delay:      1 * time.Second,
+			MinTimeout: 1 * time.Second,
+		}
+		if _, err = stateConf.WaitForState(); err != nil {
+			return fmt.Errorf("error on waiting for starting instance when update instance type %q, %s", d.Id(), err)
+		}
 		for _, v := range typeUpdated {
 			d.SetPartial(v)
 		}
