@@ -11,6 +11,9 @@ BUG FIXES:
 - fix instance test ([#6](https://github.com/terraform-providers/terraform-provider-ksyun/issues/6))
 - fix redis param ([#10](https://github.com/terraform-providers/terraform-provider-ksyun/issues/10))
 - fix instance update instance password ([#11](https://github.com/terraform-providers/terraform-provider-ksyun/issues/11))
+- fix instance update instance type ([#12](https://github.com/terraform-providers/terraform-provider-ksyun/issues/12))
+
+
 ## 1.0.0 (May 20, 2020)
 
 FEATURES:
