@@ -844,24 +844,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		}
 	}
 	if needStart {
-		updateReq1 := make(map[string]interface{})
-		updateReq1["InstanceId.1"] = d.Id()
-		action := "StartInstances"
-		logger.Debug(logger.ReqFormat, action, updateReq1)
-		resp, err := conn.StartInstances(&updateReq1) //sync
-		if err != nil {
-			return fmt.Errorf("error on RebootInstances instance(%v) %s", d.Id(), err)
-		}
-		logger.Debug(logger.RespFormat, action, updateReq1, *resp)
-		stateConf := &resource.StateChangeConf{
-			Pending:    []string{statusPending},
-			Target:     []string{"active"},
-			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"active"}),
-			Timeout:    *schema.DefaultTimeout(5 * time.Minute),
-			Delay:      3 * time.Second,
-			MinTimeout: 2 * time.Second,
-		}
-		if _, err = stateConf.WaitForState(); err != nil {
+		if err := instanceStart(d, meta); err != nil {
 			return fmt.Errorf("error on waiting for starting instance when update %q, %s", d.Id(), err)
 		}
 	}
@@ -893,6 +876,9 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		logger.Debug(logger.RespFormat, action, updateReq, *resp)
 		for _, v := range typeUpdated {
 			d.SetPartial(v)
+		}
+		if err := instanceStart(d, meta); err != nil {
+			return fmt.Errorf("error on waiting for starting instance when update %q, %s", d.Id(), err)
 		}
 	}
 
@@ -1372,4 +1358,28 @@ func instanceStop(d *schema.ResourceData, meta interface{}) (string, error) {
 		}
 	}
 	return initState, nil
+}
+func instanceStart(d *schema.ResourceData, meta interface{}) error {
+	conn := meta.(*KsyunClient).kecconn
+	req := make(map[string]interface{})
+	req["InstanceId.1"] = d.Id()
+	action := "StartInstances"
+	logger.Debug(logger.ReqFormat, action, req)
+	resp, err := conn.StartInstances(&req) //sync
+	if err != nil {
+		return fmt.Errorf("error on RebootInstances instance(%v) %s", d.Id(), err)
+	}
+	logger.Debug(logger.RespFormat, action, req, *resp)
+	stateConf := &resource.StateChangeConf{
+		Pending:    []string{statusPending},
+		Target:     []string{"active"},
+		Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"active"}),
+		Timeout:    *schema.DefaultTimeout(5 * time.Minute),
+		Delay:      3 * time.Second,
+		MinTimeout: 2 * time.Second,
+	}
+	if _, err = stateConf.WaitForState(); err != nil {
+		return fmt.Errorf("error on waiting for starting instance when update %q, %s", d.Id(), err)
+	}
+	return nil
 }
