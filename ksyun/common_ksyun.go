@@ -362,6 +362,32 @@ func dataDbSave(d *schema.ResourceData, dataKey string, ids []string, datas []ma
 	}
 }
 
+func SetDByFkResp(d *schema.ResourceData, m interface{}, include map[string]bool) map[string]interface{} {
+	exclude := make(map[string]interface{})
+	ma, ok := m.(map[string]interface{})
+	if !ok {
+		return exclude
+	}
+	for k, v := range ma {
+		if !include[k] {
+			if mm, ok := v.(map[string]interface{}); ok {
+				exclude[k] = mm
+			} else {
+				exclude[k] = v
+			}
+			continue
+		}
+
+		err := d.Set(k, v)
+		if err != nil {
+			log.Println(err.Error())
+			panic("ERROR: " + err.Error())
+		}
+	}
+	logger.DebugInfo("-----exclude fields : %+v", exclude)
+	return exclude
+}
+
 func FuckHump2Downline(s string) string {
 	s = strings.TrimSpace(s)
 	if len(s) == 0 {
@@ -401,7 +427,7 @@ func FuckHump2Downline(s string) string {
 		}
 	}
 	var s3 string
-	if s2[len(s2)-2:] == ".1" || s2[len(s2)-2:] == ".2" {
+	if s2[len(s2)-2:] == ".1" || s2[len(s2)-2:] == ".2" || s2[len(s2)-2:] == ".3" || s2[len(s2)-2:] == ".4" || s2[len(s2)-2:] == ".5" || s2[len(s2)-2:] == ".6" || s2[len(s2)-2:] == ".7" || s2[len(s2)-2:] == ".8" || s2[len(s2)-2:] == ".9" {
 		s3 = s2[:len(s2)-2] + "_" + s2[len(s2)-1:]
 	} else {
 		s3 = s2

@@ -14,7 +14,6 @@ Provide RDS security group function
 
 ```hcl
 resource "ksyun_krds_security_group" "krds_sec_group_13" {
-  output_file = "output_file"
   security_group_name = "terraform_security_group_13"
   security_group_description = "terraform-security-group-13"
   security_group_rule{
@@ -33,7 +32,6 @@ resource "ksyun_krds_security_group" "krds_sec_group_13" {
 
 The following arguments are supported:
 
-* `output_file`- (Required)  will return the file name of the content store
 * `security_group_name `-(Required)  the name of the security group
 * `security_group_description`-（Optional）description of security group
 * `security_group_rule`- (Optional)security group rule
@@ -46,16 +44,7 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `SecurityGroupId`- Security group ID
-* `SecurityGroupName`- security group name
-* `SecurityGroupDescription`- Security Group Description
-* `Instances`- corresponding instance 
-* `DBInstanceIdentifier`- instance ID
-* `DBInstanceName`-instance name
-* `Vip`- instance virtual IP
-* `SecurityGroupRules`- security group rules
 * `SecurityGroupRuleId`-rule ID
-* `SecurityGroupRuleName`-rule name
-* `SecurityGroupRuleProtocol`- rule protocol
 
 »Timeouts
 NOTE: Available in 1.52.1+.

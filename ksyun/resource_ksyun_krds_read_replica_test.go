@@ -120,7 +120,6 @@ resource "ksyun_subnet" "foo" {
 }
 
 resource "ksyun_krds" "houbin_terraform_777"{
-  output_file = "output_file"
   db_instance_class= "db.ram.2|db.disk.50"
   db_instance_name = "houbin_terraform_1-n"
   db_instance_type = "HRDS"
@@ -145,7 +144,6 @@ resource "ksyun_krds" "houbin_terraform_777"{
 }
 
 resource "ksyun_krds_rr" "rds-rr-1"{
-  output_file = "output_file"
   db_instance_identifier= "${ksyun_krds.houbin_terraform_777.id}"
   db_instance_class= "db.ram.4|db.disk.100"
   db_instance_name = "houbin_terraform_777_rr_1"

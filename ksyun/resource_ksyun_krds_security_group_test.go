@@ -16,7 +16,7 @@ func TestAccKsyunKrdsSecrityGroup_basic(t *testing.T) {
 			testAccPreCheck(t)
 		},
 
-		IDRefreshName: "ksyun_krds_security_group.krds_sec_group_234",
+		IDRefreshName: "ksyun_krds_security_group.krds_sec_group_239",
 		Providers:     testAccProviders,
 		CheckDestroy:  testAccCheckKrdsSecrityGroupDestroy,
 
@@ -25,7 +25,7 @@ func TestAccKsyunKrdsSecrityGroup_basic(t *testing.T) {
 				Config: testAccKrdsSecrityGroupConfig,
 
 				Check: resource.ComposeTestCheckFunc(
-					testCheckKrdsSecrityGroupExists("ksyun_krds_security_group.krds_sec_group_234", &val),
+					testCheckKrdsSecrityGroupExists("ksyun_krds_security_group.krds_sec_group_239", &val),
 				),
 			},
 		},
@@ -56,15 +56,15 @@ func testCheckKrdsSecrityGroupExists(n string, val *map[string]interface{}) reso
 
 func testAccCheckKrdsSecrityGroupDestroy(s *terraform.State) error {
 	for _, res := range s.RootModule().Resources {
-		if res.Type != "ksyun_krds" {
+		if res.Type != "ksyun_krds_security_group" {
 			continue
 		}
 
 		client := testAccProvider.Meta().(*KsyunClient)
 		req := map[string]interface{}{
-			"DBInstanceIdentifier": res.Primary.ID,
+			"SecurityGroupId": res.Primary.ID,
 		}
-		_, err := client.krdsconn.DescribeDBInstances(&req)
+		_, err := client.krdsconn.DeleteSecurityGroup(&req)
 		if err != nil {
 			if err.(awserr.Error).Code() == "NOT_FOUND" {
 				return nil
@@ -79,12 +79,11 @@ func testAccCheckKrdsSecrityGroupDestroy(s *terraform.State) error {
 const testAccKrdsSecrityGroupConfig = `
 
 
-resource "ksyun_krds_security_group" "krds_sec_group_234" {
-  output_file = "output_file"
-  security_group_name = "terraform_security_group_234"
-  security_group_description = "terraform-security-group-234"
+resource "ksyun_krds_security_group" "krds_sec_group_239" {
+  security_group_name = "terraform_security_group_239"
+  security_group_description = "terraform-security-group-239"
   security_group_rule{
-    security_group_rule_protocol = "182.133.0.0/16"
+    security_group_rule_protocol = "182.133.0.1/16"
     security_group_rule_name = "asdf"
   }
   security_group_rule{

@@ -46,13 +46,16 @@ func resourceKsyunKrdsRr() *schema.Resource {
 			Delete: schema.DefaultTimeout(10 * time.Minute),
 		},
 		Schema: map[string]*schema.Schema{
-			"output_file": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"db_instance_identifier": {
 				Type:        schema.TypeString,
 				Optional:    true,
+				Description: "instance identifier",
+				Computed:    true,
+			},
+			"source_db_instance_identifier": {
+				Type:        schema.TypeString,
+				Required:    true,
+				Optional:    false,
 				Description: "source instance identifier",
 			},
 			"db_instance_class": {
@@ -109,319 +112,32 @@ func resourceKsyunKrdsRr() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			// 与存入数据一致datakey
-			"krds": {
-				Type:     schema.TypeList,
+			"db_parameter_group_id": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Computed:    true,
+				Description: "proprietary db parameter group id for mysql",
+			},
+			"sub_order_id": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"db_instance_class": {
-							Type:     schema.TypeSet,
-							MaxItems: 1,
-							Optional: true,
-							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"id": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"vcpus": {
-										Type:     schema.TypeInt,
-										Optional: true,
-										Computed: true,
-									},
-									"disk": {
-										Type:     schema.TypeInt,
-										Optional: true,
-										Computed: true,
-									},
-									"ram": {
-										Type:     schema.TypeInt,
-										Optional: true,
-										Computed: true,
-									},
-									"iops": {
-										Type:     schema.TypeInt,
-										Optional: true,
-										Computed: true,
-									},
-									"max_conn": {
-										Type:     schema.TypeInt,
-										Optional: true,
-										Computed: true,
-									},
-									"mem": {
-										Type:     schema.TypeInt,
-										Optional: true,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"db_instance_identifier": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"db_instance_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"db_instance_status": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"db_instance_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"group_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"vip": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"engine": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"engine_version": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"instance_create_time": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"master_user_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"vpc_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"subnet_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"publicly_accessible": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"read_replica_db_instance_identifiers": {
-							Type:     schema.TypeSet,
-							Optional: true,
-							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"id": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"vip": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"read_replica_db_instance_identifier": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"bill_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"order_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"order_source": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"master_availability_zone": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"slave_availability_zone": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"multi_availability_zone": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"product_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"order_use": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"project_id": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"project_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"region": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"bill_type_id": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"port": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"db_parameter_group_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"datastore_version_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"disk_used": {
-							Type:     schema.TypeFloat,
-							Optional: true,
-							Computed: true,
-						},
-						"preferred_backup_time": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"product_what": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"service_start_time": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"order_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"sub_order_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"audit": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"security_group_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"availability_zone": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"db_source": {
-							Type:     schema.TypeSet,
-							Optional: true,
-							Computed: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"db_instance_identifier": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"db_instance_name": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"db_instance_type": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"point_in_time": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"service_end_time": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"eip": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"eip_port": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"rip": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-					},
-				},
+			},
+			"instance_create_time": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"region": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"port": {
+				Type:     schema.TypeInt,
+				Required: false,
+				Optional: true,
+				Computed: true,
 			},
 		},
 	}
@@ -444,7 +160,9 @@ func resourceKsyunKrdsRrCreate(d *schema.ResourceData, meta interface{}) error {
 		"ProjectId",
 	}
 	for _, v := range creates {
-		if v1, ok := d.GetOk(FuckHump2Downline(v)); ok {
+		if v == "DBInstanceIdentifier" {
+			createReq[v] = fmt.Sprintf("%v", d.Get("source_db_instance_identifier"))
+		} else if v1, ok := d.GetOk(FuckHump2Downline(v)); ok {
 			createReq[v] = fmt.Sprintf("%v", v1)
 		}
 	}
@@ -527,8 +245,7 @@ func mysqlBackupStateRefresh(client *krds.Krds, instanceId string) resource.Stat
 }
 
 func resourceKsyunKrdsRrUpdate(d *schema.ResourceData, meta interface{}) error {
-
-	return fmt.Errorf("read replica instance do not support update ...")
+	return resourceKsyunMysqlUpdate(d, meta)
 }
 func resourceKsyunKrdsRrRead(d *schema.ResourceData, meta interface{}) error {
 	return resourceKsyunMysqlRead(d, meta)

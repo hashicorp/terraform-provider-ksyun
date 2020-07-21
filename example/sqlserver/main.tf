@@ -1,12 +1,10 @@
 provider "ksyun"{
   region = "cn-shanghai-2"
-  access_key = ""
-  secret_key = ""
 }
 
 
 variable "available_zone" {
-  default = "cn-shanghai-2b"
+  default = "cn-shanghai-2a"
 }
 resource "ksyun_vpc" "default" {
   vpc_name   = "ksyun-vpc-tf"
@@ -26,7 +24,6 @@ resource "ksyun_subnet" "foo" {
 }
 
 resource "ksyun_sqlserver" "ks-ss-233"{
-  output_file = "output_file"
   db_instance_class= "db.ram.2|db.disk.100"
   db_instance_name = "ksyun_sqlserver_1"
   db_instance_type = "HRDS_SS"
