@@ -154,6 +154,24 @@ func resourceKsyunKrds() *schema.Resource {
 				Required: false,
 				Optional: true,
 			},
+			"parameters": {
+				Type: schema.TypeSet,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"value": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+					},
+				},
+				Set:      parameterToHash,
+				Optional: true,
+				Computed: true,
+			},
 			"port": {
 				Type:     schema.TypeInt,
 				Required: false,

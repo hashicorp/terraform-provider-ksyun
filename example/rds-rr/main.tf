@@ -23,7 +23,6 @@ resource "ksyun_subnet" "foo" {
 }
 
 resource "ksyun_krds_security_group" "krds_sec_group_234" {
-  output_file = "output_file"
   security_group_name = "terraform_security_group_234"
   security_group_description = "terraform-security-group-234"
   security_group_rule{
@@ -38,7 +37,6 @@ resource "ksyun_krds_security_group" "krds_sec_group_234" {
 
 
 resource "ksyun_krds" "houbin_terraform_777"{
-  output_file = "output_file"
   db_instance_class= "db.ram.2|db.disk.25"
   db_instance_name = "houbin_terraform_1-n"
   db_instance_type = "HRDS"
@@ -64,8 +62,7 @@ resource "ksyun_krds" "houbin_terraform_777"{
 }
 
 resource "ksyun_krds_rr" "rds-rr-1"{
-  output_file = "output_file"
-  db_instance_identifier= "${ksyun_krds.houbin_terraform_777.id}"
+  source_db_instance_identifier= "${ksyun_krds.houbin_terraform_777.id}"
   db_instance_class= "db.ram.1|db.disk.15"
   db_instance_name = "houbin_terraform_777_rr_1"
   bill_type = "DAY"
