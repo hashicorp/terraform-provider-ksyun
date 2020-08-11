@@ -89,7 +89,7 @@ func testAccCheckKrdsDestroy(s *terraform.State) error {
 const testAccKrdsConfig = `
 
 variable "available_zone" {
-  default = "cn-guangzhou-1a"
+  default = "cn-shanghai-2a"
 }
 resource "ksyun_vpc" "default" {
   vpc_name   = "ksyun-vpc-tf"
@@ -109,9 +109,8 @@ resource "ksyun_subnet" "foo" {
 }
 
 resource "ksyun_krds" "rds_terraform_3"{
-  output_file = "output_file"
-  db_instance_class= "db.ram.2|db.disk.50"
-  db_instance_name = "houbin_terraform_1-n"
+  db_instance_class= "db.ram.1|db.disk.15"
+  db_instance_name = "houbin_terraform_1"
   db_instance_type = "HRDS"
   engine = "mysql"
   engine_version = "5.5"

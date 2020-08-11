@@ -24,7 +24,6 @@ func TestAccKsyunKrdsSecurityGroupDataSource_basic(t *testing.T) {
 
 const testAccDataKrdsSecurityGroupConfig = `
 resource "ksyun_krds_security_group" "krds_sec_group_14" {
-  output_file = "output_file"
   security_group_name = "terraform_security_group_14"
   security_group_description = "terraform-security-group-14"
   security_group_rule{

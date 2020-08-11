@@ -1,16 +1,22 @@
 package ksyun
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/terraform-providers/terraform-provider-ksyun/logger"
-	"io/ioutil"
-	"os"
 	"strconv"
 	"time"
 )
+
+var getInTheSgCar = map[string]bool{
+	"security_group_id":          true,
+	"security_group_name":        true,
+	"security_group_description": true,
+	"created":                    true,
+	//"instances": true,
+	"security_group_rule": true,
+}
 
 func resourceKsyunKrdsSecurityGroup() *schema.Resource {
 	return &schema.Resource{
@@ -27,14 +33,11 @@ func resourceKsyunKrdsSecurityGroup() *schema.Resource {
 			Delete: schema.DefaultTimeout(10 * time.Minute),
 		},
 		Schema: map[string]*schema.Schema{
-			"output_file": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"security_group_id": {
 				Type:     schema.TypeString,
 				Required: false,
 				Optional: true,
+				Computed: true,
 			},
 			"security_group_name": {
 				Type:     schema.TypeString,
@@ -45,13 +48,27 @@ func resourceKsyunKrdsSecurityGroup() *schema.Resource {
 				Required: false,
 				Optional: true,
 			},
-
+			"created": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"security_group_rule": {
 				Type:     schema.TypeSet,
 				Set:      secParameterToHash,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"security_group_rule_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"created": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"security_group_rule_protocol": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -63,100 +80,40 @@ func resourceKsyunKrdsSecurityGroup() *schema.Resource {
 					},
 				},
 			},
-			// 与存入数据一致datakey
-			"security_groups": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-
-						"security_group_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"security_group_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"security_group_description": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"created": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"instances": {
-							Type:     schema.TypeSet,
-							Optional: true,
-							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"db_instance_identifier": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"db_instance_name": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"vip": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"created": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"db_instance_type": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"security_group_rules": {
-							Type:     schema.TypeSet,
-							Optional: true,
-							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"security_group_rule_id": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"security_group_rule_name": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"security_group_rule_protocol": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"created": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-								},
-							},
-						},
-					},
-				},
-			},
+			//"instances": {
+			//	Type:     schema.TypeSet,
+			//	Optional: true,
+			//	Computed: true,
+			//	Elem: &schema.Resource{
+			//		Schema: map[string]*schema.Schema{
+			//			"db_instance_identifier": {
+			//				Type:     schema.TypeString,
+			//				Optional: true,
+			//				Computed: true,
+			//			},
+			//			"db_instance_name": {
+			//				Type:     schema.TypeString,
+			//				Optional: true,
+			//				Computed: true,
+			//			},
+			//			"vip": {
+			//				Type:     schema.TypeString,
+			//				Optional: true,
+			//				Computed: true,
+			//			},
+			//			"created": {
+			//				Type:     schema.TypeString,
+			//				Optional: true,
+			//				Computed: true,
+			//			},
+			//			"db_instance_type": {
+			//				Type:     schema.TypeString,
+			//				Optional: true,
+			//				Computed: true,
+			//			},
+			//		},
+			//	},
+			//},
 		},
 	}
 }
@@ -275,8 +232,7 @@ func resourceKsyunKrdsSecurityGroupUpdate(d *schema.ResourceData, meta interface
 
 		rulesInfoMap := map[int]map[string]interface{}{}
 		// terraform.tfstate读取的不对，所以用output_file里的数据
-		//rulesInfo := d.Get("security_groups").([]interface{})[0].(map[string]interface{})["security_group_rules"].(*schema.Set).List()
-		rulesInfo, err := getResourceByOutputFile(d.Get("output_file").(string) + "_" + d.Id())
+		rulesInfo := d.Get("security_group_rule").(*schema.Set).List()
 		if err != nil {
 			return err
 		}
@@ -304,21 +260,6 @@ func resourceKsyunKrdsSecurityGroupUpdate(d *schema.ResourceData, meta interface
 	d.Partial(false)
 
 	return err
-}
-func getResourceByOutputFile(filename string) ([]interface{}, error) {
-	file, err := os.OpenFile(filename, os.O_RDONLY, 0644)
-	if err != nil {
-		return nil, fmt.Errorf("Open output file error! filename: %v", filename)
-	}
-	defer file.Close()
-	bytefile, err := ioutil.ReadAll(file)
-	if err != nil {
-
-		return nil, fmt.Errorf("Read file error! filename: %v", filename)
-	}
-	v := make([]interface{}, 1)
-	_ = json.Unmarshal(bytefile, &v)
-	return v[0].(map[string]interface{})["security_group_rules"].([]interface{}), nil
 }
 
 func resourceKsyunKrdsSecurityGroupRead(d *schema.ResourceData, meta interface{}) error {
@@ -371,7 +312,7 @@ func resourceKsyunKrdsSecurityGroupRead(d *schema.ResourceData, meta interface{}
 						}
 						wtf[num] = rrmap
 					}
-					krdsMap["security_group_rules"] = wtf
+					krdsMap["security_group_rule"] = wtf
 				}
 			} else {
 				krdsMap[FuckHump2Downline(k)] = v
@@ -383,9 +324,11 @@ func resourceKsyunKrdsSecurityGroupRead(d *schema.ResourceData, meta interface{}
 		logger.DebugInfo("krdsIds fuck : %v", krdsIds)
 		krdsMapList[num] = krdsMap
 	}
-	//d.Set("security_group_id",krdsIds[0])
 	logger.DebugInfo(" converted ---- %+v ", krdsMapList)
-	_ = dataSourceDbSave(d, "security_groups", krdsIds, krdsMapList)
+	if len(krdsMapList) == 0 {
+		return fmt.Errorf("no data on reading security group (%q) ", d.Id())
+	}
+	_ = SetDByFkResp(d, krdsMapList[0], getInTheSgCar)
 
 	return nil
 }
