@@ -3,7 +3,9 @@ package ksyun
 import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 	"github.com/terraform-providers/terraform-provider-ksyun/logger"
+	"regexp"
 )
 
 func dataSourceKsyunInstances() *schema.Resource {
@@ -18,6 +20,12 @@ func dataSourceKsyunInstances() *schema.Resource {
 				},
 				Set: schema.HashString,
 			},
+			"name_regex": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				ValidateFunc: validation.ValidateRegexp,
+			},
+
 			"project_id": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -471,6 +479,16 @@ func dataSourceKsyunInstancesRead(d *schema.ResourceData, m interface{}) error {
 	}
 	datas := GetSubSliceDByRep(allinstances, instanceKeys)
 	dealInstanceData(datas)
+	if nameRegex, ok := d.GetOk("name_regex"); ok {
+		var dataFilter []map[string]interface{}
+		r := regexp.MustCompile(nameRegex.(string))
+		for _, v := range datas {
+			if r == nil || r.MatchString(v["instance_name"].(string)) {
+				dataFilter = append(dataFilter, v)
+			}
+		}
+		datas = dataFilter
+	}
 	err := dataSourceKscSave(d, "instances", instances, datas)
 	if err != nil {
 		return fmt.Errorf("error on save instance list, %s", err)
