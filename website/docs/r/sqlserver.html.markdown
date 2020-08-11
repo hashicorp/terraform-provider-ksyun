@@ -40,14 +40,13 @@ resource "ksyun_subnet" "foo" {
 }
 
 resource "ksyun_sqlserver" "sqlserver-1"{
-  output_file = "output_file"
-  dbinstanceclass= "db.ram.2|db.disk.20"
+  dbinstanceclass= "db.ram.2|db.disk.100"
   dbinstancename = "ksyun_sqlserver_1"
   dbinstancetype = "HRDS_SS"
   engine = "SQLServer"
   engineversion = "2008r2"
   masterusername = "admin"
-  masteruserpassword = "123qweASD"
+  masteruserpassword = "123******"
   vpc_id = "${ksyun_vpc.default.id}"
   subnet_id = "${ksyun_subnet.foo.id}"
   billtype = "DAY"
@@ -58,7 +57,6 @@ resource "ksyun_sqlserver" "sqlserver-1"{
 
 The following arguments are supported:
 
-* `output_file` -(Required) will return the file name of the content store
 * `db_instance_class`-（Required）-this value regex db.ram.d{1,3}|db.disk.d{1,5} , db.ram is rds random access memory size, db.disk is disk size
 * `db_instance_name`-(Required)instance name
 * `db_instance_type`- (Required)instance type supports HRDS_SS
@@ -83,32 +81,10 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* ` DBInstanceClass`- instance specification
-* `  Vcpus`-  number of CPUs
-* `  Disk`-   hard disk size
-* `  Ram `-   memory size
-* `DBInstanceIdentifier`-  instance ID
-* `DBInstanceName`-    instance name
-* `DBInstanceStatus `- instance status
-* `DBInstanceType `-  instance type
-* `DBParameterGroupId `-  parameter group ID
-* `GroupId `-  group ID
-* `SecurityGroupId`-  security group ID
-* `Vip`-  virtual IP
-* `Port `- port number
-* `Engine `-  Database Engine
-* `EngineVersion`-   database engine version
-* `InstanceCreateTime `- instance creation time
-* `MasterUserName `-  primary account user name
-* `DatastoreVersionId `- database version
-* `Region `- region
-* `VpcId `-virtual private network ID
-* `ReadReplicaDBInstanceIdentifiers`-  read only instance
-* `BillType `- Bill type
-* `MultiAvailabilityZone`-  Multi availability zone
-* `ProductId`- Product ID
-* `DiskUsed`-  hard disk usage
-* `ProjectId`-  Project ID
+* `db_instance_identifier`-  instance ID
+* `instance_create_time `-  instance create time
+* `sub_order_id `- sub order id
+* `region `-  Database Engine
 
 NOTE: SQLServer not support modify
 

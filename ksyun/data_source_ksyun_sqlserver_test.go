@@ -46,7 +46,6 @@ resource "ksyun_subnet" "foo" {
 }
 
 resource "ksyun_sqlserver" "ks-ss-233"{
-  output_file = "output_file"
   db_instance_class= "db.ram.2|db.disk.100"
   db_instance_name = "ksyun_sqlserver_1"
   db_instance_type = "HRDS_SS"

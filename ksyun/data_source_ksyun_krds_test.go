@@ -46,7 +46,6 @@ resource "ksyun_subnet" "foo" {
 }
 
 resource "ksyun_krds" "rds_terraform_3"{
-  output_file = "output_file"
   db_instance_class= "db.ram.2|db.disk.50"
   db_instance_name = "houbin_terraform_1-n"
   db_instance_type = "HRDS"

@@ -42,7 +42,6 @@ resource "ksyun_subnet" "foo" {
 }
 
 resource "ksyun_krds_security_group" "krds_sec_group_14" {
-  output_file = "output_file"
   security_group_name = "terraform_security_group_14"
   security_group_description = "terraform-security-group-14"
   security_group_rule{
@@ -56,7 +55,6 @@ resource "ksyun_krds_security_group" "krds_sec_group_14" {
 }
 
 resource "ksyun_krds" "my_rds_xx"{
-  output_file = "output_file"
   db_instance_class= "db.ram.2|db.disk.21"
   db_instance_name = "houbin_terraform_1-n"
   db_instance_type = "HRDS"
@@ -71,6 +69,7 @@ resource "ksyun_krds" "my_rds_xx"{
   preferred_backup_time = "01:00-02:00"
   availability_zone_1 = "cn-shanghai-3a"
   availability_zone_2 = "cn-shanghai-3b"
+  port=3306
 }
 ```
 »Create a RDS MySQL instance with specific parameters
@@ -158,7 +157,6 @@ resource "ksyun_krds" "my_rds_xx"{
 The following arguments are supported:
 
 
-* `output_file` -(Required) will return the file name of the content store
 * `db_instance_class`-（Required）-this value regex db.ram.d{1,3}|db.disk.d{1,5} , db.ram is rds random access memory size, db.disk is disk size
 * `db_instance_name`-(Required)instance name
 * `db_instance_type`- (Required)instance type supports hrds
@@ -182,32 +180,11 @@ db engine version only support 5.5|5.6|5.7|8.0
 ## Attributes Reference
 In addition to all arguments above, the following attributes are exported:
 
-* ` DBInstanceClass`- instance specification
-* `  Vcpus`-  number of CPUs
-* `  Disk`-   hard disk size
-* `  Ram `-   memory size
-* `DBInstanceIdentifier`-  instance ID
-* `DBInstanceName`-    instance name
-* `DBInstanceStatus `- instance status
-* `DBInstanceType `-  instance type
-* `DBParameterGroupId `-  parameter group ID
-* `GroupId `-  group ID
-* `SecurityGroupId`-  security group ID
-* `Vip`-  virtual IP
-* `Port `- port number
-* `Engine `-  Database Engine
-* `EngineVersion`-   database engine version
-* `InstanceCreateTime `- instance creation time
-* `MasterUserName `-  primary account user name
-* `DatastoreVersionId `- database version
-* `Region `- region
-* `VpcId `-virtual private network ID
-* `ReadReplicaDBInstanceIdentifiers`-  read only instance
-* `BillType `- Bill type
-* `MultiAvailabilityZone`-  Multi availability zone
-* `ProductId`- Product ID
-* `DiskUsed`-  hard disk usage
-* `ProjectId`-  Project ID
+* `db_instance_identifier`-  instance ID
+* `instance_create_time `-  instance create time
+* `db_parameter_group_id`-  parameter group id
+* `sub_order_id `- sub order id
+* `region `-  Database Engine
 
 NOTE: Because of data backup and migration, change DB instance type and storage would cost 15~30 minutes, or even more. Please make full preparation before changing them.
 

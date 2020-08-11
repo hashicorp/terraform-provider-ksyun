@@ -1,10 +1,12 @@
-
+provider "ksyun"{
+  region = "cn-shanghai-2"
+}
 
 variable "available_zone" {
-  default = "cn-guangzhou-1a"
+  default = "cn-shanghai-2a"
 }
 resource "ksyun_vpc" "default" {
-  vpc_name   = "ksyun-vpc-tf"
+  vpc_name   = "ksyun-vpc-terraform"
   cidr_block = "10.7.0.0/21"
 }
 resource "ksyun_subnet" "foo" {
@@ -20,10 +22,9 @@ resource "ksyun_subnet" "foo" {
   availability_zone = "${var.available_zone}"
 }
 
-resource "ksyun_krds_security_group" "krds_sec_group_233" {
-  output_file = "output_file"
-  security_group_name = "terraform_security_group_233"
-  security_group_description = "terraform-security-group-233"
+resource "ksyun_krds_security_group" "krds_sec_group_234" {
+  security_group_name = "terraform_security_group_234"
+  security_group_description = "terraform-security-group-234"
   security_group_rule{
     security_group_rule_protocol = "182.133.0.0/16"
     security_group_rule_name = "asdf"
@@ -36,8 +37,7 @@ resource "ksyun_krds_security_group" "krds_sec_group_233" {
 
 
 resource "ksyun_krds" "houbin_terraform_777"{
-  output_file = "output_file"
-  db_instance_class= "db.ram.2|db.disk.21"
+  db_instance_class= "db.ram.2|db.disk.25"
   db_instance_name = "houbin_terraform_1-n"
   db_instance_type = "HRDS"
   engine = "mysql"
@@ -47,7 +47,7 @@ resource "ksyun_krds" "houbin_terraform_777"{
   vpc_id = "${ksyun_vpc.default.id}"
   subnet_id = "${ksyun_subnet.foo.id}"
   bill_type = "DAY"
-  security_group_id = "${ksyun_krds_security_group.krds_sec_group_233.id}"
+  security_group_id = "${ksyun_krds_security_group.krds_sec_group_234.id}"
   preferred_backup_time = "01:00-02:00"
   parameters {
     name = "auto_increment_increment"
@@ -62,9 +62,8 @@ resource "ksyun_krds" "houbin_terraform_777"{
 }
 
 resource "ksyun_krds_rr" "rds-rr-1"{
-  output_file = "output_file"
-  db_instance_identifier= "${ksyun_krds.houbin_terraform_777.id}"
-  db_instance_class= "db.ram.4|db.disk.100"
+  source_db_instance_identifier= "${ksyun_krds.houbin_terraform_777.id}"
+  db_instance_class= "db.ram.1|db.disk.15"
   db_instance_name = "houbin_terraform_777_rr_1"
   bill_type = "DAY"
 
