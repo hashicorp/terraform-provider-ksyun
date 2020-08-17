@@ -156,7 +156,7 @@ resource "ksyun_lb_listener" "default" {
     cookie_name = "cookiexunqq"
   }
 }
-resource "ksyun_listener_host_header" "default" {
+resource "ksyun_lb_host_header" "default" {
   listener_id = "${ksyun_lb_listener.default.id}"
   host_header = "tf-xuan"
   certificate_id = ""
@@ -164,7 +164,7 @@ resource "ksyun_listener_host_header" "default" {
 
 resource "ksyun_lb_rule" "foo" {
   path = "/tfxun"
-  host_header_id = "${ksyun_listener_host_header.default.id}"
+  host_header_id = "${ksyun_lb_host_header.default.id}"
   backend_server_group_id="${ksyun_lb_backend_server_group.default.id}"
   listener_sync="on"
   method="RoundRobin"
@@ -220,7 +220,7 @@ resource "ksyun_lb_listener" "default" {
     cookie_name = "cookiexunqq"
   }
 }
-resource "ksyun_listener_host_header" "default" {
+resource "ksyun_lb_host_header" "default" {
   listener_id = "${ksyun_lb_listener.default.id}"
   host_header = "tf-xuan"
   certificate_id = ""
@@ -228,7 +228,7 @@ resource "ksyun_listener_host_header" "default" {
 
 resource "ksyun_lb_rule" "foo" {
   path = "/tfxun/update"
-  host_header_id = "${ksyun_listener_host_header.default.id}"
+  host_header_id = "${ksyun_lb_host_header.default.id}"
   backend_server_group_id="${ksyun_lb_backend_server_group.default.id}"
   listener_sync="on"
   method="RoundRobin"
