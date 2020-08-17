@@ -61,3 +61,9 @@ endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider-test PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
 
 .PHONY: build test testacc vet fmt fmtcheck errcheck lint tools test-compile website website-lint website-test
+
+dev: clean fmt
+	@chmod +x scripts/devinit.sh
+	@bash ./scripts/devinit.sh
+clean:
+	rm -rf bin/*

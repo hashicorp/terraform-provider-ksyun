@@ -18,6 +18,12 @@ func dataSourceKsyunInstances() *schema.Resource {
 				},
 				Set: schema.HashString,
 			},
+			"search": {
+				Type:     schema.TypeString,
+				Optional: true,
+				//ValidateFunc: validation.ValidateRegexp,
+			},
+
 			"project_id": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -240,6 +246,10 @@ func dataSourceKsyunInstances() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"public_ip": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"security_group_set": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -374,7 +384,9 @@ func dataSourceKsyunInstancesRead(d *schema.ResourceData, m interface{}) error {
 		}
 		req[fmt.Sprintf("ProjectId.%d", k+1)] = v
 	}
-
+	if search, ok := d.GetOk("search"); ok {
+		req["Search"] = search
+	}
 	filters := []string{
 		"instance_id",
 		"subnet_id",

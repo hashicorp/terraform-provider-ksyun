@@ -8,8 +8,8 @@ provider "ksyun" {
 # Get  slbs
 data "ksyun_lbs" "default" {
   output_file="output_result"
-
-  ids=["d3fd0421-a35a-4ddb-a939-5c51e8af8e8c"]
+  name_regex=""
+  ids=["d3fd0421-a35a-4ddb-a939-xxxxxxx"]
   state=""
   vpc_id=[]
 }

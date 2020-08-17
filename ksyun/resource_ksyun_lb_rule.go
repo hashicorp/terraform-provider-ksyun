@@ -9,57 +9,43 @@ import (
 	"time"
 )
 
-func resourceKsyunListener() *schema.Resource {
+func resourceKsyunSlbRule() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceKsyunListenerCreate,
-		Read:   resourceKsyunListenerRead,
-		Update: resourceKsyunListenerUpdate,
-		Delete: resourceKsyunListenerDelete,
+		Create: resourceKsyunSlbRuleCreate,
+		Read:   resourceKsyunSlbRuleRead,
+		Update: resourceKsyunSlbRuleUpdate,
+		Delete: resourceKsyunSlbRuleDelete,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 
 		Schema: map[string]*schema.Schema{
-			"load_balancer_id": {
+			"path": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"listener_state": {
+			"host_header_id": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
-			"listener_name": {
+			"backend_server_group_id": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
-			"listener_protocol": {
+			"listener_sync": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"certificate_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"listener_port": {
-				Type:     schema.TypeInt,
 				Required: true,
 			},
 			"method": {
 				Type:     schema.TypeString,
-				Required: true,
-			},
-			"listener_id": {
-				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
 			},
 			"create_time": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"http_protocol": {
+			"rule_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -74,38 +60,47 @@ func resourceKsyunListener() *schema.Resource {
 						},
 						"listener_id": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"health_check_state": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"healthy_threshold": {
 							Type:     schema.TypeInt,
+							Optional: true,
 							Computed: true,
 						},
 						"interval": {
 							Type:     schema.TypeInt,
+							Optional: true,
 							Computed: true,
 						},
 						"timeout": {
 							Type:     schema.TypeInt,
+							Optional: true,
 							Computed: true,
 						},
 						"unhealthy_threshold": {
 							Type:     schema.TypeInt,
+							Optional: true,
 							Computed: true,
 						},
 						"url_path": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"host_name": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 					},
 				},
+				Optional: true,
 				Computed: true,
 			},
 			"session": {
@@ -137,61 +132,18 @@ func resourceKsyunListener() *schema.Resource {
 						},
 					},
 				},
-				//			Set: resourceKscListenerSessionHash,
-			},
-			"real_server": {
-				Type: schema.TypeList,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"real_server_ip": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"real_server_port": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"real_server_state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"real_server_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"register_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"listener_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"instance_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"weight": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-					},
-				},
-				Computed: true,
 			},
 		},
 	}
 }
-func resourceKsyunListenerCreate(d *schema.ResourceData, m interface{}) error {
+func resourceKsyunSlbRuleCreate(d *schema.ResourceData, m interface{}) error {
 	slbconn := m.(*KsyunClient).slbconn
 	req := make(map[string]interface{})
 	creates := []string{
-		"load_balancer_id",
-		"listener_state",
-		"listener_name",
-		"listener_protocol",
-		"certificate_id",
-		"listener_port",
+		"path",
+		"host_header_id",
+		"backend_server_group_id",
+		"listener_sync",
 		"method",
 	}
 	for _, v := range creates {
@@ -200,44 +152,59 @@ func resourceKsyunListenerCreate(d *schema.ResourceData, m interface{}) error {
 			req[vv] = fmt.Sprintf("%v", v1)
 		}
 	}
-	if v, ok := d.GetOk("session"); ok {
-		FlatternStruct(v, &req)
+	createStructs := []string{
+		"session",
+		"health_check",
 	}
-	action := "CreateListeners"
+	for _, v := range createStructs {
+		if v1, ok := d.GetOk(v); ok {
+			FlatternStruct(v1, &req)
+		}
+	}
+
+	action := "CreateSlbRule"
 	logger.Debug(logger.ReqFormat, action, req)
-	resp, err := slbconn.CreateListeners(&req)
+	resp, err := slbconn.CreateSlbRule(&req)
 	if err != nil {
-		return fmt.Errorf("Error CreateListeners : %s", err)
+		return fmt.Errorf("Error CreateSlbRules : %s", err)
 	}
 	logger.Debug(logger.RespFormat, action, req, *resp)
 
-	id, ok := (*resp)["ListenerId"]
+	item, ok := (*resp)["Rule"]
 	if !ok {
-		return fmt.Errorf("Error CreateListeners : no ListenerId found")
+		return fmt.Errorf("Error CreateSlbRules : no SlbRule found")
+	}
+	data, ok := item.(map[string]interface{})
+	if !ok {
+		return fmt.Errorf("Error CreateSlbRules : no SlbRule found")
+	}
+	id, ok := data["RuleId"]
+	if !ok {
+		return fmt.Errorf("Error CreateSlbRules : no SlbRuleId found")
 	}
 	idres, ok := id.(string)
 	if !ok {
-		return fmt.Errorf("Error CreateListeners : no ListenerId found")
+		return fmt.Errorf("Error CreateSlbRules : no SlbRuleId found")
 	}
 	d.SetId(idres)
-	if err := d.Set("listener_id", idres); err != nil {
+	if err := d.Set("rule_id", idres); err != nil {
 		return err
 	}
-	return resourceKsyunListenerRead(d, m)
+	return resourceKsyunSlbRuleRead(d, m)
 }
 
-func resourceKsyunListenerRead(d *schema.ResourceData, m interface{}) error {
+func resourceKsyunSlbRuleRead(d *schema.ResourceData, m interface{}) error {
 	slbconn := m.(*KsyunClient).slbconn
 	req := make(map[string]interface{})
-	req["ListenerId.1"] = d.Id()
-	action := "DescribeListeners"
+	req["RuleId.1"] = d.Id()
+	action := "DescribeRules"
 	logger.Debug(logger.ReqFormat, action, req)
-	resp, err := slbconn.DescribeListeners(&req)
+	resp, err := slbconn.DescribeRules(&req)
 	if err != nil {
-		return fmt.Errorf("Error DescribeListeners : %s", err)
+		return fmt.Errorf("Error DescribeSlbRules : %s", err)
 	}
 	logger.Debug(logger.RespFormat, action, req, *resp)
-	itemset := (*resp)["ListenerSet"]
+	itemset := (*resp)["RuleSet"]
 	items, ok := itemset.([]interface{})
 	if !ok || len(items) == 0 {
 		d.SetId("")
@@ -245,20 +212,12 @@ func resourceKsyunListenerRead(d *schema.ResourceData, m interface{}) error {
 	}
 	excludes := SetDByResp(d, items[0], listenerKeys, map[string]bool{
 		"HealthCheck": true,
-		"RealServer":  true,
 		"Session":     true},
 	)
 
 	subSession := GetSubStructDByRep(excludes["Session"], map[string]bool{})
 	if err := d.Set("session", []interface{}{subSession}); err != nil {
 		return err
-	}
-	server, ok := excludes["RealServer"].([]interface{})
-	if ok {
-		subRes := GetSubSliceDByRep(server, serverKeys)
-		if err := d.Set("real_server", subRes); err != nil {
-			return err
-		}
 	}
 	subHealth := GetSubStructDByRep(excludes["HealthCheck"], map[string]bool{})
 	if err := d.Set("health_check", []interface{}{subHealth}); err != nil {
@@ -267,21 +226,14 @@ func resourceKsyunListenerRead(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceKsyunListenerUpdate(d *schema.ResourceData, m interface{}) error {
+func resourceKsyunSlbRuleUpdate(d *schema.ResourceData, m interface{}) error {
 	slbconn := m.(*KsyunClient).slbconn
 	req := make(map[string]interface{})
-	req["ListenerId"] = d.Id()
+	req["RuleId"] = d.Id()
 	allAttributes := []string{
-		"certificate_id",
-		"listener_name",
-		"listener_state",
+		"backend_server_group_id",
+		"listener_sync",
 		"method",
-		/*
-			"session_state",
-			"session_persistence_period",
-			"cookie_type",
-			"cookie_name",
-		*/
 	}
 	// Whether the representative has any modifications
 	attributeUpdate := false
@@ -297,6 +249,10 @@ func resourceKsyunListenerUpdate(d *schema.ResourceData, m interface{}) error {
 		FlatternStruct(d.Get("session"), &req)
 		attributeUpdate = true
 	}
+	if d.HasChange("health_check") && !d.IsNewResource() {
+		FlatternStruct(d.Get("health_check"), &req)
+		attributeUpdate = true
+	}
 	if !attributeUpdate {
 		return nil
 	}
@@ -308,16 +264,16 @@ func resourceKsyunListenerUpdate(d *schema.ResourceData, m interface{}) error {
 	}
 	// Enable partial attribute modification
 	d.Partial(true)
-	action := "ModifyListeners"
+	action := "ModifySlbRule"
 	logger.Debug(logger.ReqFormat, action, req)
-	resp, err := slbconn.ModifyListeners(&req)
+	resp, err := slbconn.ModifySlbRule(&req)
 	if err != nil {
 		logger.Debug(logger.AllFormat, action, req, *resp, err)
 		if strings.Contains(err.Error(), "400") {
 			time.Sleep(time.Second * 3)
-			resp, err = slbconn.ModifyListeners(&req)
+			resp, err = slbconn.ModifySlbRule(&req)
 			if err != nil {
-				return fmt.Errorf("update Listener (%v)error:%v", req, err)
+				return fmt.Errorf("update SlbRule (%v)error:%v", req, err)
 			}
 		}
 	}
@@ -326,25 +282,18 @@ func resourceKsyunListenerUpdate(d *schema.ResourceData, m interface{}) error {
 		d.SetPartial(v)
 	}
 	d.Partial(false)
-	return resourceKsyunListenerRead(d, m)
+	return resourceKsyunSlbRuleRead(d, m)
 }
 
-func resourceKsyunListenerDelete(d *schema.ResourceData, m interface{}) error {
+func resourceKsyunSlbRuleDelete(d *schema.ResourceData, m interface{}) error {
 	slbconn := m.(*KsyunClient).slbconn
 	req := make(map[string]interface{})
-	req["ListenerId"] = d.Id()
-	/*
-		req["LoadBalancerId"] = d.Id()
-		_, err := slbconn.DeleteLoadBalancer(&req)
-		if err != nil {
-			return fmt.Errorf("release Listener error:%v", err)
-		}
-		return nil
-	*/
+	req["RuleId"] = d.Id()
+
 	return resource.Retry(25*time.Minute, func() *resource.RetryError {
-		action := "DeleteListeners"
+		action := "DeleteRule"
 		logger.Debug(logger.ReqFormat, action, req)
-		resp, err1 := slbconn.DeleteListeners(&req)
+		resp, err1 := slbconn.DeleteRule(&req)
 		logger.Debug(logger.AllFormat, action, req, *resp, err1)
 		if err1 == nil || (err1 != nil && notFoundError(err1)) {
 			return nil
@@ -353,15 +302,15 @@ func resourceKsyunListenerDelete(d *schema.ResourceData, m interface{}) error {
 			return resource.RetryableError(err1)
 		}
 		req := make(map[string]interface{})
-		req["ListenerId.1"] = d.Id()
-		action = "DescribeListeners"
+		req["RuleId.1"] = d.Id()
+		action = "DescribeRules"
 		logger.Debug(logger.ReqFormat, action, req)
-		resp, err := slbconn.DescribeListeners(&req)
+		resp, err := slbconn.DescribeRules(&req)
 		if err != nil {
-			return resource.NonRetryableError(fmt.Errorf("error on reading Listener when deleting %q, %s", d.Id(), err))
+			return resource.NonRetryableError(fmt.Errorf("error on reading SlbRule when deleting %q, %s", d.Id(), err))
 		}
 		logger.Debug(logger.RespFormat, action, req, *resp)
-		items, ok := (*resp)["ListenerSet"]
+		items, ok := (*resp)["RuleSet"]
 		if !ok {
 			return nil
 		}
@@ -369,6 +318,6 @@ func resourceKsyunListenerDelete(d *schema.ResourceData, m interface{}) error {
 		if !ok || len(itemsspe) == 0 {
 			return nil
 		}
-		return resource.RetryableError(fmt.Errorf(" the specified Listener %q has not been deleted due to unknown error", d.Id()))
+		return resource.RetryableError(fmt.Errorf(" the specified SlbRule %q has not been deleted due to unknown error", d.Id()))
 	})
 }

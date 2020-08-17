@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"regexp"
 )
 
 func dataSourceKsyunLbs() *schema.Resource {
@@ -18,6 +19,12 @@ func dataSourceKsyunLbs() *schema.Resource {
 				},
 				Set: schema.HashString,
 			},
+			"name_regex": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				ValidateFunc: validation.ValidateRegexp,
+			},
+
 			"vpc_id": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -129,6 +136,16 @@ func dataSourceKsyunLbsRead(d *schema.ResourceData, m interface{}) error {
 	}
 	allSlbs = append(allSlbs, items...)
 	datas := GetSubSliceDByRep(allSlbs, slbKeys)
+	if nameRegex, ok := d.GetOk("name_regex"); ok {
+		var dataFilter []map[string]interface{}
+		r := regexp.MustCompile(nameRegex.(string))
+		for _, v := range datas {
+			if r == nil || r.MatchString(v["load_balancer_name"].(string)) {
+				dataFilter = append(dataFilter, v)
+			}
+		}
+		datas = dataFilter
+	}
 	err = dataSourceKscSave(d, "lbs", slbs, datas)
 	if err != nil {
 		return fmt.Errorf("error on save Slb list, %s", err)
