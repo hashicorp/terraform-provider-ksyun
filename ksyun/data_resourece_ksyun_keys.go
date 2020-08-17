@@ -463,3 +463,44 @@ var mongodbShardInstanceShardNodeKeys = map[string]bool{
 	"Iops":          true,
 	"InstanceClass": true,
 }
+var hostHeaderKeys = map[string]bool{
+	"CreateTime":    true,
+	"HostHeader":    true,
+	"HostHeaderId":  true,
+	"ListenerId":    true,
+	"CertificateId": true,
+}
+var slbRuleKeys = map[string]bool{
+	"CreateTime":           true,
+	"Path":                 true,
+	"HostHeaderId":         true,
+	"BackendServerGroupId": true,
+	"Method":               true,
+	"ListenerSync":         true,
+	"HealthCheck":          true,
+	"Session":              true,
+	"RuleId":               true,
+}
+var backendServerGroupKeys = map[string]bool{
+	"CreateTime":             true,
+	"BackendServerGroupName": true,
+	"BackendServerGroupId":   true,
+	"VpcId":                  true,
+	"BackendServerNumber":    true,
+	"BackendServerGroupType": true,
+	"HealthCheck":            true,
+}
+var registerBackendServerKeys = map[string]bool{
+	"CreateTime":           true,
+	"BackendServerGroupId": true,
+	"BackendServerIp":      true,
+	"RegisterId":           true,
+	"RealServerIp":         true,
+	"RealServerPort":       true,
+	"RealServerType":       true,
+	"MasterSlaveType":      true,
+	"InstanceId":           true,
+	"NetworkInterfaceId":   true,
+	"RealServerState":      true,
+	"Weight":               true,
+}
