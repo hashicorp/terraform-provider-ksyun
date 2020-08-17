@@ -26,6 +26,5 @@ const testAccDataBackendServerGroupsConfig = `
 data "ksyun_lb_backend_server_groups" "foo" {
   output_file="output_result"
   ids=[]
-  host_header_id=[]
 }
 `

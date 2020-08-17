@@ -15,7 +15,7 @@ func TestAccKsyunListenerHostHeadersDataSource_basic(t *testing.T) {
 			{
 				Config: testAccDataListenerHostHeadersConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckIDExists("data.ksyun_listener_host_headers.foo"),
+					testAccCheckIDExists("data.ksyun_lb_host_headers.foo"),
 				),
 			},
 		},
@@ -23,7 +23,7 @@ func TestAccKsyunListenerHostHeadersDataSource_basic(t *testing.T) {
 }
 
 const testAccDataListenerHostHeadersConfig = `
-data "ksyun_listener_host_headers" "foo" {
+data "ksyun_lb_host_headers" "foo" {
   output_file="output_result"
   ids=[]
   listener_id=[]

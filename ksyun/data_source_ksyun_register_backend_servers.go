@@ -46,6 +46,10 @@ func dataSourceKsyunRegisterBackendServers() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"weight": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
 						"register_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -89,7 +93,7 @@ func dataSourceKsyunRegisterBackendServersRead(d *schema.ResourceData, m interfa
 	conn := m.(*KsyunClient).slbconn
 	req := make(map[string]interface{})
 	var backendServers []string
-	if ids, ok := d.GetOk("register_id"); ok {
+	if ids, ok := d.GetOk("id"); ok {
 		backendServers = SchemaSetToStringSlice(ids)
 	}
 	for k, v := range backendServers {
