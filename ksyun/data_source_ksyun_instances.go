@@ -246,6 +246,10 @@ func dataSourceKsyunInstances() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"public_ip": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"security_group_set": {
 										Type:     schema.TypeList,
 										Computed: true,

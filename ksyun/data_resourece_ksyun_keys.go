@@ -203,6 +203,7 @@ var kecNetworkInterfaceKeys = map[string]bool{
 	"PrivateIpAddress":     true,
 	"DNS1":                 true,
 	"DNS2":                 true,
+	"PublicIp":             true,
 }
 var kecNetworkInterfaceSetKeys = map[string]bool{
 	"NetworkInterfaceId":   true,

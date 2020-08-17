@@ -260,7 +260,10 @@ func resourceKsyunInstance() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
+			"public_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"group_set": {
 				Type:     schema.TypeList,
 				Computed: true,
