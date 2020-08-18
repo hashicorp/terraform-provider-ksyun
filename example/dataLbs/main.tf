@@ -5,7 +5,7 @@ provider "ksyun" {
   region = "eu-east-1"
 }
 
-# Get  slbs
+# Get  lbs
 data "ksyun_lbs" "default" {
   output_file="output_result"
   name_regex=""

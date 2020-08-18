@@ -17,6 +17,7 @@ This data source providers a list of instance resources according to their avail
 data "ksyun_instances" "default" {
   output_file = "output_result"
   ids = []
+  search = ""
   project_id = []
   network_interface {
   network_interface_id = []
@@ -37,7 +38,7 @@ data "ksyun_instances" "default" {
 The following arguments are supported:
 
 * `ids` - (Optional) A list of instance IDs.
-* `name_regex` - (Optional) A regex string to filter results by instance name.
+* `research` - (Optional) A regex string to filter results by instance name or privateIpAddress.
 * `image_id` - (Optional) The image ID of some instance used.
 * `subnet_id` - (Optional) The ID of subnet. the instance will use the subnet in the current region.
 * `security_group_id` - (Optional) Security Group to associate with.
