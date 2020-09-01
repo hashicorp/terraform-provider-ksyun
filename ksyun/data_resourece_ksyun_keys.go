@@ -277,7 +277,6 @@ var redisInstanceKeys = map[string]bool{
 	"region":           true,
 	"az":               true,
 	"name":             true,
-	"securityGroupId":  true,
 	"engine":           true,
 	"mode":             true,
 	"size":             true,
@@ -306,8 +305,8 @@ var redisInstanceKeys = map[string]bool{
 	"productId":        true,
 	"orderUse":         true,
 	"readonlyNode":     true,
-	"rules":            true,
-	"parameters":       true,
+	//"rules":            true,
+	"parameters": true,
 }
 
 /*
@@ -504,4 +503,12 @@ var registerBackendServerKeys = map[string]bool{
 	"NetworkInterfaceId":   true,
 	"RealServerState":      true,
 	"Weight":               true,
+}
+
+var redisSecKeys = map[string]bool{
+	"securityGroupId": true,
+	"name":            true,
+	"description":     true,
+	"created":         true,
+	"updated":         true,
 }

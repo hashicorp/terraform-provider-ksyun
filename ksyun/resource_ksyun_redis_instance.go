@@ -131,7 +131,7 @@ func resourceRedisInstance() *schema.Resource {
 			},
 			"security_group_id": {
 				Type:     schema.TypeString,
-				Computed: true,
+				Required: true,
 			},
 			"engine": {
 				Type:     schema.TypeString,
@@ -231,7 +231,7 @@ func resourceRedisInstanceCreate(d *schema.ResourceData, meta interface{}) error
 
 	conn := meta.(*KsyunClient).kcsv1conn
 	createReq := make(map[string]interface{})
-	createParam := []string{"available_zone", "name", "capacity", "net_type", "vpc_id", "vnet_id", "mode", "slave_num", "bill_type", "duration", "duration_unit", "pass_word", "iam_project_id", "protocol"}
+	createParam := []string{"available_zone", "name", "capacity", "net_type", "vpc_id", "vnet_id", "mode", "slave_num", "bill_type", "duration", "duration_unit", "pass_word", "iam_project_id", "protocol", "security_group_id"}
 	for _, v := range createParam {
 		if v1, ok := d.GetOk(v); ok {
 			createReq[Downline2Hump(v)] = fmt.Sprintf("%v", v1)
