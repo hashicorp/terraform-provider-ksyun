@@ -1,6 +1,10 @@
-| layout | page_title                  | sidebar_current           | description                         |
-| ------ | --------------------------- | ------------------------- | ----------------------------------- |
-| ksyun  | Ksyun: ksyun_lb_host_header | docs-ksyun-lb-host-header | Provides a lb host header resource. |
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_lb_host_header"
+sidebar_current: "docs-ksyun-lb-host-header"
+description: |-
+  Provides a lb host header resource.
+---
 
 # ksyun_lb_host_header
 
@@ -8,7 +12,7 @@ Provides a lb host header resource.
 
 ## Example Usage
 
-```
+```hcl
 resource "ksyun_lb_host_header" "foo" {
 listener_id = "xxxx"
 host_header = "tf-xuan"

@@ -12,7 +12,7 @@ This data source providers a list of instance resources according to their avail
 
 ## Example Usage
 
-```h
+```hcl
 # Get  instances
 data "ksyun_instances" "default" {
   output_file = "output_result"

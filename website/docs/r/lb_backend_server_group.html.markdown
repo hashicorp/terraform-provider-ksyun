@@ -1,6 +1,10 @@
-| layout | page_title                           | sidebar_current                    | description                                  |
-| ------ | ------------------------------------ | ---------------------------------- | -------------------------------------------- |
-| ksyun  | Ksyun: ksyun_lb_backend_server_group | docs-ksyun-lb-backend-server-group | Provides a lb backend server group resource. |
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_lb_backend_server_group"
+sidebar_current: "docs-ksyun-lb-backend-server-group"
+description: |-
+  Provides a lb backend server group resource.
+---
 
 # ksyun_lb_backend_server_group
 
@@ -8,7 +12,7 @@ Provides a lb backend server group resource.
 
 ## Example Usage
 
-```
+```hcl
 provider "ksyun" {
 }
 resource "ksyun_lb_backend_server_group" "default" {

@@ -1,6 +1,11 @@
-| layout | page_title                              | sidebar_current                       | description                                     |
-| ------ | --------------------------------------- | ------------------------------------- | ----------------------------------------------- |
-| ksyun  | Ksyun: ksyun_lb_register_backend_server | docs-ksyun-lb-register-backend-server | Provides a lb register backend server resource. |
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_lb_register_backend_server"
+sidebar_current: "docs-ksyun-lb-register-backend-server"
+description: |-
+  Provides a lb register backend server resource.
+---
+
 
 # ksyun_lb_register_backend_server
 
@@ -8,7 +13,7 @@ Provides a lb register backend server resource.
 
 ## Example Usage
 
-```
+```hcl
 provider "ksyun" {
 }
 resource "ksyun_lb_register_backend_server" "default" {

@@ -1,14 +1,18 @@
-| layout | page_title                            | sidebar_current                                | description                                                  |
-| ------ | ------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
-| ksyun  | Ksyun: ksyun_lb_register_backend_servers | docs-ksyun-datasource-lb-register-backend-servers | Provides a list of register backend servers in the current region. |
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_lb_register_backend_servers"
+sidebar_current: "docs-ksyun-datasource-lb-register-backend-servers"
+description: |-
+  Provides a list of lb register backend servers in the current region.
+---
 
-# ksyun_register_backend_servers
+# ksyun_lb_register_backend_servers
 
 Provides a list of register backend servers in the current region.
 
 ## Example Usage
 
-```
+```hcl
 provider "ksyun" {
 region="cn-beijing-6"
 }

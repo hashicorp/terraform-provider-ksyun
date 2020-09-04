@@ -1,14 +1,18 @@
-| layout | page_title                   | sidebar_current                       | description                                                  |
-| ------ | ---------------------------- | ------------------------------------- | ------------------------------------------------------------ |
-| ksyun  | Ksyun: ksyun_lb_host_headers | docs-ksyun-datasource-lb-host-headers | Provides a list of lb host headers resources in the current region. |
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_lb_host_headers"
+sidebar_current: "docs-ksyun-datasource-lb-host-headers"
+description: |-
+  Provides a list of lb host headers in the current region.
+---
 
-# ksyun_lb_host_headers 
+# ksyun_lb_host_headers
 
-  Provides a list of lb host headers resources in the current region.
+  Provides a list of lb host headers in the current region.
 
 ## Example Usage
 
-```
+```hcl
 provider "ksyun" {
 }
 # Get slbs

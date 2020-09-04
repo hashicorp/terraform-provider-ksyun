@@ -1,6 +1,11 @@
-| layout | page_title           | sidebar_current    | description                  |
-| ------ | -------------------- | ------------------ | ---------------------------- |
-| ksyun  | Ksyun: ksyun_lb_rule | docs-ksyun-lb-rule | Provides a lb rule resource. |
+---
+layout: "ksyun"
+page_title: "Ksyun: ksyun_lb_rule"
+sidebar_current: "docs-ksyun-lb-rule"
+description: |-
+  Provides a lb rule resource.
+---
+
 
 # ksyun_lb_rule
 
@@ -8,7 +13,7 @@
 
 ## Example Usage
 
-```
+```hcl
 provider "ksyun" {
 }
 resource "ksyun_lb_rule" "default" {
