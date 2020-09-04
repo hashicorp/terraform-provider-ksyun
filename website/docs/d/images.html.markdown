@@ -12,7 +12,7 @@ This data source providers a list of available image resources according to thei
 
 ## Example Usage
 
-```h
+```hcl
 # Get  ksyun_images
 data "ksyun_images" "default" {
   output_file="output_result"

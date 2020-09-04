@@ -7,7 +7,7 @@ provider "ksyun" {
 data "ksyun_instances" "default" {
   output_file = "output_result"
   ids = []
-  name_regex=""
+  search=""
   project_id = []
   network_interface {
     network_interface_id = []

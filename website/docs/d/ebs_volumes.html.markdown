@@ -12,7 +12,7 @@ This data source providers a list of volume resources according to their availab
 
 ## Example Usage
 
-```h
+```hcl
 data "ksyun_volumes" "default" {
   output_file="output_result"
   ids=[]
