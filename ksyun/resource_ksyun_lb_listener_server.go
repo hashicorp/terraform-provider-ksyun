@@ -42,7 +42,7 @@ func resourceKsyunInstancesWithListener() *schema.Resource {
 			"weight": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default:  "1",
+				Default:  1,
 			},
 			"real_server_state": {
 				Type:     schema.TypeString,
@@ -67,6 +67,7 @@ func resourceKsyunInstancesWithListenerCreate(d *schema.ResourceData, m interfac
 		"instance_id",
 		"weight",
 	}
+	req["Weight"] = "0"
 	for _, v := range creates {
 		if v1, ok := d.GetOk(v); ok {
 			vv := Downline2Hump(v)
@@ -138,6 +139,7 @@ func resourceKsyunInstancesWithListenerUpdate(d *schema.ResourceData, m interfac
 		return nil
 	}
 	//Create a modification request
+	req["Weight"] = "0"
 	for _, v := range allAttributes {
 		if v1, ok := d.GetOk(v); ok {
 			req[Downline2Hump(v)] = fmt.Sprintf("%v", v1)

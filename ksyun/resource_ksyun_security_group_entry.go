@@ -41,14 +41,16 @@ func resourceKsyunSecurityGroupEntry() *schema.Resource {
 			"icmp_type": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
+				//Computed: true,
 				ForceNew: true,
+				Default:  -2,
 			},
 			"icmp_code": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
+				//Computed: true,
 				ForceNew: true,
+				Default:  -2,
 			},
 			"port_range_from": {
 				Type:     schema.TypeInt,
@@ -84,12 +86,19 @@ func resourceKsyunSecurityGroupEntryCreate(d *schema.ResourceData, meta interfac
 		"port_range_to",
 	}
 	createSecurityGroupEntry := make(map[string]interface{})
+	createSecurityGroupEntry["IcmpType"] = "0"
+	createSecurityGroupEntry["IcmpCode"] = "0"
 	for _, v := range creates {
 		if v1, ok := d.GetOk(v); ok {
 			vv := Downline2Hump(v)
-			createSecurityGroupEntry[vv] = fmt.Sprintf("%v", v1)
+			if v1 == -2 && (v == "icmp_type" || v == "icmp_code") {
+				delete(createSecurityGroupEntry, vv)
+			} else {
+				createSecurityGroupEntry[vv] = fmt.Sprintf("%v", v1)
+			}
 		}
 	}
+
 	var resp *map[string]interface{}
 	var err error
 	action := "AuthorizeSecurityGroupEntry"
