@@ -4,6 +4,7 @@ IMPROVEMENTS:
 
 - instance public_ip and search ([#16](https://github.com/terraform-providers/terraform-provider-ksyun/issues/16))
 - lb support name_grex ([#16](https://github.com/terraform-providers/terraform-provider-ksyun/issues/16))
+- icmp_code , icmp_type and weight support zero value ([#20](https://github.com/terraform-providers/terraform-provider-ksyun/issues/20))
 
 FEATURES:
 
