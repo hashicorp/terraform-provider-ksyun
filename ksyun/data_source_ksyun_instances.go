@@ -352,6 +352,30 @@ func dataSourceKsyunInstances() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"data_disks": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"disk_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"disk_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"disk_size": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"delete_with_instance": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -504,6 +528,10 @@ func dealInstanceData(datas []map[string]interface{}) {
 			case "key_set":
 				datas[k]["key_id"] = v1
 				delete(datas[k], "key_set")
+			case "data_disks":
+				vv := v1.([]interface{})
+				datas[k]["data_disks"] = GetSubSliceDByRep(vv, dataDiskKeys)
+
 			case "network_interface_set":
 				vv := v1.([]interface{})
 				networkSet := GetSubSliceDByRep(vv, kecNetworkInterfaceSetKeys)
