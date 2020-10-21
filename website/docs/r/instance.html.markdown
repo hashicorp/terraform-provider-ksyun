@@ -74,13 +74,6 @@ resource "ksyun_instance" "default" {
     disk_size=30
   }
   data_disk_gb=0
-  data_disk =[
-    {
-      type="SSD3.0"
-      size=20
-      delete_with_instance=true
-    }
-  ]
   subnet_id="${ksyun_subnet.default.id}"
   instance_password="Xuan663222"
   keep_image_login=false

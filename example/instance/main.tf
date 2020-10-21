@@ -12,13 +12,6 @@ resource "ksyun_instance" "default" {
   }
   data_disk_gb=0
   #only support part type
-  data_disk =[
-   {
-      type="SSD3.0"
-      size=20
-      delete_with_instance=true
-   }
- ]
   subnet_id="2ea4195d-8111-4cd8-91da-6a34bb06663b"
   instance_password="Xuan663222"
   keep_image_login=false
