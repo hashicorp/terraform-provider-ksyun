@@ -62,22 +62,23 @@ func resourceKsyunInstance() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			//去除在主机创建云盘的功能，不然主机和ebs两边都能进行操作，配置数据会不一致
 			"data_disk": {
 				Type:     schema.TypeList,
-				Optional: true,
+				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"type": {
 							Type:     schema.TypeString,
-							Optional: true,
+							Computed: true,
 						},
 						"size": {
 							Type:     schema.TypeInt,
-							Optional: true,
+							Computed: true,
 						},
 						"delete_with_instance": {
 							Type:     schema.TypeBool,
-							Optional: true,
+							Computed: true,
 						},
 					},
 				},
@@ -328,7 +329,7 @@ func resourceKsyunInstanceCreate(d *schema.ResourceData, meta interface{}) error
 		"image_id",
 		"instance_type",
 		// "system_disk",
-		"data_disk_gb",
+		//"data_disk_gb",
 		// "data_disk",
 		//"max_count",=1
 		//"min_count",=1
