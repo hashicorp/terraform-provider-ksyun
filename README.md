@@ -97,6 +97,11 @@ _各产品线开发人员负责补充，云产品用户参考。_
       配置resource: "ksyun_eip":resourceKsyunEip()
 ##### 4、data_source_ksyun_eips.go dataSource具体实现（根据具体过滤条件拉取eip列表）
 ##### 5、resource_ksyun_eip.go resource具体实现（单个eip的增删改查）
+##### 6、添加文档和链接
+      1、添加对应的文档website/docs/d/${datasource}s.html.markdown和website/docs/r/${resource}.html.markdown（注意：文档命名必须遵守格式 ${datasource}s.html.markdown和${resource}.html.markdown）
+      2、添加产品链接目录pronamespace
+      3、根据对应的操作系统，执行相应的文档生成程序terraform-index-build-*
+      4、检查生成的website/docs/index.html.markdown文件是否符合预期
 
 ### 开发注意事项
 ##### 1、所有的入参和出参必须在schema.Resource中定义，否则terraform无法识别。
