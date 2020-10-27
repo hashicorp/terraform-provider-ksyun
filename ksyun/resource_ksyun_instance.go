@@ -62,22 +62,27 @@ func resourceKsyunInstance() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"data_disk": {
+			//去除在主机创建云盘的功能，不然主机和ebs两边都能进行操作，配置数据会不一致
+			"data_disks": {
 				Type:     schema.TypeList,
-				Optional: true,
+				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"type": {
+						"disk_id": {
 							Type:     schema.TypeString,
-							Optional: true,
+							Computed: true,
 						},
-						"size": {
+						"disk_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"disk_size": {
 							Type:     schema.TypeInt,
-							Optional: true,
+							Computed: true,
 						},
 						"delete_with_instance": {
 							Type:     schema.TypeBool,
-							Optional: true,
+							Computed: true,
 						},
 					},
 				},
@@ -328,7 +333,7 @@ func resourceKsyunInstanceCreate(d *schema.ResourceData, meta interface{}) error
 		"image_id",
 		"instance_type",
 		// "system_disk",
-		"data_disk_gb",
+		//"data_disk_gb",
 		// "data_disk",
 		//"max_count",=1
 		//"min_count",=1
@@ -401,9 +406,9 @@ func resourceKsyunInstanceCreate(d *schema.ResourceData, meta interface{}) error
 			FlatternStructPrefix(v1, &createReq, "SystemDisk")
 		}
 	}
-	if v1, ok := d.GetOk("data_disk"); ok {
+	/*	if v1, ok := d.GetOk("data_disk"); ok {
 		FlatternStructSlicePrefix(v1, &createReq, "DataDisk")
-	}
+	}*/
 	action := "RunInstances"
 	logger.Debug(logger.ReqFormat, action, createReq)
 	resp, err = conn.RunInstances(&createReq)
@@ -466,6 +471,7 @@ func resourceKsyunInstanceRead(d *schema.ResourceData, meta interface{}) error {
 		"NetworkInterfaceSet": true,
 		"SystemDisk":          true,
 		"KeySet":              true,
+		"DataDisks":           true,
 	}
 	excludes := SetDByResp(d, items[0], instanceKeys, excludesKeys)
 	// if excludes["KeySet"] != nil {
@@ -604,6 +610,17 @@ func resourceKsyunInstanceRead(d *schema.ResourceData, meta interface{}) error {
 		}
 	} else {
 		if err := d.Set(Hump2Downline("SystemDisk"), nil); err != nil {
+			return err
+		}
+	}
+	if excludes["DataDisks"] != nil {
+		dataDisks := excludes["DataDisks"].([]interface{})
+		itemSet := GetSubSliceDByRep(dataDisks, dataDiskKeys)
+		if err := d.Set(Hump2Downline("DataDisks"), itemSet); err != nil {
+			return err
+		}
+	} else {
+		if err := d.Set(Hump2Downline("DataDisks"), nil); err != nil {
 			return err
 		}
 	}

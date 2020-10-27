@@ -97,6 +97,11 @@ _各产品线开发人员负责补充，云产品用户参考。_
       配置resource: "ksyun_eip":resourceKsyunEip()
 ##### 4、data_source_ksyun_eips.go dataSource具体实现（根据具体过滤条件拉取eip列表）
 ##### 5、resource_ksyun_eip.go resource具体实现（单个eip的增删改查）
+##### 6、添加文档和链接
+      1、添加对应的文档website/docs/d/${datasource}s.html.markdown和website/docs/r/${resource}.html.markdown（注意：文档命名必须遵守格式 ${datasource}s.html.markdown和${resource}.html.markdown）
+      2、添加产品链接目录pronamespace
+      3、根据对应的操作系统，执行相应的文档生成程序terraform-index-build-*
+      4、检查生成的website/docs/index.html.markdown文件是否符合预期
 
 ### 开发注意事项
 ##### 1、所有的入参和出参必须在schema.Resource中定义，否则terraform无法识别。
@@ -109,7 +114,13 @@ _各产品线开发人员负责补充，云产品用户参考。_
       *Note:* 腾讯的sdk入参和出参是class（struct）类型，而我们的sdk是map类型。
 ##### 7、每次提交都需要对代码进行交叉编译(mac、linux和windows),编译好的可执行文件需传到公司官网，请将编译文件传给庞雄伟(雄伟同学负责我们terraform的官网文档)，不然用户没法使用。
 ##### 8、每次编译前都需要重新拉取terraform-provider-ksyun和ksc-sdk-go,保证terraform-provider-ksyun和ksc-sdk-go都是最新版，不然会导致其他服务不可用。
-##### 9、所有的*test.go文件里的参数必须是线上可以直接运行的，所有用到的资源必须是新建的。必须保证test是可以跑通的，test见上面英文版test介绍。不然terraform 官网没法验证。
+##### 9、所有的*test.go文件里的参数必须是线上可以直接运行的，所有依赖的资源必须是新建的。必须保证test是可以跑通的，test见上面英文版test介绍。不然terraform 官网没法验证。
+##### 10、如果底层open API的入参，零值（int(0)、float(0)、boolean(false)及string("")）和不传代表不同含义或者需要显示透传零值时，需要单独处理（例lbListenrServer 中weight传0时为0，不传时为1）。
+      terraform 在读取main.tf 时，若配置了零值或不配置，getok都返回false，所以无法对两者进行区分，如果通过getok进行判断传参，两者都不会传给open API。
+      解决方案：设置默认值进行区分，但创建和更新接口需要对参数做单独处理
+      1、若只是需要显示透传零值，terraform里字段的默认值设为open API的默认值（参见lbListenrServer 中weight，注意weight=0在实际应用中无意义，此处只是作为示范开发）
+      2、若零值和不传代表不同含义，terraform 里字段的默认值需设为open API不支持的字段（参见securityGroupEntry 中icmp_code 和icmp_type）
+            
 ### 提交注意事项
 ##### 1、不要上传ak、sk等敏感信息
 ##### 2、new pull request 之前请确保自己fork的是master的最新版本(在kscSDK(master)项目下点击new pull request 到自己的项目)，不然覆盖其他产品线的提交，后果自负。

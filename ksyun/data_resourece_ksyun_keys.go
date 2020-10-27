@@ -180,6 +180,7 @@ var instanceKeys = map[string]bool{
 	"ChargeType":            true,
 	"SystemDisk":            true,
 	"KeySet":                true,
+	"DataDisks":             true,
 }
 var instanceConfigureKeys = map[string]bool{
 	"VCPU":       true,
@@ -188,6 +189,12 @@ var instanceConfigureKeys = map[string]bool{
 	"DataDiskGb": true,
 	//"RootDiskGb":   true,
 	//"DataDiskType": true,
+}
+var dataDiskKeys = map[string]bool{
+	"DiskId":             true,
+	"DiskType":           true,
+	"DiskSize":           true,
+	"DeleteWithInstance": true,
 }
 var instanceStateKeys = map[string]bool{
 	"Name": true,

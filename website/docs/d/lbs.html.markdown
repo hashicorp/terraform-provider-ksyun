@@ -1,7 +1,7 @@
 ---
 layout: "ksyun"
-page_title: "Ksyun: ksyun_slbs"
-sidebar_current: "docs-ksyun-datasource-slbs"
+page_title: "Ksyun: ksyun_lbs"
+sidebar_current: "docs-ksyun-datasource-lbs"
 description: |-
   Provides a list of Load Balancer resources in the current region.
 ---
@@ -13,11 +13,11 @@ This data source provides a list of Load Balancer resources according to their L
 ## Example Usage
 
 ```hcl
-data "ksyun_slbs" "default" {
+data "ksyun_lbs" "default" {
   output_file="output_result"
+  name_regex=""
   ids=[]
   state=""
-  name_regex=""
   vpc_id=[]
 }
 ```
@@ -36,10 +36,10 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `slbs` - It is a nested type which documented below.
+* `lbs` - It is a nested type which documented below.
 * `total_count` - Total number of Load Balancers that satisfy the condition.
 
-The attribute (`slbs`) support the following:
+The attribute (`lbs`) support the following:
 
 * `id` - The ID of Load Balancer.
 * `name` - The name of Load Balancer.
