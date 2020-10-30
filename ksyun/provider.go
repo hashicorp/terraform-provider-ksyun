@@ -59,6 +59,7 @@ func Provider() terraform.ResourceProvider {
 			"ksyun_certificates":                  dataSourceKsyunCertificates(),
 			"ksyun_ssh_keys":                      dataSourceKsyunSSHKeys(),
 			"ksyun_redis_instances":               dataSourceRedisInstances(),
+			"ksyun_redis_security_groups":         dataSourceRedisSecurityGroups(),
 			//	"ksyun_epcs":                          dataSourceKsyunEpcs(),
 			"ksyun_volumes":                     dataSourceKsyunVolumes(),
 			"ksyun_mongodbs":                    dataSourceKsyunMongodbs(),
@@ -90,7 +91,9 @@ func Provider() terraform.ResourceProvider {
 			"ksyun_ssh_key":                   resourceKsyunSSHKey(),
 			"ksyun_redis_instance":            resourceRedisInstance(),
 			"ksyun_redis_instance_node":       resourceRedisInstanceNode(),
-			"ksyun_redis_sec_rule":            resourceRedisSecurityRule(),
+			"ksyun_redis_sec_group":           resourceRedisSecurityGroup(),
+			"ksyun_redis_sec_group_rule":      resourceRedisSecurityGroupRule(),
+			"ksyun_redis_sec_group_allocate":  resourceRedisSecurityGroupAllocate(),
 			/*	"ksyun_epc":                       resourceKsyunEpc(),*/
 			"ksyun_mongodb_instance":           resourceKsyunMongodbInstance(),
 			"ksyun_mongodb_shard_instance":     resourceKsyunMongodbShardInstance(),

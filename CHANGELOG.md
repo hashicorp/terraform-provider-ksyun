@@ -225,11 +225,23 @@ RESOURCES:
 * redis instance read
 * redis instance update (update name,pass_word,capacity)
 * redis instance delete
-* redis security rule create
-* redis security rule read
-* redis security rule update (update rules)
-* redis security rule delete
+* ~~redis security rule create~~
+* ~~redis security rule read~~
+* ~~redis security rule update (update rules)~~
+* ~~redis security rule delete~~
+* redis security group create
+* redis security group read
+* redis security group update (update name, description)
+* redis security group delete
+* redis security group allocate instance
+* redis security group deallocate instance
+* redis security group read allocate instance
+* redis security group rule create
+* redis security group rule read
+* redis security group rule update (update rules)
+* redis security group rule delete
 
 DATA SOURCES:
 
 * redis read
+* redis security group read
