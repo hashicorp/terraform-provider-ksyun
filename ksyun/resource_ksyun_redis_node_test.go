@@ -70,25 +70,33 @@ const testAccKcsNodeConfig = `
 variable "available_zone" {
   default = "cn-beijing-6a"
 }
+
+variable "protocol" {
+  default = "4.0"
+}
+
 resource "ksyun_vpc" "default" {
   vpc_name   = "ksyun-vpc-tf"
   cidr_block = "10.7.0.0/21"
 }
+
 resource "ksyun_subnet" "foo" {
-  subnet_name      = "ksyun-subnet-tf"
-  cidr_block = "10.7.0.0/21"
-  subnet_type = "Reserve"
-  dhcp_ip_from = "10.7.0.2"
-  dhcp_ip_to = "10.7.0.253"
-  vpc_id  = "${ksyun_vpc.default.id}"
-  gateway_ip = "10.7.0.1"
-  dns1 = "198.18.254.41"
-  dns2 = "198.18.254.40"
+  subnet_name      	= "ksyun-subnet-tf"
+  cidr_block 		= "10.7.0.0/21"
+  subnet_type 		= "Reserve"
+  dhcp_ip_from 		= "10.7.0.2"
+  dhcp_ip_to 		= "10.7.0.253"
+  vpc_id 			= "${ksyun_vpc.default.id}"
+  gateway_ip 		= "10.7.0.1"
+  dns1 				= "198.18.254.41"
+  dns2 				= "198.18.254.40"
   availability_zone = "${var.available_zone}"
 }
 
-variable "protocol" {
-  default = "4.0"
+resource "ksyun_redis_sec_group" "default" {
+  available_zone 	= "${var.available_zone}"
+  name 				= "testTerraform000"
+  description 		= "testTerraform000"
 }
 
 resource "ksyun_redis_instance" "default" {
@@ -97,8 +105,9 @@ resource "ksyun_redis_instance" "default" {
   mode                  = 2
   capacity              = 1
   net_type              = 2
-  vnet_id               = "${ksyun_subnet.foo.id}"
-  vpc_id                = "${ksyun_vpc.default.id}"
+  security_group_id     = "${ksyun_redis_sec_group.default.id}"
+  vnet_id 				= "${ksyun_subnet.default.id}"
+  vpc_id 				= "${ksyun_vpc.default.id}"
   bill_type             = 5
   duration              = ""
   duration_unit         = ""

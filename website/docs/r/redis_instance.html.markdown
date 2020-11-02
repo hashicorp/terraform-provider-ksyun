@@ -13,6 +13,25 @@ Provides an redis instance resource.
 ## Example Usage
 
 ```hcl
+variable "available_zone" {
+  default = "cn-beijing-6a"
+}
+
+variable "subnet_name" {
+  default = "ksyun_subnet_tf"
+}
+variable "vpc_name" {
+  default = "ksyun_vpc_tf"
+}
+
+variable "vpc_cidr" {
+  default = "10.1.0.0/21"
+}
+
+variable "protocol" {
+  default = "4.0"
+}
+
 resource "ksyun_vpc" "default" {
   vpc_name   = "${var.vpc_name}"
   cidr_block = "${var.vpc_cidr}"
@@ -31,6 +50,12 @@ resource "ksyun_subnet" "default" {
   available_zone = "${var.available_zone}"
 }
 
+resource "ksyun_redis_sec_group" "default" {
+  available_zone = "${var.available_zone}"
+  name = "testTerraform777"
+  description = "testTerraform777"
+}
+
 resource "ksyun_redis_instance" "default" {
   available_zone        = "${var.available_zone}"
   name                  = "MyRedisInstance1101"
@@ -40,6 +65,7 @@ resource "ksyun_redis_instance" "default" {
   net_type              = 2
   vnet_id               = "${ksyun_subnet.default.id}"
   vpc_id                = "${ksyun_vpc.default.id}"
+  security_group_id     = "${ksyun_redis_sec_group.default.id}"
   bill_type             = 5
   duration              = ""
   duration_unit         = ""
@@ -71,6 +97,7 @@ The following arguments are supported:
 * `available_zone` - (Optional) The Zone to launch the DB instance.
 * `name ` - (Optional) The name of DB instance.
 * `mode ` - (Optional) The KVStore instance system architecture required by the user. Valid values:  1(cluster),2(single).
+* `security_group_id` - (Require) The id of security group;
 * `capacity ` - (Require) The instance capacity required by the user. Valid values :{1, 2, 4, 8, 16,20,24,28, 32, 64}.
 * `slaveNum ` - (Optional) The readonly node num required by the user. Valid values ：{0-7}
 * `net_type ` - (Require) The network type. Valid values ：2(vpc).

@@ -72,10 +72,6 @@ func dataSourceRedisInstances() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"security_group_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"engine": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -192,22 +188,6 @@ func dataSourceRedisInstances() *schema.Resource {
 								},
 							},
 						},
-						"rules": {
-							Type:     schema.TypeList,
-							Required: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"security_rule_id": {
-										Type:     schema.TypeFloat,
-										Computed: true,
-									},
-									"cidr": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
-						},
 					},
 				},
 			},
@@ -297,10 +277,6 @@ func dataSourceRedisInstancesRead(d *schema.ResourceData, meta interface{}) erro
 	paramAction := "DescribeCacheParameters"
 	paramConn := meta.(*KsyunClient).kcsv1conn
 	readParamReq := make(map[string]interface{})
-
-	secAction := "DescribeCacheSecurityRules"
-	secConn := meta.(*KsyunClient).kcsv1conn
-	readSecReq := make(map[string]interface{})
 	for _, v := range allInstances {
 		instance := v.(map[string]interface{})
 
@@ -322,28 +298,6 @@ func dataSourceRedisInstancesRead(d *schema.ResourceData, meta interface{}) erro
 				params[param["name"].(string)] = fmt.Sprintf("%v", param["currentValue"])
 			}
 			instance["parameters"] = params
-		}
-
-		// query instance sec
-		readSecReq["CacheId"] = instance["cacheId"]
-		if instance["az"] != nil {
-			readSecReq["AvailableZone"] = instance["az"]
-		}
-		logger.Debug(logger.ReqFormat, secAction, readSecReq)
-		if resp, err = secConn.DescribeCacheSecurityRules(&readSecReq); err == nil {
-			logger.Debug(logger.RespFormat, secAction, readSecReq, *resp)
-			secData := (*resp)["Data"].([]interface{})
-			if len(secData) > 0 {
-				var rules []map[string]interface{}
-				for _, v := range secData {
-					group := v.(map[string]interface{})
-					rule := make(map[string]interface{})
-					rule[Hump2Downline("securityRuleId")] = group["securityRuleId"]
-					rule[Hump2Downline("cidr")] = group["cidr"]
-					rules = append(rules, rule)
-				}
-				instance["rules"] = rules
-			}
 		}
 
 		// query instance node

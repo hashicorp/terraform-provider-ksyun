@@ -1,5 +1,7 @@
 # Specify the provider and access details
 provider "ksyun" {
+  access_key = "ak"
+  secret_key = "sk"
   region = "cn-beijing-6"
 }
 
@@ -21,12 +23,19 @@ resource "ksyun_subnet" "default" {
   availability_zone = "${var.available_zone}"
 }
 
+resource "ksyun_redis_sec_group" "default" {
+  available_zone = "${var.available_zone}"
+  name = "testTerraform777"
+  description = "testTerraform777"
+}
+
 resource "ksyun_redis_instance" "default" {
   available_zone = "${var.available_zone}"
   name = "MyRedisInstance1101"
   mode = 2
   capacity = 1
   net_type = 2
+  security_group_id = "${ksyun_redis_sec_group.default.id}"
   vnet_id = "${ksyun_subnet.default.id}"
   vpc_id = "${ksyun_vpc.default.id}"
   bill_type = 5
@@ -67,8 +76,20 @@ resource "ksyun_redis_instance_node" "node" {
   available_zone = "${var.available_zone}"
 }
 
-resource "ksyun_redis_sec_rule" "default" {
-  cache_id = "${ksyun_redis_instance.default.id}"
+resource "ksyun_redis_sec_group" "add" {
   available_zone = "${var.available_zone}"
-  rules = ["10.0.3.4/32"]
+  name = "testAddTerraform"
+  description = "testAddTerraform"
+}
+
+resource "ksyun_redis_sec_group_rule" "default" {
+  available_zone = "${var.available_zone}"
+  security_group_id = "${ksyun_redis_sec_group.add.id}"
+  rules = ["172.16.0.0/32","192.168.0.0/32"]
+}
+
+resource "ksyun_redis_sec_group_allocate" "default" {
+  available_zone = "${var.available_zone}"
+  security_group_id = "${ksyun_redis_sec_group.add.id}"
+  cache_ids = ["${ksyun_redis_instance.default.id}"]
 }
