@@ -143,7 +143,7 @@ func resourceKsyunEipRead(d *schema.ResourceData, m interface{}) error {
 	readEip := make(map[string]interface{})
 	readEip["AllocationId.1"] = d.Id()
 	if pd, ok := d.GetOk("project_id"); ok {
-		readEip["project_id"] = fmt.Sprintf("%v", pd)
+		readEip["ProjectId.1"] = fmt.Sprintf("%v", pd)
 	}
 	action := "DescribeAddresses"
 	logger.Debug(logger.ReqFormat, action, readEip)
@@ -206,8 +206,8 @@ func resourceKsyunEipDelete(d *schema.ResourceData, meta interface{}) error {
 	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "ReleaseAddress"
 		logger.Debug(logger.ReqFormat, action, deleteEip)
-		_, err1 := conn.ReleaseAddress(&deleteEip)
-		logger.Debug(logger.AllFormat, action, deleteEip, err1)
+		respp, err1 := conn.ReleaseAddress(&deleteEip)
+		logger.Debug(logger.AllFormat, action, deleteEip, *respp, err1)
 		if err1 == nil || (err1 != nil && notFoundError(err1)) {
 			return nil
 		}
@@ -219,7 +219,7 @@ func resourceKsyunEipDelete(d *schema.ResourceData, meta interface{}) error {
 		readEip := make(map[string]interface{})
 		readEip["AllocationId.1"] = d.Id()
 		if pd, ok := d.GetOk("project_id"); ok {
-			readEip["project_id"] = fmt.Sprintf("%v", pd)
+			readEip["ProjectId.1"] = fmt.Sprintf("%v", pd)
 		}
 		action = "DescribeAddresses"
 		logger.Debug(logger.ReqFormat, action, readEip)

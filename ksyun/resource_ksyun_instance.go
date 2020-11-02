@@ -425,11 +425,15 @@ func resourceKsyunInstanceCreate(d *schema.ResourceData, meta interface{}) error
 		InstanceId := Instance["InstanceId"].(string)
 		d.SetId(InstanceId)
 	}
+	projectId := ""
+	if pd, ok := d.GetOk("project_id"); ok {
+		projectId = fmt.Sprintf("%v", pd)
+	}
 	// after create instance, we need to wait it initialized
-	stateConf := &resource.StateChangeConf{
+	var stateConf = &resource.StateChangeConf{
 		Pending:    []string{statusPending},
 		Target:     []string{"active"},
-		Refresh:    instanceStateRefreshForCreateFunc(conn, d.Id(), []string{"active"}),
+		Refresh:    instanceStateRefreshForCreateFunc(conn, d.Id(), projectId, []string{"active"}),
 		Timeout:    d.Timeout(schema.TimeoutCreate),
 		Delay:      3 * time.Second,
 		MinTimeout: 2 * time.Second,
@@ -449,7 +453,7 @@ func resourceKsyunInstanceRead(d *schema.ResourceData, meta interface{}) error {
 	readReq := make(map[string]interface{})
 	readReq["InstanceId.1"] = d.Id()
 	if pd, ok := d.GetOk("project_id"); ok {
-		readReq["project_id"] = fmt.Sprintf("%v", pd)
+		readReq["ProjectId.1"] = fmt.Sprintf("%v", pd)
 	}
 	action := "DescribeInstances"
 	logger.Debug(logger.ReqFormat, action, readReq)
@@ -633,6 +637,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 	imageUpdate := false
 	updateReq := make(map[string]interface{})
 	updateReq["InstanceId"] = d.Id()
+	projectId := fmt.Sprintf("%v", d.Get("project_id"))
 
 	//ModifyInstanceAttribute instancename
 	attributeNameUpdate := false
@@ -719,7 +724,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		stateConf := &resource.StateChangeConf{
 			Pending:    []string{statusPending},
 			Target:     []string{"rebuilding", "overriding"},
-			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"rebuilding", "overriding"}),
+			Refresh:    instanceStateRefreshFunc(conn, d.Id(), projectId, []string{"rebuilding", "overriding"}),
 			Timeout:    d.Timeout(schema.TimeoutUpdate),
 			Delay:      3 * time.Second,
 			MinTimeout: 2 * time.Second,
@@ -731,7 +736,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 			Pending: []string{statusPending},
 			Target:  []string{"active"},
 			//final state may be "stopped" ,need to return error
-			Refresh:    instanceStateRefreshForReinstallFunc(conn, d.Id(), []string{"active"}),
+			Refresh:    instanceStateRefreshForReinstallFunc(conn, d.Id(), projectId, []string{"active"}),
 			Timeout:    d.Timeout(schema.TimeoutUpdate),
 			Delay:      3 * time.Second,
 			MinTimeout: 2 * time.Second,
@@ -756,7 +761,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 			stateConf := &resource.StateChangeConf{
 				Pending:    []string{statusPending},
 				Target:     []string{"stopped"},
-				Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"stopped"}),
+				Refresh:    instanceStateRefreshFunc(conn, d.Id(), projectId, []string{"stopped"}),
 				Timeout:    d.Timeout(schema.TimeoutUpdate),
 				Delay:      3 * time.Second,
 				MinTimeout: 2 * time.Second,
@@ -775,7 +780,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 			stateConf := &resource.StateChangeConf{
 				Pending:    []string{statusPending},
 				Target:     []string{"stopped"},
-				Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"stopped"}),
+				Refresh:    instanceStateRefreshFunc(conn, d.Id(), projectId, []string{"stopped"}),
 				Timeout:    d.Timeout(schema.TimeoutUpdate),
 				Delay:      3 * time.Second,
 				MinTimeout: 2 * time.Second,
@@ -823,7 +828,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		stateConf := &resource.StateChangeConf{
 			Pending:    []string{statusPending},
 			Target:     []string{"stopped"},
-			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"stopped"}),
+			Refresh:    instanceStateRefreshFunc(conn, d.Id(), projectId, []string{"stopped"}),
 			Timeout:    *schema.DefaultTimeout(5 * time.Minute),
 			Delay:      3 * time.Second,
 			MinTimeout: 2 * time.Second,
@@ -897,7 +902,7 @@ func resourceKsyunInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		stateConf := &resource.StateChangeConf{
 			Pending:    []string{statusPending},
 			Target:     []string{"resize_success_local", "migrating_success_off_line"},
-			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"resize_success_local", "migrating_success_off_line"}),
+			Refresh:    instanceStateRefreshFunc(conn, d.Id(), projectId, []string{"resize_success_local", "migrating_success_off_line"}),
 			Timeout:    *schema.DefaultTimeout(5 * time.Minute),
 			Delay:      1 * time.Second,
 			MinTimeout: 1 * time.Second,
@@ -1016,6 +1021,9 @@ func resourceKsyunInstanceDelete(d *schema.ResourceData, meta interface{}) error
 	return resource.Retry(30*time.Minute, func() *resource.RetryError {
 		readReq := make(map[string]interface{})
 		readReq["InstanceId.1"] = d.Id()
+		if pd, ok := d.GetOk("project_id"); ok {
+			readReq["ProjectId.1"] = fmt.Sprintf("%v", pd)
+		}
 		action := "DescribeInstances"
 		logger.Debug(logger.ReqFormat, action, readReq)
 		resp, err1 := conn.DescribeInstances(&readReq)
@@ -1098,6 +1106,9 @@ func resourceKsyunInstanceDelete(d *schema.ResourceData, meta interface{}) error
 		readReq["InstanceId.1"] = d.Id()
 		readReq["Filter.1.Name"] = "instance-state.name"
 		readReq["Filter.1.Value.1"] = "recycling"
+		if pd, ok := d.GetOk("project_id"); ok {
+			readReq["ProjectId.1"] = fmt.Sprintf("%v", pd)
+		}
 		action = "DescribeInstances"
 		index := 1
 		for {
@@ -1152,9 +1163,12 @@ func resourceKsyunInstanceDelete(d *schema.ResourceData, meta interface{}) error
 		return resource.NonRetryableError(err3)
 	})
 }
-func instanceStateRefreshFunc(client *kec.Kec, instanceId string, target []string) resource.StateRefreshFunc {
+func instanceStateRefreshFunc(client *kec.Kec, instanceId, projectId string, target []string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		req := map[string]interface{}{"InstanceId.1": instanceId}
+		if projectId != "" {
+			req["ProjectId.1"] = projectId
+		}
 		action := "DescribeInstances"
 		logger.Debug(logger.ReqFormat, action, req)
 		resp, err := client.DescribeInstances(&req)
@@ -1192,9 +1206,12 @@ func instanceStateRefreshFunc(client *kec.Kec, instanceId string, target []strin
 	}
 }
 
-func instanceStateRefreshForReinstallFunc(client *kec.Kec, instanceId string, target []string) resource.StateRefreshFunc {
+func instanceStateRefreshForReinstallFunc(client *kec.Kec, instanceId, projectId string, target []string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		req := map[string]interface{}{"InstanceId.1": instanceId}
+		if projectId != "" {
+			req["ProjectId.1"] = projectId
+		}
 		resp, err := client.DescribeInstances(&req)
 		if err != nil {
 			return nil, "", err
@@ -1232,9 +1249,12 @@ func instanceStateRefreshForReinstallFunc(client *kec.Kec, instanceId string, ta
 	}
 }
 
-func instanceStateRefreshForCreateFunc(client *kec.Kec, instanceId string, target []string) resource.StateRefreshFunc {
+func instanceStateRefreshForCreateFunc(client *kec.Kec, instanceId, projectId string, target []string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		req := map[string]interface{}{"InstanceId.1": instanceId}
+		if projectId != "" {
+			req["ProjectId.1"] = projectId
+		}
 		action := "DescribeInstances"
 		logger.Debug(logger.ReqFormat, action, req)
 		resp, err := client.DescribeInstances(&req)
@@ -1350,6 +1370,9 @@ func instanceStop(d *schema.ResourceData, meta interface{}) (string, error) {
 	conn := meta.(*KsyunClient).kecconn
 	readReq := make(map[string]interface{})
 	readReq["InstanceId.1"] = d.Id()
+	if pd, ok := d.GetOk("project_id"); ok {
+		readReq["ProjectId.1"] = fmt.Sprintf("%v", pd)
+	}
 	action := "DescribeInstances"
 	logger.Debug(logger.ReqFormat, action, readReq)
 	resp, err := conn.DescribeInstances(&readReq)
@@ -1376,10 +1399,14 @@ func instanceStop(d *schema.ResourceData, meta interface{}) (string, error) {
 		if err != nil {
 			return initState, fmt.Errorf("error on stop  instance %s", err)
 		}
+		projectId := ""
+		if pd, ok := d.GetOk("project_id"); ok {
+			projectId = fmt.Sprintf("%v", pd)
+		}
 		stateConf := &resource.StateChangeConf{
 			Pending:    []string{statusPending},
 			Target:     []string{"stopped"},
-			Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"stopped"}),
+			Refresh:    instanceStateRefreshFunc(conn, d.Id(), projectId, []string{"stopped"}),
 			Timeout:    d.Timeout(schema.TimeoutUpdate),
 			Delay:      3 * time.Second,
 			MinTimeout: 2 * time.Second,
@@ -1401,10 +1428,14 @@ func instanceStart(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("error on RebootInstances instance(%v) %s", d.Id(), err)
 	}
 	logger.Debug(logger.RespFormat, action, req, *resp)
+	projectId := ""
+	if pd, ok := d.GetOk("project_id"); ok {
+		projectId = fmt.Sprintf("%v", pd)
+	}
 	stateConf := &resource.StateChangeConf{
 		Pending:    []string{statusPending},
 		Target:     []string{"active"},
-		Refresh:    instanceStateRefreshFunc(conn, d.Id(), []string{"active"}),
+		Refresh:    instanceStateRefreshFunc(conn, d.Id(), projectId, []string{"active"}),
 		Timeout:    *schema.DefaultTimeout(5 * time.Minute),
 		Delay:      3 * time.Second,
 		MinTimeout: 2 * time.Second,
