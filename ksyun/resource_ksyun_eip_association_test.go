@@ -39,7 +39,8 @@ func testAccCheckEipAssociationAssociationExists(n string, val *map[string]inter
 		}
 		client := testAccProvider.Meta().(*KsyunClient)
 		eipAssociationAssociation := make(map[string]interface{})
-		eipAssociationAssociation["AllocationId"] = strings.Split(rs.Primary.ID, ":")[0]
+		eipAssociationAssociation["AllocationId.1"] = strings.Split(rs.Primary.ID, ":")[0]
+		eipAssociationAssociation["ProjectId.1"] = rs.Primary.Attributes["project_id"]
 		ptr, err := client.eipconn.DescribeAddresses(&eipAssociationAssociation)
 		if err != nil {
 			return err
@@ -122,7 +123,7 @@ resource "ksyun_eip" "default" {
   band_width =1
   charge_type = "PostPaidByDay"
   purchase_time =1
-  project_id=0
+  project_id=100013
 }
 resource "ksyun_eip_associate" "foo" {
   allocation_id="${ksyun_eip.default.id}"

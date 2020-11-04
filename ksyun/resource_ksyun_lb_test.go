@@ -68,6 +68,7 @@ func testAccCheckLbExists(n string, val *map[string]interface{}) resource.TestCh
 		client := testAccProvider.Meta().(*KsyunClient)
 		lb := make(map[string]interface{})
 		lb["LoadBalancerId.1"] = rs.Primary.ID
+		lb["ProjectId.1"] = rs.Primary.Attributes["project_id"]
 		ptr, err := client.slbconn.DescribeLoadBalancers(&lb)
 		if err != nil {
 			return err
@@ -99,10 +100,10 @@ func testAccCheckLbDestroy(s *terraform.State) error {
 		if rs.Type != "ksyun_lb" {
 			continue
 		}
-
 		client := testAccProvider.Meta().(*KsyunClient)
 		lb := make(map[string]interface{})
 		lb["LoadBalancerId.1"] = rs.Primary.ID
+		lb["ProjectId.1"] = rs.Primary.Attributes["project_id"]
 		ptr, err := client.slbconn.DescribeLoadBalancers(&lb)
 
 		// Verify the error is what we want
@@ -134,6 +135,7 @@ resource "ksyun_lb" "foo" {
   subnet_id = ""
   load_balancer_state = "stop"
   private_ip_address = ""
+  project_id=100013
 }
 `
 
