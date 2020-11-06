@@ -32,6 +32,10 @@ var krdsTfField = []string{
 	"availability_zone_2",
 	"project_id",
 	"port",
+	"vip",
+	"instance_has_eip",
+	"eip",
+	"eip_port",
 }
 
 var getInTheCar = map[string]bool{
@@ -188,6 +192,21 @@ func resourceKsyunKrds() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"instance_has_eip": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: false,
+			},
+			"eip": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: false,
+			},
+			"eip_port": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: false,
+			},
 		},
 	}
 }
@@ -331,6 +350,12 @@ func resourceKsyunMysqlRead(d *schema.ResourceData, meta interface{}) error {
 			} else {
 				krdsMap[FuckHump2Downline(k)] = v
 			}
+			if k == "Eip" {
+				krdsMap["instance_has_eip"] = true
+			}
+		}
+		if krdsMap["instance_has_eip"] == nil {
+			krdsMap["instance_has_eip"] = false
 		}
 		logger.DebugInfo(" converted ---- %+v ", krdsMap)
 
@@ -354,6 +379,7 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 	execModifyDBBackupPolicy := false
 	execModifyParameters := false
 	execModifyDBInstanceAvailabilityZone := false
+	execModifyDBInstanceEip := false
 	d.Partial(true)
 	for _, v := range krdsTfField {
 		if d.HasChange(v) && !d.IsNewResource() {
@@ -383,6 +409,9 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 			}
 			if v == "availability_zone_1" || v == "availability_zone_2" {
 				execModifyDBInstanceAvailabilityZone = true
+			}
+			if v == "instance_has_eip" {
+				execModifyDBInstanceEip = true
 			}
 
 			oldType, _ := d.GetChange("db_instance_type")
@@ -530,6 +559,25 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 			return err
 		}
 		d.SetPartial("db_instance_class")
+	}
+
+	if execModifyDBInstanceEip {
+		_ = checkStatus(d, conn)
+		req := map[string]interface{}{
+			"DBInstanceIdentifier": d.Id(),
+		}
+		action := "ReleaseDBInstanceEip"
+		if d.Get("instance_has_eip") == true {
+			action = "AllocateDBInstanceEip"
+		}
+		logger.Debug(logger.ReqFormat, action, req)
+		resp, err := conn.AllocateDBInstanceEip(&req)
+		logger.Debug(logger.AllFormat, action, req, *resp, err)
+
+		if err != nil {
+			return err
+		}
+		d.SetPartial("eip")
 	}
 	d.Partial(false)
 
