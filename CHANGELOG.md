@@ -6,6 +6,7 @@ IMPROVEMENTS:
 - lb support name_grex ([#16](https://github.com/terraform-providers/terraform-provider-ksyun/issues/16))
 - icmp_code , icmp_type and weight support zero value ([#20](https://github.com/terraform-providers/terraform-provider-ksyun/issues/20))
 - instance remove the function of creating data_disk and support show data_disk ([#22](https://github.com/terraform-providers/terraform-provider-ksyun/issues/22))
+- add attach and release eip functions for krds instance ([#26](https://github.com/terraform-providers/terraform-provider-ksyun/issues/26))
 
 FEATURES:
 

@@ -126,6 +126,7 @@ resource "ksyun_krds" "rds_terraform_3"{
   subnet_id = "${ksyun_subnet.foo.id}"
   bill_type = "DAY"
   preferred_backup_time = "01:00-02:00"
+  instance_has_eip = true
   parameters {
     name = "auto_increment_increment"
     value = "8"
@@ -172,7 +173,7 @@ resource "ksyun_krds" "rds_terraform_3"{
   vpc_id = "${ksyun_vpc.default.id}"
   subnet_id = "${ksyun_subnet.foo.id}"
   bill_type = "DAY"
-  instance_has_eip = true
+  instance_has_eip = false
   preferred_backup_time = "01:00-02:00"
   parameters {
     name = "auto_increment_increment"

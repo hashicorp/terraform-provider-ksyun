@@ -149,6 +149,7 @@ resource "ksyun_krds" "my_rds_xx"{
   }
   availability_zone_1 = "cn-shanghai-3a"
   availability_zone_2 = "cn-shanghai-3b"
+  instance_has_eip = true
 }
 
 ```
@@ -176,6 +177,7 @@ db engine version only support 5.5|5.6|5.7|8.0
 * `project_id`- (Optional)  subproject ID
 * `parameters`- (Optional) database parameters
 * `port `-(Optional) port number
+* `instance_has_eip` -(Optional) attach eip for instance
 
 ## Attributes Reference
 In addition to all arguments above, the following attributes are exported:

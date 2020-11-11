@@ -278,6 +278,9 @@ func resourceKsyunKrdsCreate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("error on ModifyDBParameterGroup Instance(krds): %s", err)
 	}
 
+	if d.Get("instance_has_eip") == true {
+		modifyInstanceEip(d, meta)
+	}
 	return modifyParameters(d, meta)
 }
 
@@ -299,6 +302,40 @@ func modifyParameters(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 	return nil
+}
+
+func modifyInstanceEip(d *schema.ResourceData, meta interface{}) error {
+	conn := meta.(*KsyunClient).krdsconn
+	_ = checkStatus(d, conn)
+	req := map[string]interface{}{
+		"DBInstanceIdentifier": d.Id(),
+	}
+
+	if d.Get("instance_has_eip") == true {
+		action := "AllocateDBInstanceEip"
+		logger.Debug(logger.ReqFormat, action, req)
+		resp, err := conn.AllocateDBInstanceEip(&req)
+		logger.Debug(logger.AllFormat, action, req, *resp, err)
+
+		if err != nil {
+			return err
+		}
+		d.SetPartial("eip")
+		d.SetPartial("eip_port")
+		return nil
+	} else {
+		action := "ReleaseDBInstanceEip"
+		logger.Debug(logger.ReqFormat, action, req)
+		resp, err := conn.ReleaseDBInstanceEip(&req)
+		logger.Debug(logger.AllFormat, action, req, *resp, err)
+
+		if err != nil {
+			return err
+		}
+		d.SetPartial("eip")
+		d.SetPartial("eip_port")
+		return nil
+	}
 }
 
 func mysqlInstanceStateRefresh(client *krds.Krds, instanceId string, target []string) resource.StateRefreshFunc {
@@ -560,24 +597,8 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 		}
 		d.SetPartial("db_instance_class")
 	}
-
 	if execModifyDBInstanceEip {
-		_ = checkStatus(d, conn)
-		req := map[string]interface{}{
-			"DBInstanceIdentifier": d.Id(),
-		}
-		action := "ReleaseDBInstanceEip"
-		if d.Get("instance_has_eip") == true {
-			action = "AllocateDBInstanceEip"
-		}
-		logger.Debug(logger.ReqFormat, action, req)
-		resp, err := conn.AllocateDBInstanceEip(&req)
-		logger.Debug(logger.AllFormat, action, req, *resp, err)
-
-		if err != nil {
-			return err
-		}
-		d.SetPartial("eip")
+		modifyInstanceEip(d, meta)
 	}
 	d.Partial(false)
 
