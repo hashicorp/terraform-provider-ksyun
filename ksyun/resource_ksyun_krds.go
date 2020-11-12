@@ -615,9 +615,9 @@ func checkStatus(d *schema.ResourceData, conn *krds.Krds) error {
 		MinTimeout: 10 * time.Second,
 		Refresh:    mysqlInstanceStateRefresh(conn, d.Id(), finalStatus),
 	}
-	checkResp, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForState()
 
-	fmt.Println("checkResp is ", checkResp)
+	//fmt.Println("checkResp is ", checkResp)
 	if err != nil {
 		return fmt.Errorf("error on updating ModifyDBInstanceType , err = %s", err)
 	} else {
