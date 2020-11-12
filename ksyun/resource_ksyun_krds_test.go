@@ -28,6 +28,12 @@ func TestAccKsyunKrds_basic(t *testing.T) {
 					testCheckKrdsExists("ksyun_krds.rds_terraform_3", &val),
 				),
 			},
+			{
+				Config: testAccKrdsEipConfig,
+				Check: resource.ComposeTestCheckFunc(
+					testCheckKrdsExists("ksyun_krds.rds_terraform_3", &val),
+				),
+			},
 		},
 	})
 }
@@ -89,10 +95,10 @@ func testAccCheckKrdsDestroy(s *terraform.State) error {
 const testAccKrdsConfig = `
 
 variable "available_zone" {
-  default = "cn-shanghai-2a"
+  default = "cn-beijing-6a"
 }
 resource "ksyun_vpc" "default" {
-  vpc_name   = "ksyun-vpc-tf"
+  vpc_name   = "ksyun-vpc-tf1"
   cidr_block = "10.7.0.0/21"
 }
 resource "ksyun_subnet" "foo" {
@@ -110,7 +116,7 @@ resource "ksyun_subnet" "foo" {
 
 resource "ksyun_krds" "rds_terraform_3"{
   db_instance_class= "db.ram.1|db.disk.15"
-  db_instance_name = "houbin_terraform_1"
+  db_instance_name = "terraform_1"
   db_instance_type = "HRDS"
   engine = "mysql"
   engine_version = "5.5"
@@ -119,6 +125,55 @@ resource "ksyun_krds" "rds_terraform_3"{
   vpc_id = "${ksyun_vpc.default.id}"
   subnet_id = "${ksyun_subnet.foo.id}"
   bill_type = "DAY"
+  preferred_backup_time = "01:00-02:00"
+  instance_has_eip = true
+  parameters {
+    name = "auto_increment_increment"
+    value = "8"
+  }
+
+  parameters {
+    name = "binlog_format"
+    value = "ROW"
+  }
+
+}
+
+
+`
+const testAccKrdsEipConfig = `
+variable "available_zone" {
+  default = "cn-beijing-6a"
+}
+resource "ksyun_vpc" "default" {
+  vpc_name   = "ksyun-vpc-tf1"
+  cidr_block = "10.7.0.0/21"
+}
+resource "ksyun_subnet" "foo" {
+  subnet_name      = "ksyun-subnet-tf"
+  cidr_block = "10.7.0.0/21"
+  subnet_type = "Reserve"
+  dhcp_ip_from = "10.7.0.2"
+  dhcp_ip_to = "10.7.0.253"
+  vpc_id  = "${ksyun_vpc.default.id}"
+  gateway_ip = "10.7.0.1"
+  dns1 = "198.18.254.41"
+  dns2 = "198.18.254.40"
+  availability_zone = "${var.available_zone}"
+}
+
+resource "ksyun_krds" "rds_terraform_3"{
+  db_instance_class= "db.ram.1|db.disk.15"
+  db_instance_name = "terraform_1"
+  db_instance_type = "HRDS"
+  engine = "mysql"
+  engine_version = "5.5"
+  master_user_name = "admin"
+  master_user_password = "123qweASD123"
+  vpc_id = "${ksyun_vpc.default.id}"
+  subnet_id = "${ksyun_subnet.foo.id}"
+  bill_type = "DAY"
+  instance_has_eip = false
   preferred_backup_time = "01:00-02:00"
   parameters {
     name = "auto_increment_increment"

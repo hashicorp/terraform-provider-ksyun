@@ -32,6 +32,10 @@ var krdsTfField = []string{
 	"availability_zone_2",
 	"project_id",
 	"port",
+	"vip",
+	"instance_has_eip",
+	"eip",
+	"eip_port",
 }
 
 var getInTheCar = map[string]bool{
@@ -188,6 +192,21 @@ func resourceKsyunKrds() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"instance_has_eip": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: false,
+			},
+			"eip": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: false,
+			},
+			"eip_port": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: false,
+			},
 		},
 	}
 }
@@ -259,6 +278,9 @@ func resourceKsyunKrdsCreate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("error on ModifyDBParameterGroup Instance(krds): %s", err)
 	}
 
+	if d.Get("instance_has_eip") == true {
+		modifyInstanceEip(d, meta)
+	}
 	return modifyParameters(d, meta)
 }
 
@@ -280,6 +302,40 @@ func modifyParameters(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 	return nil
+}
+
+func modifyInstanceEip(d *schema.ResourceData, meta interface{}) error {
+	conn := meta.(*KsyunClient).krdsconn
+	_ = checkStatus(d, conn)
+	req := map[string]interface{}{
+		"DBInstanceIdentifier": d.Id(),
+	}
+
+	if d.Get("instance_has_eip") == true {
+		action := "AllocateDBInstanceEip"
+		logger.Debug(logger.ReqFormat, action, req)
+		resp, err := conn.AllocateDBInstanceEip(&req)
+		logger.Debug(logger.AllFormat, action, req, *resp, err)
+
+		if err != nil {
+			return err
+		}
+		d.SetPartial("eip")
+		d.SetPartial("eip_port")
+		return nil
+	} else {
+		action := "ReleaseDBInstanceEip"
+		logger.Debug(logger.ReqFormat, action, req)
+		resp, err := conn.ReleaseDBInstanceEip(&req)
+		logger.Debug(logger.AllFormat, action, req, *resp, err)
+
+		if err != nil {
+			return err
+		}
+		d.SetPartial("eip")
+		d.SetPartial("eip_port")
+		return nil
+	}
 }
 
 func mysqlInstanceStateRefresh(client *krds.Krds, instanceId string, target []string) resource.StateRefreshFunc {
@@ -331,6 +387,12 @@ func resourceKsyunMysqlRead(d *schema.ResourceData, meta interface{}) error {
 			} else {
 				krdsMap[FuckHump2Downline(k)] = v
 			}
+			if k == "Eip" {
+				krdsMap["instance_has_eip"] = true
+			}
+		}
+		if krdsMap["instance_has_eip"] == nil {
+			krdsMap["instance_has_eip"] = false
 		}
 		logger.DebugInfo(" converted ---- %+v ", krdsMap)
 
@@ -354,6 +416,7 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 	execModifyDBBackupPolicy := false
 	execModifyParameters := false
 	execModifyDBInstanceAvailabilityZone := false
+	execModifyDBInstanceEip := false
 	d.Partial(true)
 	for _, v := range krdsTfField {
 		if d.HasChange(v) && !d.IsNewResource() {
@@ -383,6 +446,9 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 			}
 			if v == "availability_zone_1" || v == "availability_zone_2" {
 				execModifyDBInstanceAvailabilityZone = true
+			}
+			if v == "instance_has_eip" {
+				execModifyDBInstanceEip = true
 			}
 
 			oldType, _ := d.GetChange("db_instance_type")
@@ -531,6 +597,9 @@ func resourceKsyunMysqlUpdate(d *schema.ResourceData, meta interface{}) error {
 		}
 		d.SetPartial("db_instance_class")
 	}
+	if execModifyDBInstanceEip {
+		modifyInstanceEip(d, meta)
+	}
 	d.Partial(false)
 
 	_ = checkStatus(d, conn)
@@ -546,9 +615,9 @@ func checkStatus(d *schema.ResourceData, conn *krds.Krds) error {
 		MinTimeout: 10 * time.Second,
 		Refresh:    mysqlInstanceStateRefresh(conn, d.Id(), finalStatus),
 	}
-	checkResp, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForState()
 
-	fmt.Println("checkResp is ", checkResp)
+	//fmt.Println("checkResp is ", checkResp)
 	if err != nil {
 		return fmt.Errorf("error on updating ModifyDBInstanceType , err = %s", err)
 	} else {

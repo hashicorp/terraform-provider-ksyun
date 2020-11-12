@@ -1,5 +1,5 @@
 provider "ksyun"{
-  region = "cn-shanghai-2"
+  region = "cn-beijing-6"
 }
 
 data "ksyun_krds" "search-krds"{
@@ -7,12 +7,3 @@ data "ksyun_krds" "search-krds"{
   db_instance_type = "HRDS,RR,TRDS"
 }
 
-output "instance_id" {
-  value = "${data.ksyun_krds.search-krds.krds.1.vip}"
-}
-output "krds" {
-  value = [for instance in data.ksyun_krds.search-krds.krds:
-  instance.vip
-  ]
-  #value = "${data.ksyun_krds.krds.krds.1.vip}"
-}
