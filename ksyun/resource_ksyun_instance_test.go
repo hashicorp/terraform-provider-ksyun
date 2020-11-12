@@ -68,6 +68,7 @@ func testAccCheckInstanceExists(n string, val *map[string]interface{}) resource.
 		client := testAccProvider.Meta().(*KsyunClient)
 		instance := make(map[string]interface{})
 		instance["InstanceId.1"] = rs.Primary.ID
+		instance["ProjectId.1"] = rs.Primary.Attributes["project_id"]
 		ptr, err := client.kecconn.DescribeInstances(&instance)
 		if err != nil {
 			return err
@@ -154,11 +155,8 @@ resource "ksyun_security_group" "default" {
 }
 resource "ksyun_instance" "foo" {
   image_id="${data.ksyun_images.centos-7_5.images.0.image_id}"
-  instance_type="S4.1A"
-  system_disk{
-    disk_type="SSD3.0"
-    disk_size=30
-  }
+  instance_type="S3.1A"
+
   data_disk_gb=0
   #max_count=1
   #min_count=1
@@ -172,7 +170,7 @@ resource "ksyun_instance" "foo" {
   instance_name="ksyun-kec-tf"
   instance_name_suffix=""
   sriov_net_support="false"
-  project_id=0
+  project_id=100013
   data_guard_id=""
   key_id=[]
   force_delete=true
