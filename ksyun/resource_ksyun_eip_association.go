@@ -126,7 +126,7 @@ func resourceKsyunEipAssociationRead(d *schema.ResourceData, m interface{}) erro
 	req := make(map[string]interface{})
 	req["AllocationId.1"] = p[0]
 	if pd, ok := d.GetOk("project_id"); ok {
-		req["project_id"] = fmt.Sprintf("%v", pd)
+		req["ProjectId.1"] = fmt.Sprintf("%v", pd)
 	}
 	action := "DescribeAddresses"
 	logger.Debug(logger.ReqFormat, action, req)
@@ -167,6 +167,9 @@ func resourceKsyunEipAssociationDelete(d *schema.ResourceData, m interface{}) er
 		}
 		req := make(map[string]interface{})
 		req["AllocationId.1"] = p[0]
+		if pd, ok := d.GetOk("project_id"); ok {
+			req["ProjectId.1"] = fmt.Sprintf("%v", pd)
+		}
 		action = "DescribeAddresses"
 		logger.Debug(logger.ReqFormat, action, req)
 		resp, err := eipConn.DescribeAddresses(&req)

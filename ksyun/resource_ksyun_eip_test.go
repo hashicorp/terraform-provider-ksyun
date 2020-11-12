@@ -68,6 +68,7 @@ func testAccCheckEipExists(n string, val *map[string]interface{}) resource.TestC
 		client := testAccProvider.Meta().(*KsyunClient)
 		eip := make(map[string]interface{})
 		eip["AllocationId.1"] = rs.Primary.ID
+		eip["ProjectId.1"] = rs.Primary.Attributes["project_id"]
 		ptr, err := client.eipconn.DescribeAddresses(&eip)
 		if err != nil {
 			return err
@@ -132,7 +133,7 @@ resource "ksyun_eip" "foo" {
   band_width =1
   charge_type = "PostPaidByDay"
   purchase_time =1
-  project_id=0
+  project_id=100013
 }
 `
 

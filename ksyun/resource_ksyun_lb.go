@@ -101,6 +101,9 @@ func resourceKsyunLbCreate(d *schema.ResourceData, m interface{}) error {
 	if v, ok := d.GetOk("private_ip_address"); ok {
 		req["PrivateIpAddress"] = fmt.Sprintf("%v", v)
 	}
+	if v, ok := d.GetOk("project_id"); ok {
+		req["ProjectId"] = fmt.Sprintf("%v", v)
+	}
 	action := "CreateLoadBalancer"
 	logger.Debug(logger.ReqFormat, action, req)
 
@@ -121,7 +124,6 @@ func resourceKsyunLbCreate(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 	d.SetId(idres)
-
 	return resourceKsyunLbRead(d, m)
 }
 
@@ -129,6 +131,9 @@ func resourceKsyunLbRead(d *schema.ResourceData, m interface{}) error {
 	slbconn := m.(*KsyunClient).slbconn
 	req := make(map[string]interface{})
 	req["LoadBalancerId.1"] = d.Id()
+	if pd, ok := d.GetOk("project_id"); ok {
+		req["ProjectId.1"] = fmt.Sprintf("%v", pd)
+	}
 	action := "DescribeLoadBalancers"
 	logger.Debug(logger.ReqFormat, action, req)
 	resp, err := slbconn.DescribeLoadBalancers(&req)
@@ -227,7 +232,6 @@ func resourceKsyunLbDelete(d *schema.ResourceData, m interface{}) error {
 	return resource.Retry(25*time.Minute, func() *resource.RetryError {
 		action := "DeleteLoadBalancer"
 		logger.Debug(logger.ReqFormat, action, req)
-
 		resp, err1 := slbconn.DeleteLoadBalancer(&req)
 		logger.Debug(logger.AllFormat, action, req, *resp, err1)
 		if err1 == nil || (err1 != nil && notFoundError(err1)) {
@@ -238,6 +242,9 @@ func resourceKsyunLbDelete(d *schema.ResourceData, m interface{}) error {
 		}
 		req := make(map[string]interface{})
 		req["LoadBalancerId.1"] = d.Id()
+		if pd, ok := d.GetOk("project_id"); ok {
+			req["ProjectId.1"] = fmt.Sprintf("%v", pd)
+		}
 		action = "DescribeLoadBalancers"
 		logger.Debug(logger.ReqFormat, action, req)
 		resp, err := slbconn.DescribeLoadBalancers(&req)
