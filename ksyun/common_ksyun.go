@@ -388,50 +388,30 @@ func SetDByFkResp(d *schema.ResourceData, m interface{}, include map[string]bool
 	return exclude
 }
 
-func FuckHump2Downline(s string) string {
-	s = strings.TrimSpace(s)
-	if len(s) == 0 {
-		return s
-	}
+func Camel2Hungarian(s string) string {
+	in := true
 	var s1 string
-	if len(s) == 1 {
-		s1 = strings.ToLower(s[:1])
-		return s1
-	}
 	for k, v := range s {
-		if k == 0 {
-			s1 = strings.ToLower(s[0:1])
-			continue
-		}
 		if v >= 65 && v <= 90 {
-			v1 := "_" + strings.ToLower(s[k:k+1])
-			s1 = s1 + v1
+			if !in || (k < len(s)-1 && k > 0 && s[k+1] >= 97 && s[k+1] <= 122) {
+				s1 += "_" + string(v+32)
+				in = true
+			} else {
+				s1 += string(v + 32)
+			}
+		} else if v == 46 {
+			if k < len(s)-1 && s[k+1] >= 48 && s[k+1] <= 57 {
+				s1 += "_"
+				in = false
+			} else {
+				s1 += string(v)
+				in = true
+			}
 		} else {
-			s1 = s1 + s[k:k+1]
+			s1 += string(v)
+			in = false
 		}
 	}
-	if len(s1) < 3 {
-		return s1
-	}
 
-	var s2 string
-	if s1[:3] == "d_b" {
-		s2 = "db" + s1[3:]
-	} else {
-		if s1 == "read_replica_d_b_instance_identifiers" {
-			s2 = "read_replica_db_instance_identifiers"
-		} else if s1 == "read_replica_d_b_instance_identifier" {
-			s2 = "read_replica_db_instance_identifier"
-		} else {
-			s2 = s1
-		}
-	}
-	var s3 string
-	if s2[len(s2)-2:] == ".1" || s2[len(s2)-2:] == ".2" || s2[len(s2)-2:] == ".3" || s2[len(s2)-2:] == ".4" || s2[len(s2)-2:] == ".5" || s2[len(s2)-2:] == ".6" || s2[len(s2)-2:] == ".7" || s2[len(s2)-2:] == ".8" || s2[len(s2)-2:] == ".9" {
-		s3 = s2[:len(s2)-2] + "_" + s2[len(s2)-1:]
-	} else {
-		s3 = s2
-	}
-
-	return s3
+	return s1
 }

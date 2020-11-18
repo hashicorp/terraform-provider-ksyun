@@ -126,261 +126,127 @@ func dataSourceKsyunKrds() *schema.Resource {
 						},
 						"db_instance_identifier": {
 							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"db_instance_name": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Required: true,
 						},
 						"db_instance_status": {
 							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"db_instance_type": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Required: true,
 						},
 						"group_id": {
 							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"vip": {
 							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"engine": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 						"engine_version": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 						"instance_create_time": {
 							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"master_user_name": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Required: true,
 						},
 						"vpc_id": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Required: true,
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Required: true,
 						},
 						"publicly_accessible": {
 							Type:     schema.TypeBool,
 							Optional: true,
-							Computed: true,
-						},
-						"read_replica_db_instance_identifiers": {
-							Type:     schema.TypeSet,
-							Optional: true,
-							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"id": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"vip": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"read_replica_db_instance_identifier": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-								},
-							},
 						},
 						"bill_type": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
-						},
-						"order_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"order_source": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
 						},
 						"master_availability_zone": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 						"slave_availability_zone": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 						"multi_availability_zone": {
 							Type:     schema.TypeBool,
 							Optional: true,
-							Computed: true,
 						},
 						"product_id": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"order_use": {
-							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"project_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
-							Computed: true,
-						},
-						"project_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
 						},
 						"region": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"bill_type_id": {
-							Type:     schema.TypeInt,
-							Optional: true,
 							Computed: true,
 						},
 						"port": {
 							Type:     schema.TypeInt,
 							Optional: true,
-							Computed: true,
 						},
 						"db_parameter_group_id": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
-						},
-						"datastore_version_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
 						},
 						"disk_used": {
 							Type:     schema.TypeFloat,
-							Optional: true,
 							Computed: true,
 						},
 						"preferred_backup_time": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
-						},
-						"product_what": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
 						},
 						"service_start_time": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"order_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"sub_order_id": {
-							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"audit": {
 							Type:     schema.TypeBool,
 							Optional: true,
-							Computed: true,
 						},
 						"security_group_id": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 						"availability_zone": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"db_source": {
-							Type:     schema.TypeSet,
-							Optional: true,
-							Computed: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"db_instance_identifier": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"db_instance_name": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"db_instance_type": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"point_in_time": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-								},
-							},
-						},
 						"service_end_time": {
 							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"eip": {
 							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 						"eip_port": {
 							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"rip": {
-							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 					},
@@ -404,7 +270,7 @@ func dataSourceKsyunKrdsRead(d *schema.ResourceData, meta interface{}) error {
 		"MaxRecords",
 	}
 	for _, v := range des {
-		if v1, ok := d.GetOk(FuckHump2Downline(v)); ok {
+		if v1, ok := d.GetOk(Camel2Hungarian(v)); ok {
 			desReq[v] = fmt.Sprintf("%v", v1)
 		}
 	}
@@ -432,7 +298,7 @@ func dataSourceKsyunKrdsRead(d *schema.ResourceData, meta interface{}) error {
 				dbclass := v.(map[string]interface{})
 				dbinstanceclass := make(map[string]interface{})
 				for j, q := range dbclass {
-					dbinstanceclass[FuckHump2Downline(j)] = q
+					dbinstanceclass[Camel2Hungarian(j)] = q
 				}
 				// shit 这里不传list会出现各种报错，我日了
 				wtf := make([]interface{}, 1)
@@ -446,7 +312,7 @@ func dataSourceKsyunKrdsRead(d *schema.ResourceData, meta interface{}) error {
 						rrmap := make(map[string]interface{})
 						rr := rrinfo.(map[string]interface{})
 						for j, q := range rr {
-							rrmap[FuckHump2Downline(j)] = q
+							rrmap[Camel2Hungarian(j)] = q
 						}
 						wtf[num] = rrmap
 					}
@@ -456,15 +322,20 @@ func dataSourceKsyunKrdsRead(d *schema.ResourceData, meta interface{}) error {
 				dbsource := v.(map[string]interface{})
 				dbsourcemap := make(map[string]interface{})
 				for j, q := range dbsource {
-					dbsourcemap[FuckHump2Downline(j)] = q
+					dbsourcemap[Camel2Hungarian(j)] = q
 				}
 				wtf := make([]interface{}, 1)
 				wtf[0] = dbsourcemap
 				krdsMap["db_source"] = wtf
 			} else {
-				krdsMap[FuckHump2Downline(k)] = v
+				dk := Camel2Hungarian(k)
+				if _, ok := dataSourceKsyunKrds().Schema["krds"].Elem.(*schema.Resource).Schema[dk]; ok {
+					krdsMap[dk] = v
+				}
 			}
+
 		}
+
 		logger.DebugInfo(" converted ---- %+v ", krdsMap)
 
 		krdsIds[num] = krdsMap["db_instance_identifier"].(string)

@@ -168,7 +168,7 @@ func dataSourceKsyunKrdsSecurityGroupRead(d *schema.ResourceData, meta interface
 						rrmap := make(map[string]interface{})
 						rr := rrinfo.(map[string]interface{})
 						for j, q := range rr {
-							rrmap[FuckHump2Downline(j)] = q
+							rrmap[Camel2Hungarian(j)] = q
 						}
 						wtf[num] = rrmap
 					}
@@ -182,14 +182,14 @@ func dataSourceKsyunKrdsSecurityGroupRead(d *schema.ResourceData, meta interface
 						rrmap := make(map[string]interface{})
 						rr := rrinfo.(map[string]interface{})
 						for j, q := range rr {
-							rrmap[FuckHump2Downline(j)] = q
+							rrmap[Camel2Hungarian(j)] = q
 						}
 						wtf[num] = rrmap
 					}
 					krdsMap["security_group_rules"] = wtf
 				}
 			} else {
-				krdsMap[FuckHump2Downline(k)] = v
+				krdsMap[Camel2Hungarian(k)] = v
 			}
 		}
 		logger.DebugInfo(" converted ---- %+v ", krdsMap)

@@ -166,7 +166,7 @@ func resourceKsyunSqlServerCreate(d *schema.ResourceData, meta interface{}) erro
 		"Port",
 	}
 	for _, v := range creates {
-		if v1, ok := d.GetOk(FuckHump2Downline(v)); ok {
+		if v1, ok := d.GetOk(Camel2Hungarian(v)); ok {
 			createReq[v] = fmt.Sprintf("%v", v1)
 		}
 	}
@@ -249,7 +249,7 @@ func resourceKsyunSqlServerRead(d *schema.ResourceData, meta interface{}) error 
 			} else if k == "ReadReplicaDBInstanceIdentifiers" {
 			} else if k == "DBSource" {
 			} else {
-				instInfo[FuckHump2Downline(k)] = v
+				instInfo[Camel2Hungarian(k)] = v
 			}
 		}
 		sqlserverMap[k] = instInfo
