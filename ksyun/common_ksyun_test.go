@@ -14,7 +14,7 @@ func TestDownline2Hump(t *testing.T) {
 	ss := Downline2Hump("hsfjd_sjkfjdk_d")
 	fmt.Println(ss)
 }
-func TestT(t *testing.T){
+func TestT(t *testing.T) {
 	a := assert.New(t)
 	a.Equal(Camel2Hungarian("SupportIPV6"), "support_ipv6")
 	a.Equal(Camel2Hungarian("DBInstanceIdentifier"), "db_instance_identifier")

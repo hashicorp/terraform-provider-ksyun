@@ -408,8 +408,8 @@ func Camel2Hungarian(s string) string {
 				in = true
 			}
 		} else {
-				s1 += string(v)
-				in = false
+			s1 += string(v)
+			in = false
 		}
 	}
 
