@@ -162,7 +162,7 @@ func resourceKsyunKrdsRrCreate(d *schema.ResourceData, meta interface{}) error {
 	for _, v := range creates {
 		if v == "DBInstanceIdentifier" {
 			createReq[v] = fmt.Sprintf("%v", d.Get("source_db_instance_identifier"))
-		} else if v1, ok := d.GetOk(FuckHump2Downline(v)); ok {
+		} else if v1, ok := d.GetOk(Camel2Hungarian(v)); ok {
 			createReq[v] = fmt.Sprintf("%v", v1)
 		}
 	}

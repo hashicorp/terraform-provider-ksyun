@@ -241,7 +241,7 @@ func resourceKsyunKrdsCreate(d *schema.ResourceData, meta interface{}) error {
 		"Port",
 	}
 	for _, v := range creates {
-		if v1, ok := d.GetOk(FuckHump2Downline(v)); ok {
+		if v1, ok := d.GetOk(Camel2Hungarian(v)); ok {
 			createReq[v] = fmt.Sprintf("%v", v1)
 		}
 	}
@@ -385,7 +385,7 @@ func resourceKsyunMysqlRead(d *schema.ResourceData, meta interface{}) error {
 			} else if k == "ReadReplicaDBInstanceIdentifiers" {
 			} else if k == "DBSource" {
 			} else {
-				krdsMap[FuckHump2Downline(k)] = v
+				krdsMap[Camel2Hungarian(k)] = v
 			}
 			if k == "Eip" {
 				krdsMap["instance_has_eip"] = true

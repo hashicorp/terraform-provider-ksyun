@@ -429,7 +429,7 @@ func dataSourceKsyunSqlServerRead(d *schema.ResourceData, meta interface{}) erro
 				dbclass := v.(map[string]interface{})
 				dbinstanceclass := make(map[string]interface{})
 				for j, q := range dbclass {
-					dbinstanceclass[FuckHump2Downline(j)] = q
+					dbinstanceclass[Camel2Hungarian(j)] = q
 				}
 				// shit 这里不传list会出现各种报错，我日了
 				wtf := make([]interface{}, 1)
@@ -443,7 +443,7 @@ func dataSourceKsyunSqlServerRead(d *schema.ResourceData, meta interface{}) erro
 						rrmap := make(map[string]interface{})
 						rr := rrinfo.(map[string]interface{})
 						for j, q := range rr {
-							rrmap[FuckHump2Downline(j)] = q
+							rrmap[Camel2Hungarian(j)] = q
 						}
 						wtf[num] = rrmap
 					}
@@ -453,13 +453,16 @@ func dataSourceKsyunSqlServerRead(d *schema.ResourceData, meta interface{}) erro
 				dbsource := v.(map[string]interface{})
 				dbsourcemap := make(map[string]interface{})
 				for j, q := range dbsource {
-					dbsourcemap[FuckHump2Downline(j)] = q
+					dbsourcemap[Camel2Hungarian(j)] = q
 				}
 				wtf := make([]interface{}, 1)
 				wtf[0] = dbsourcemap
 				krdsMap["db_source"] = wtf
 			} else {
-				krdsMap[FuckHump2Downline(k)] = v
+				dk := Camel2Hungarian(k)
+				if _, ok := dataSourceKsyunSqlServer().Schema["sqlservers"].Elem.(*schema.Resource).Schema[dk]; ok {
+					krdsMap[dk] = v
+				}
 			}
 		}
 		logger.DebugInfo(" converted ---- %+v ", krdsMap)

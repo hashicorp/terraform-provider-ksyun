@@ -34,7 +34,7 @@ BUG FIXES:
 - fix redis param ([#10](https://github.com/terraform-providers/terraform-provider-ksyun/issues/10))
 - fix instance update instance password ([#11](https://github.com/terraform-providers/terraform-provider-ksyun/issues/11))
 - fix instance update instance type ([#12](https://github.com/terraform-providers/terraform-provider-ksyun/issues/12))
-
+- using fixed schema to save db instance instead of all the data in response ([#28](https://github.com/terraform-providers/terraform-provider-ksyun/issues/28))
 
 ## 1.0.0 (May 20, 2020)
 
