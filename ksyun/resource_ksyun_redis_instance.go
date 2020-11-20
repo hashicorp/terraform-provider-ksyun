@@ -394,8 +394,8 @@ func resourceRedisInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		rename := make(map[string]interface{})
 		rename["CacheId"] = d.Id()
 		rename["Name"] = v.(string)
-		if az, ok := d.GetOk("availability_zone"); ok {
-			rename["AvailabilityZone"] = az
+		if az, ok := d.GetOk("available_zone"); ok {
+			rename["AvailableZone"] = az
 		}
 		action := "RenameCacheCluster"
 		logger.Debug(logger.ReqFormat, action, rename)
@@ -414,8 +414,8 @@ func resourceRedisInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		password["CacheId"] = d.Id()
 		password["Password"] = v.(string)
 		password["Mode"] = d.Get("mode")
-		if az, ok := d.GetOk("availability_zone"); ok {
-			password["AvailabilityZone"] = az
+		if az, ok := d.GetOk("available_zone"); ok {
+			password["AvailableZone"] = az
 		}
 		action := "UpdatePassword"
 		logger.Debug(logger.ReqFormat, action, password)
