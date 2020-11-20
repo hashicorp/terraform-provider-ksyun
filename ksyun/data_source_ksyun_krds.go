@@ -246,7 +246,7 @@ func dataSourceKsyunKrds() *schema.Resource {
 							Computed: true,
 						},
 						"eip_port": {
-							Type:     schema.TypeInt,
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
@@ -304,29 +304,6 @@ func dataSourceKsyunKrdsRead(d *schema.ResourceData, meta interface{}) error {
 				wtf := make([]interface{}, 1)
 				wtf[0] = dbinstanceclass
 				krdsMap["db_instance_class"] = wtf
-			} else if k == "ReadReplicaDBInstanceIdentifiers" {
-				rrids := v.([]interface{})
-				if len(rrids) > 0 {
-					wtf := make([]interface{}, len(rrids))
-					for num, rrinfo := range rrids {
-						rrmap := make(map[string]interface{})
-						rr := rrinfo.(map[string]interface{})
-						for j, q := range rr {
-							rrmap[Camel2Hungarian(j)] = q
-						}
-						wtf[num] = rrmap
-					}
-					krdsMap["read_replica_db_instance_identifiers"] = wtf
-				}
-			} else if k == "DBSource" {
-				dbsource := v.(map[string]interface{})
-				dbsourcemap := make(map[string]interface{})
-				for j, q := range dbsource {
-					dbsourcemap[Camel2Hungarian(j)] = q
-				}
-				wtf := make([]interface{}, 1)
-				wtf[0] = dbsourcemap
-				krdsMap["db_source"] = wtf
 			} else {
 				dk := Camel2Hungarian(k)
 				if _, ok := dataSourceKsyunKrds().Schema["krds"].Elem.(*schema.Resource).Schema[dk]; ok {
